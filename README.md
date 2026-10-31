@@ -38,6 +38,16 @@ Finds synced LRC lyrics at ZingMP3 (`zingmp3.vn`, files from `static-zmp3.zmdcdn
 - Removes credit lines (`Bài hát:`, `Ca sĩ:` …) at the start and end of the lyrics.
 - Using the unofficial API may go against ZingMP3's terms of service; that risk is yours.
 
+### NhacCuaTui (`nhaccuatui`)
+
+Finds synced (LRC) lyrics at NhacCuaTui (`nhaccuatui.com`, files from `lyric.nct.vn`) through the **unofficial** web API of the site.
+
+- Search by title and primary artist (then by title alone), or the text typed in the manual search.
+- Decrypts synced LRC lyrics from NCT's encrypted timed lyric files using RC4 stream cipher.
+- Falls back to plain text lyrics if no synced lyric is available.
+- Removes credit lines (`Bài hát:`, `Ca sĩ:`, `Lời bài hát:` …) at the start and end of the lyrics.
+- No cookie, key or login required; only the hosts `graph.nhaccuatui.com` and `lyric.nct.vn` are used.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
