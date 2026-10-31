@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "ZingMP3",
+    "version": 1,
+    "hosts": ["zingmp3.vn", "static-zmp3.zmdcdn.me"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at ZingMP3 through its unofficial web API. Not affiliated with ZingMP3; it may stop working when the service changes."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "apiKey": {
+      "title": "API key of the web client",
+      "mode": "input",
+      "format": "text",
+      "default": "X5BM3w8N7MKozC0B85o4KMlzLZKhV00y"
+    },
+    "secretKey": {
+      "title": "Secret key of the web client",
+      "mode": "input",
+      "format": "text",
+      "default": "acOrvUS15XRW2o9JksiK1KgQ6Vbds8ZW"
+    },
+    "version": {
+      "title": "Web client version",
+      "mode": "input",
+      "format": "text",
+      "default": "1.22.4"
+    }
+  }
+}

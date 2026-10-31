@@ -28,6 +28,16 @@ Finds lyrics at NetEase Cloud Music (`music.163.com`) through its **unofficial**
 - No translation: `tlyric` and `klyric` are ignored.
 - No cookie, key or login; only the host `music.163.com` is used.
 
+### ZingMP3 (`zingmp3`)
+
+Finds synced LRC lyrics at ZingMP3 (`zingmp3.vn`, files from `static-zmp3.zmdcdn.me`) through the **unofficial** web API of the site.
+
+- Search by title and primary artist (then by title alone), or the text typed in the manual search; songs without lyrics are not listed.
+- Requests are signed like the web client does. The API key, secret key and client version are plugin settings with the web client's public values as defaults; if the plugin reports `signature refused`, ZingMP3 changed them and you can paste new ones.
+- A session cookie from the home page is kept in the plugin's storage and renewed by itself.
+- Removes credit lines (`Bài hát:`, `Ca sĩ:` …) at the start and end of the lyrics.
+- Using the unofficial API may go against ZingMP3's terms of service; that risk is yours.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
