@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "NetEase Cloud Music",
+    "version": 1,
+    "hosts": ["music.163.com"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at NetEase Cloud Music through its unofficial web API. Not affiliated with NetEase; it may stop working when the service changes. Translations are not used."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}

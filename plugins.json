@@ -3,5 +3,20 @@
     "name": "Kanaru plugins",
     "author": "kanaru313"
   },
-  "data": []
+  "data": [
+    {
+      "slug": "netease",
+      "name": "NetEase Cloud Music",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "music.163.com"
+      ],
+      "path": "dist/netease/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at NetEase Cloud Music through its unofficial web API. Not affiliated with NetEase; it may stop working when the service changes. Translations are not used.",
+      "icon": "dist/netease/icon.png"
+    }
+  ]
 }
