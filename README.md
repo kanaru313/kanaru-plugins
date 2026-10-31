@@ -24,6 +24,7 @@ Finds lyrics at NetEase Cloud Music (`music.163.com`) through its **unofficial**
 - Search by title and primary artist (or the text typed in the manual search), up to 20 results.
 - Returns synced LRC lyrics when NetEase has them, plain text otherwise.
 - Marks instrumental songs (`pureMusic` / `nolyric`) so the app shows "instrumental" instead of "no lyrics". NetEase's "no lyrics yet" placeholder counts as no lyrics.
+- Removes NetEase's credit lines (作词, 作曲, 编曲 …) at the start and end of the lyrics; a credit-looking line in the middle stays. Lyrics saved before this update keep their credits until you clear this plugin's saved lyrics (Sources → plugin → Data).
 - No translation: `tlyric` and `klyric` are ignored.
 - No cookie, key or login; only the host `music.163.com` is used.
 
