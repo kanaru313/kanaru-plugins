@@ -14,7 +14,9 @@ var CREDIT = /^\s*(作词|作曲|编曲|制作人|混音|母带)\s*[:：]/;
 // "Pure music, please enjoy": the text of an instrumental without the flag.
 var PURE_MUSIC = /^(此歌曲为没有填词的)?纯音乐[，,]\s*请(您)?欣赏[。.!！]?$/;
 // Time tags [mm:ss], [mm:ss.xx], [mm:ss:xx] and metadata lines [ti:..], [ar:..].
-var TIME_TAG = /\[\d{1,3}:\d{1,2}(?:[.:]\d{1,3})?\]/g;
+// NetEase also writes a "-1" style suffix after the time ("[00:00.00-1]");
+// group 1 is the plain time the app's LRC parser reads.
+var TIME_TAG = /\[(\d{1,3}:\d{1,2}(?:[.:]\d{1,3})?)(?:-\d+)?\]/g;
 var META_LINE = /^\[[a-z]+:.*\]$/i;
 
 function execute(id) {
@@ -55,8 +57,10 @@ function execute(id) {
   }
   // The full text is returned, credits included. Synced when a [mm:ss stamp
   // is present, plain text otherwise.
-  var type = /\[\d{1,3}:\d{1,2}/.test(text) ? 'lrc' : 'txt';
-  return Response.success({ data: text, type: type });
+  // NetEase's odd stamps are rewritten to the plain form the app reads.
+  var synced = /\[\d{1,3}:\d{1,2}/.test(text);
+  if (synced) text = text.replace(TIME_TAG, '[$1]');
+  return Response.success({ data: text, type: synced ? 'lrc' : 'txt' });
 }
 
 // The lines of the text without time tags, metadata lines, credit lines and
