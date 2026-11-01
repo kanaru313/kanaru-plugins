@@ -5,6 +5,19 @@
   },
   "data": [
     {
+      "slug": "musixmatch",
+      "name": "Musixmatch",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "apic-appmobile.musixmatch.com"
+      ],
+      "path": "dist/musixmatch/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at Musixmatch through its mobile API. Not affiliated with Musixmatch; it may stop working when the service changes."
+    },
+    {
       "slug": "netease",
       "name": "NetEase Cloud Music",
       "version": 3,

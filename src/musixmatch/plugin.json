@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Musixmatch",
+    "version": 1,
+    "hosts": ["apic-appmobile.musixmatch.com"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at Musixmatch through its mobile API. Not affiliated with Musixmatch; it may stop working when the service changes."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "userToken": {
+      "title": "Musixmatch user token (optional, auto-generated if empty)",
+      "mode": "input",
+      "format": "text",
+      "default": ""
+    }
+  }
+}

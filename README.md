@@ -48,6 +48,17 @@ Finds synced (LRC) lyrics at NhacCuaTui (`nhaccuatui.com`, files from `lyric.nct
 - Removes credit lines (`Bài hát:`, `Ca sĩ:`, `Lời bài hát:` …) at the start and end of the lyrics.
 - No cookie, key or login required; only the hosts `graph.nhaccuatui.com` and `lyric.nct.vn` are used.
 
+### Musixmatch (`musixmatch`)
+
+Finds synced (LRC) lyrics at Musixmatch through its mobile API (`apic-appmobile.musixmatch.com`).
+
+- Search by title and primary artist (or manual search text).
+- Returns synced LRC lyrics when available, plain text otherwise.
+- Identifies and marks instrumental tracks (`instrumental: true`).
+- Removes promotional watermarks, disclaimers, and metadata credit headers/footers.
+- Automatic user token generation and caching, with fallback default token and optional custom `userToken` setting in plugin preferences.
+- Only the host `apic-appmobile.musixmatch.com` is used.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
