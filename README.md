@@ -90,6 +90,16 @@ Finds synced (LRC) lyrics at Kugou Music (酷狗音乐, `lyrics.kugou.com`) thro
 - Decodes HTML entities and removes credit lines (`作词`, `作曲`, `编曲`, `Written by`, `Composed by` …) at the start and end of the lyrics.
 - No cookie, key or login required; only the host `lyrics.kugou.com` is used.
 
+### Spotify (`spotify`)
+
+Finds synced (LRC) lyrics at Spotify (`open.spotify.com`, `spclient.wg.spotify.com`) through its Web Player internal API.
+
+- Search by title and primary artist (or manual search text) via the Spotify Web API.
+- Converts `LINE_SYNCED` time codes into standard synced LRC lyrics, with fallback to plain text.
+- Generates dynamic TOTP tokens against Spotify's server-time challenge using bundled and auto-updating cipher dictionaries.
+- Requires your user session cookie (`sp_dc`) configured in the plugin settings (stored securely in the OS keyring as a secret).
+- Hosts used: `open.spotify.com`, `api.spotify.com`, `spclient.wg.spotify.com`, and `raw.githubusercontent.com`.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.

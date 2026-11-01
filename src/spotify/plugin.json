@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Spotify",
+    "version": 1,
+    "hosts": [
+      "open.spotify.com",
+      "api.spotify.com",
+      "spclient.wg.spotify.com",
+      "raw.githubusercontent.com"
+    ],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at Spotify (open.spotify.com) through its web player API. Requires a valid sp_dc cookie configured in plugin settings."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "spDc": {
+      "title": "Spotify sp_dc cookie (from browser DevTools > Cookies)",
+      "mode": "input",
+      "format": "secret",
+      "default": ""
+    }
+  }
+}

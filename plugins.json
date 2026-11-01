@@ -88,6 +88,22 @@
       "description": "Finds synced (LRC) lyrics at QQ Music (QQ音乐) through its unofficial web API. Not affiliated with QQ Music or Tencent; it may stop working when the service changes."
     },
     {
+      "slug": "spotify",
+      "name": "Spotify",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "open.spotify.com",
+        "api.spotify.com",
+        "spclient.wg.spotify.com",
+        "raw.githubusercontent.com"
+      ],
+      "path": "dist/spotify/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at Spotify (open.spotify.com) through its web player API. Requires a valid sp_dc cookie configured in plugin settings."
+    },
+    {
       "slug": "zingmp3",
       "name": "ZingMP3",
       "version": 1,
