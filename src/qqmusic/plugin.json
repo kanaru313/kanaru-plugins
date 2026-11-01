@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "QQ Music",
+    "version": 1,
+    "hosts": ["c.y.qq.com", "i.y.qq.com", "u.y.qq.com"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at QQ Music (QQ音乐) through its unofficial web API. Not affiliated with QQ Music or Tencent; it may stop working when the service changes."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}

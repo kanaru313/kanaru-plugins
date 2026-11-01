@@ -59,6 +59,16 @@ Finds synced (LRC) lyrics at Musixmatch through its mobile API (`apic-appmobile.
 - Automatic user token generation and caching, with fallback default token and optional custom `userToken` setting in plugin preferences.
 - Only the host `apic-appmobile.musixmatch.com` is used.
 
+### QQ Music (`qqmusic`)
+
+Finds synced (LRC) lyrics at QQ Music (`qq.com`, API hosts `c.y.qq.com`, `i.y.qq.com`, `u.y.qq.com`) through its unofficial web API.
+
+- Search by title and primary artist (or manual search text).
+- Returns synced LRC lyrics when available, plain text otherwise.
+- Identifies and marks instrumental tracks (`此歌曲为没有填词的纯音乐，请您欣赏`).
+- Decodes HTML entities and removes credit lines (`作词`, `作曲`, `编曲`, `Written by`, `Composed by` …) at the start and end of the lyrics.
+- No cookie, key or login required; only the hosts `c.y.qq.com`, `i.y.qq.com`, and `u.y.qq.com` are used.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.

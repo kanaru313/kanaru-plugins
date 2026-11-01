@@ -46,6 +46,21 @@
       "description": "Finds synced (LRC) lyrics at NhacCuaTui through its unofficial web API. Not affiliated with NhacCuaTui; it may stop working when the service changes."
     },
     {
+      "slug": "qqmusic",
+      "name": "QQ Music",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "c.y.qq.com",
+        "i.y.qq.com",
+        "u.y.qq.com"
+      ],
+      "path": "dist/qqmusic/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at QQ Music (QQ音乐) through its unofficial web API. Not affiliated with QQ Music or Tencent; it may stop working when the service changes."
+    },
+    {
       "slug": "zingmp3",
       "name": "ZingMP3",
       "version": 1,
