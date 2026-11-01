@@ -79,6 +79,17 @@ Finds synced (LRC) lyrics at PetitLyrics (プチリリ, `on.petitlyrics.com`) th
 - Decodes HTML entities and handles Japanese multi-byte UTF-8 encoding.
 - No cookie, key or login required; only the hosts `on.petitlyrics.com` and `petitlyrics.com` are used.
 
+### Kugou Music (`kugou`)
+
+Finds synced (LRC) lyrics at Kugou Music (酷狗音乐, `lyrics.kugou.com`) through its desktop lyric API.
+
+- Search by title and primary artist (with `Artist - Title` indexing), or manual search text.
+- Optional track duration matching to rank closest lyric matches.
+- Returns synced LRC lyrics decoded from Base64 UTF-8.
+- Identifies and marks instrumental tracks (`纯音乐，请欣赏`).
+- Decodes HTML entities and removes credit lines (`作词`, `作曲`, `编曲`, `Written by`, `Composed by` …) at the start and end of the lyrics.
+- No cookie, key or login required; only the host `lyrics.kugou.com` is used.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.

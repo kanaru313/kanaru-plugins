@@ -5,6 +5,19 @@
   },
   "data": [
     {
+      "slug": "kugou",
+      "name": "Kugou Music",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "lyrics.kugou.com"
+      ],
+      "path": "dist/kugou/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at Kugou Music (酷狗音乐) through its official desktop lyric API. Not affiliated with Kugou or Tencent Music Entertainment."
+    },
+    {
       "slug": "musixmatch",
       "name": "Musixmatch",
       "version": 1,

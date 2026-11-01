@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Kugou Music",
+    "version": 1,
+    "hosts": ["lyrics.kugou.com"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at Kugou Music (酷狗音乐) through its official desktop lyric API. Not affiliated with Kugou or Tencent Music Entertainment."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}
