@@ -46,6 +46,20 @@
       "description": "Finds synced (LRC) lyrics at NhacCuaTui through its unofficial web API. Not affiliated with NhacCuaTui; it may stop working when the service changes."
     },
     {
+      "slug": "petitlyrics",
+      "name": "PetitLyrics",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "on.petitlyrics.com",
+        "petitlyrics.com"
+      ],
+      "path": "dist/petitlyrics/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at PetitLyrics (プチリリ) through its mobile API. Supports word-synced (WSY), line-synced (LSY), and plain text lyrics. Not affiliated with SyncPower Corporation."
+    },
+    {
       "slug": "qqmusic",
       "name": "QQ Music",
       "version": 1,

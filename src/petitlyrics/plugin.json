@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "PetitLyrics",
+    "version": 1,
+    "hosts": ["on.petitlyrics.com", "petitlyrics.com"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at PetitLyrics (プチリリ) through its mobile API. Supports word-synced (WSY), line-synced (LSY), and plain text lyrics. Not affiliated with SyncPower Corporation."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}

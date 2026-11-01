@@ -69,6 +69,16 @@ Finds synced (LRC) lyrics at QQ Music (`qq.com`, API hosts `c.y.qq.com`, `i.y.qq
 - Decodes HTML entities and removes credit lines (`作词`, `作曲`, `编曲`, `Written by`, `Composed by` …) at the start and end of the lyrics.
 - No cookie, key or login required; only the hosts `c.y.qq.com`, `i.y.qq.com`, and `u.y.qq.com` are used.
 
+### PetitLyrics (`petitlyrics`)
+
+Finds synced (LRC) lyrics at PetitLyrics (プチリリ, `on.petitlyrics.com`) through its mobile API.
+
+- Search by title and primary artist (or manual search text).
+- Decodes word-synced (WSY) and line-synced (LSY) formats into standard synced LRC.
+- Falls back to plain text lyrics when synced lyrics are not available.
+- Decodes HTML entities and handles Japanese multi-byte UTF-8 encoding.
+- No cookie, key or login required; only the hosts `on.petitlyrics.com` and `petitlyrics.com` are used.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
