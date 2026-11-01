@@ -5,6 +5,33 @@
   },
   "data": [
     {
+      "slug": "deepl-translate",
+      "name": "DeepL Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "api-free.deepl.com",
+        "api.deepl.com"
+      ],
+      "path": "dist/deepl-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with the DeepL API. Needs your own API key (a Free key ends with :fx); the lines, and the title and artist when song context is on, are sent to DeepL."
+    },
+    {
+      "slug": "gemini-translate",
+      "name": "Gemini Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "generativelanguage.googleapis.com"
+      ],
+      "path": "dist/gemini-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with the Google Gemini API, keeping the singer’s voice and the lines in sync. Needs your own API key from aistudio.google.com/app/apikey; the lines, and the title, artist and lyrics when song context is on, are sent to Google."
+    },
+    {
       "slug": "jlyric",
       "name": "J-Lyric",
       "version": 1,

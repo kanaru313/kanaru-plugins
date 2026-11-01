@@ -1,6 +1,6 @@
 # kanaru-plugins
 
-Lyrics source plugins for [Kanaru](https://github.com/hieu313/kanaru).
+Lyrics source and lyrics translate plugins for [Kanaru](https://github.com/hieu313/kanaru).
 
 Each plugin lives in `src/<slug>/` with the layout Kanaru expects:
 
@@ -11,6 +11,15 @@ src/<slug>/
 └── src/
     ├── search.js    execute(query) → Response.success([{ id, title, artist, album?, durationMs?, lyrics? }])
     └── lyrics.js    execute(id)    → Response.success({ data, type?, instrumental? }) | Response.success(null)
+```
+
+A translate plugin (`metadata.type: "translate"`) has one script instead:
+
+```
+src/<slug>/
+├── plugin.json      metadata / script.translate / translate{languages,maxLines,maxChars,timeoutSec} / config
+└── src/
+    └── translate.js execute({ lines, to, song? }) → Response.success([{ text, detected? }]), one per line
 ```
 
 The plugin API is described in Kanaru's `docs/lyrics-plugin-api.md`.
@@ -110,6 +119,26 @@ Finds lyrics at J-Lyric.net (`j-lyric.net`) for Japanese music (J-Pop, Anisong, 
 - Licensed officially by JASRAC and NexTone.
 - No cookie, key or login required; only the host `j-lyric.net` is used.
 
+### Gemini Translate (`gemini-translate`)
+
+Translates lyrics line by line with the Google Gemini API (`generativelanguage.googleapis.com`), keeping the singer's voice and the line count.
+
+- Needs Kanaru with translate plugin support (PR #100) and your own API key from https://aistudio.google.com/app/apikey. The key is kept in the system keyring, never in the database or logs. Several keys can be listed; the next is used when one is refused or out of quota.
+- **What is sent to Google:** the lines to translate; with *Send the song as context* on (default), also the title, artist and the full lyrics of the song. Check Google's terms and data policy for the API tier of your key.
+- Gemini detects the source language of each line; lines already in the target language are hidden by the app.
+- Options: model, style (natural, close, poetic, singable), thinking, temperature, safety filter, retry of skipped lines, your own instruction and a full system prompt.
+- Errors: all keys refused is *key*, a daily quota is *quota*, a per-minute limit is *rate limited*. A run uses at most 10 sends.
+
+### DeepL Translate (`deepl-translate`)
+
+Translates lyrics line by line with the DeepL API v2 (`api-free.deepl.com` for keys ending in `:fx`, `api.deepl.com` otherwise).
+
+- Needs Kanaru with translate plugin support (PR #100) and your own DeepL API key (the Free plan works). The key is kept in the system keyring.
+- **What is sent to DeepL:** the lines to translate; with *Send the song as context* on (default), also a short context text with the title and artist (not translated, not billed). The lyrics themselves are not sent as context.
+- Options: formality (`prefer_more` / `prefer_less`, used only where DeepL supports it), English variant (US/GB), Portuguese variant (BR/PT).
+- Languages: the 29 languages of Kanaru's table that DeepL can produce. Hindi, Persian, Malay, Welsh, Albanian, Armenian, Basque, Burmese, Georgian, Icelandic, Macedonian and Maori are not offered.
+- One send per chunk of up to 50 lines. Errors: 403 is *key*, 456 *quota*, 429/529 *rate limited*, 5xx *server*.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -117,6 +146,16 @@ There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated 
 ## Legal note
 
 The plugins here use unofficial APIs. They are not affiliated with, endorsed by or sponsored by NetEase or any other service. Use them at your own responsibility and check the terms of each service. An unofficial API can change or disappear without notice, so a plugin can break when the service changes.
+
+## Tests
+
+Offline tests with Node (host globals stubbed in `tools/translate_harness.js`):
+
+```bash
+node tools/check_gemini_translate.js
+node tools/check_deepl_translate.js
+GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
+```
 
 ## Build
 

@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "DeepL Translate",
+    "version": 1,
+    "hosts": [
+      "api-free.deepl.com",
+      "api.deepl.com"
+    ],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line with the DeepL API. Needs your own API key (a Free key ends with :fx); the lines, and the title and artist when song context is on, are sent to DeepL."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "ro",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "sk"
+    ],
+    "maxLines": 50,
+    "maxChars": 6000,
+    "timeoutSec": 30
+  },
+  "config": {
+    "apiKey": {
+      "title": "DeepL API key",
+      "subtitle": "A key ending in :fx uses the Free API (api-free.deepl.com), any other key the Pro API",
+      "mode": "input",
+      "format": "secret",
+      "default": ""
+    },
+    "formality": {
+      "title": "Formality",
+      "subtitle": "Used only for languages where DeepL supports it (for example German, French, Spanish, Japanese); other languages ignore it",
+      "mode": "select",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "title": "Default"
+        },
+        {
+          "value": "prefer_more",
+          "title": "More formal, if the language supports it"
+        },
+        {
+          "value": "prefer_less",
+          "title": "More informal, if the language supports it"
+        }
+      ]
+    },
+    "useSongContext": {
+      "title": "Send the song as context",
+      "subtitle": "Sends the title and artist as context to improve word choice; DeepL does not bill context",
+      "mode": "toggle",
+      "default": true
+    },
+    "englishVariant": {
+      "title": "English variant",
+      "mode": "select",
+      "default": "en-US",
+      "options": [
+        {
+          "value": "en-US",
+          "title": "American English"
+        },
+        {
+          "value": "en-GB",
+          "title": "British English"
+        }
+      ]
+    },
+    "portugueseVariant": {
+      "title": "Portuguese variant",
+      "mode": "select",
+      "default": "pt-BR",
+      "options": [
+        {
+          "value": "pt-BR",
+          "title": "Brazilian Portuguese"
+        },
+        {
+          "value": "pt-PT",
+          "title": "European Portuguese"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Gemini Translate",
+    "version": 1,
+    "hosts": [
+      "generativelanguage.googleapis.com"
+    ],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line with the Google Gemini API, keeping the singer’s voice and the lines in sync. Needs your own API key from aistudio.google.com/app/apikey; the lines, and the title, artist and lyrics when song context is on, are sent to Google."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 60,
+    "maxChars": 6000,
+    "timeoutSec": 90
+  },
+  "config": {
+    "apiKeys": {
+      "title": "Gemini API keys",
+      "subtitle": "One or more keys, separated by commas or new lines; the next key is used when one is refused or out of quota",
+      "mode": "input",
+      "format": "secret",
+      "default": ""
+    },
+    "model": {
+      "title": "Model",
+      "mode": "select",
+      "default": "gemini-3.5-flash-lite",
+      "options": [
+        {
+          "value": "gemini-3.5-flash-lite",
+          "title": "Gemini 3.5 Flash-Lite (default, fastest and cheapest)"
+        },
+        {
+          "value": "gemini-3.6-flash",
+          "title": "Gemini 3.6 Flash (balanced)"
+        },
+        {
+          "value": "gemini-3.8-flash",
+          "title": "Gemini 3.8 Flash (smartest Flash)"
+        },
+        {
+          "value": "gemini-4-argon",
+          "title": "Gemini 4 Argon (strongest, slowest)"
+        },
+        {
+          "value": "gemini-3-flash-preview",
+          "title": "Gemini 3 Flash Preview"
+        },
+        {
+          "value": "gemini-3.1-pro-preview",
+          "title": "Gemini 3.1 Pro Preview (needs Pro quota)"
+        },
+        {
+          "value": "gemini-3.1-flash-lite",
+          "title": "Gemini 3.1 Flash-Lite (shuts down 2027-05-07)"
+        },
+        {
+          "value": "gemini-2.5-flash",
+          "title": "Gemini 2.5 Flash (older accounts only)"
+        },
+        {
+          "value": "gemini-2.5-flash-lite",
+          "title": "Gemini 2.5 Flash-Lite (older accounts only)"
+        },
+        {
+          "value": "gemini-2.5-pro",
+          "title": "Gemini 2.5 Pro (older accounts only)"
+        }
+      ]
+    },
+    "style": {
+      "title": "Translation style",
+      "mode": "select",
+      "default": "natural",
+      "options": [
+        {
+          "value": "natural",
+          "title": "Natural: the meaning, as a native speaker says it"
+        },
+        {
+          "value": "literal",
+          "title": "Close to the original: for learning the language"
+        },
+        {
+          "value": "poetic",
+          "title": "Poetic: keeps images and rhythm"
+        },
+        {
+          "value": "singable",
+          "title": "Singable: fits the melody, rhymes where it can"
+        }
+      ]
+    },
+    "thinking": {
+      "title": "Thinking",
+      "subtitle": "Low answers faster and fits the time limit; Auto lets the model think as long as it likes",
+      "mode": "select",
+      "default": "low",
+      "options": [
+        {
+          "value": "low",
+          "title": "Low"
+        },
+        {
+          "value": "auto",
+          "title": "Auto (model default)"
+        }
+      ]
+    },
+    "temperature": {
+      "title": "Temperature",
+      "subtitle": "0.0 to 2.0; low values keep the translation stable",
+      "mode": "input",
+      "format": "number",
+      "default": "0.2"
+    },
+    "maxOutputTokens": {
+      "title": "Max output tokens",
+      "mode": "input",
+      "format": "number",
+      "default": "16384"
+    },
+    "safetyFilter": {
+      "title": "Gemini safety filter",
+      "subtitle": "Off by default: sends BLOCK_NONE for harassment, hate speech, sexually explicit and dangerous content, which love and breakup songs often trip",
+      "mode": "toggle",
+      "default": false
+    },
+    "retryUntranslated": {
+      "title": "Retry skipped lines",
+      "subtitle": "Calls Gemini once more for lines it left out or left in the source language",
+      "mode": "toggle",
+      "default": true
+    },
+    "useSongContext": {
+      "title": "Send the song as context",
+      "subtitle": "Sends the title, artist and full lyrics with each chunk so pronouns and terms stay consistent; costs more tokens",
+      "mode": "toggle",
+      "default": true
+    },
+    "customInstruction": {
+      "title": "Your own instruction",
+      "subtitle": "Added to every request, for example: keep English lines in English",
+      "mode": "input",
+      "format": "text",
+      "default": ""
+    },
+    "systemPrompt": {
+      "title": "System prompt",
+      "subtitle": "The whole instruction; keep {target_language}, {target_notes}, {style_prompt}, {song_prompt} and {custom_instruction} where you want them filled. Empty uses the built-in prompt",
+      "mode": "input",
+      "format": "text",
+      "default": "You translate song lyrics into {target_language}. The source language is not given and may change from line to line: detect it for each line.\n\nThe user message is JSON. \"lines\" is a list of {\"i\": number, \"t\": text}: the lines to translate. \"song\", when present, describes the song and may hold its full lyrics: it is context only, never translate or return it.\n\nRules:\n- Return exactly one item per input line, with the same \"i\". Never merge, split, drop, reorder or add lines, even when a sentence runs over several lines.\n- \"t\" is the translation of that line alone; \"l\" is the language you detected for the original line, as a BCP 47 code (\"ja\", \"en\", \"ko\"; for Chinese always \"zh-Hans\" or \"zh-Hant\"). Give \"l\" for every line.\n- A line already in {target_language}, or a line that is only a name, an ad-lib or a sound (\"oh\", \"yeah\", \"la la la\", \"na na na\"), comes back unchanged.\n- The singer's voice stays the same over all lines: who \"I\" and \"you\" are, and the tone between them.\n- Keep proper nouns and numbers. Add no notes, quotes, romanization or explanations.\n\n{target_notes}\n\n{style_prompt}\n\n{song_prompt}\n\n{custom_instruction}"
+    }
+  }
+}
