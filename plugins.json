@@ -5,6 +5,19 @@
   },
   "data": [
     {
+      "slug": "colorcodedlyrics",
+      "name": "Color Coded Lyrics",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "colorcodedlyrics.com"
+      ],
+      "path": "dist/colorcodedlyrics/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds multi-version K-Pop and Asian pop lyrics at Color Coded Lyrics (colorcodedlyrics.com) featuring Hangul/original text, Latin Romanization, and English translations with member line distribution."
+    },
+    {
       "slug": "deepl-translate",
       "name": "DeepL Translate",
       "version": 1,

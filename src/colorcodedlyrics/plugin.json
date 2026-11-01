@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Color Coded Lyrics",
+    "version": 1,
+    "hosts": ["colorcodedlyrics.com"],
+    "author": "kanaru313",
+    "description": "Finds multi-version K-Pop and Asian pop lyrics at Color Coded Lyrics (colorcodedlyrics.com) featuring Hangul/original text, Latin Romanization, and English translations with member line distribution."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "preferredSection": {
+      "title": "Lyrics section",
+      "subtitle": "Choose which lyric section to show (Korean/Original, Romanization, English translation, or All)",
+      "mode": "select",
+      "options": [
+        { "title": "All sections (Romanization, Hangul & Translation)", "value": "all" },
+        { "title": "Romanization only (sing-along)", "value": "rom" },
+        { "title": "Original language only (Hangul / Kanji / Hanzi)", "value": "original" },
+        { "title": "English translation only", "value": "trans" }
+      ],
+      "default": "all"
+    }
+  }
+}

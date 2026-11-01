@@ -119,6 +119,16 @@ Finds lyrics at J-Lyric.net (`j-lyric.net`) for Japanese music (J-Pop, Anisong, 
 - Licensed officially by JASRAC and NexTone.
 - No cookie, key or login required; only the host `j-lyric.net` is used.
 
+### Color Coded Lyrics (`colorcodedlyrics`)
+
+Finds multi-version K-Pop and Asian pop lyrics at Color Coded Lyrics (`colorcodedlyrics.com`).
+
+- Search by title and primary artist, or manual search text. Includes fallback strategies for short titles and slug aliases (e.g. `twice-tt`).
+- Automatically parses and separates multi-column structures (Hangul / Original language, Latin Romanization, English translation) and member line attributions across modern Gutenberg columns and classic tables.
+- Filter out non-song index/discography posts to keep results relevant.
+- Configurable `preferredSection` setting in plugin preferences: choose between "All sections" (default), "Romanization only", "Original language only", or "English translation only".
+- No cookie, key or login required; only the host `colorcodedlyrics.com` is used.
+
 ### Gemini Translate (`gemini-translate`)
 
 Translates lyrics line by line with the Google Gemini API (`generativelanguage.googleapis.com`), keeping the singer's voice and the line count.
