@@ -5,6 +5,19 @@
   },
   "data": [
     {
+      "slug": "jlyric",
+      "name": "J-Lyric",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "j-lyric.net"
+      ],
+      "path": "dist/jlyric/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds lyrics at J-Lyric.net (j-lyric.net) for Japanese songs (J-Pop, Anisong, Vocaloid, Enka). Licensed by JASRAC and NexTone."
+    },
+    {
       "slug": "kugou",
       "name": "Kugou Music",
       "version": 1,

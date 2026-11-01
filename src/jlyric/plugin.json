@@ -1,0 +1,15 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "J-Lyric",
+    "version": 1,
+    "hosts": ["j-lyric.net"],
+    "author": "kanaru313",
+    "description": "Finds lyrics at J-Lyric.net (j-lyric.net) for Japanese songs (J-Pop, Anisong, Vocaloid, Enka). Licensed by JASRAC and NexTone."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}
