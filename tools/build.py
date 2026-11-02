@@ -32,7 +32,7 @@ def build_one(plugin_dir: pathlib.Path) -> dict:
         "hosts": meta["hosts"],
         "path": f"dist/{slug}/plugin.zip",
     }
-    for key in ("author", "description"):
+    for key in ("author", "description", "languages"):
         if key in meta:
             entry[key] = meta[key]
     if (plugin_dir / "icon.png").exists():

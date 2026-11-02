@@ -177,6 +177,14 @@ Zips every `src/<slug>/` into `dist/<slug>/plugin.zip` and rewrites `plugins.jso
 (the catalog). Catalog paths are relative, so the same catalog works from GitHub and
 from a local server.
 
+### Languages
+
+`metadata.languages` (optional) lists the languages a plugin serves, as ISO 639 codes
+(639-1 preferred: `"vi"`, `"zh"`, `"ja"`, `"ko"`) or `"*"` for global. `tools/build.py` copies it
+into each `plugins.json` entry. Kanaru's plugin store uses it for the Language filter; a missing
+field means global. For translate plugins it describes the lyrics languages, not the
+`translate.languages` target list.
+
 ## Use
 
 - **Install one plugin locally**: Kanaru → Settings → Lyrics → Lyrics sources → Plugin store → ⋮ → Install from file… → pick `dist/<slug>/plugin.zip`.

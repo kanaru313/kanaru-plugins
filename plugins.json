@@ -7,7 +7,7 @@
     {
       "slug": "colorcodedlyrics",
       "name": "Color Coded Lyrics",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -16,12 +16,15 @@
       "path": "dist/colorcodedlyrics/plugin.zip",
       "author": "kanaru313",
       "description": "Finds multi-version K-Pop and Asian pop lyrics at Color Coded Lyrics (colorcodedlyrics.com) featuring Hangul/original text, Latin Romanization, and English translations with member line distribution.",
+      "languages": [
+        "ko"
+      ],
       "icon": "dist/colorcodedlyrics/icon.png"
     },
     {
       "slug": "deepl-translate",
       "name": "DeepL Translate",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -31,12 +34,15 @@
       "path": "dist/deepl-translate/plugin.zip",
       "author": "kanaru313",
       "description": "Translates lyrics line by line with the DeepL API. Needs your own API key (a Free key ends with :fx); the lines, and the title and artist when song context is on, are sent to DeepL.",
+      "languages": [
+        "*"
+      ],
       "icon": "dist/deepl-translate/icon.png"
     },
     {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -45,12 +51,15 @@
       "path": "dist/gemini-translate/plugin.zip",
       "author": "kanaru313",
       "description": "Translates lyrics line by line with the Google Gemini API, keeping the singer’s voice and the lines in sync. Needs your own API key from aistudio.google.com/app/apikey; the lines, and the title, artist and lyrics when song context is on, are sent to Google.",
+      "languages": [
+        "*"
+      ],
       "icon": "dist/gemini-translate/icon.png"
     },
     {
       "slug": "jlyric",
       "name": "J-Lyric",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -59,12 +68,15 @@
       "path": "dist/jlyric/plugin.zip",
       "author": "kanaru313",
       "description": "Finds lyrics at J-Lyric.net (j-lyric.net) for Japanese songs (J-Pop, Anisong, Vocaloid, Enka). Licensed by JASRAC and NexTone.",
+      "languages": [
+        "ja"
+      ],
       "icon": "dist/jlyric/icon.png"
     },
     {
       "slug": "kugou",
       "name": "Kugou Music",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -73,12 +85,15 @@
       "path": "dist/kugou/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at Kugou Music (酷狗音乐) through its official desktop lyric API. Not affiliated with Kugou or Tencent Music Entertainment.",
+      "languages": [
+        "zh"
+      ],
       "icon": "dist/kugou/icon.png"
     },
     {
       "slug": "musixmatch",
       "name": "Musixmatch",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -87,12 +102,15 @@
       "path": "dist/musixmatch/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at Musixmatch through its mobile API. Not affiliated with Musixmatch; it may stop working when the service changes.",
+      "languages": [
+        "*"
+      ],
       "icon": "dist/musixmatch/icon.png"
     },
     {
       "slug": "netease",
       "name": "NetEase Cloud Music",
-      "version": 4,
+      "version": 5,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -101,12 +119,15 @@
       "path": "dist/netease/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at NetEase Cloud Music through its unofficial web API. Not affiliated with NetEase; it may stop working when the service changes. Translations are not used.",
+      "languages": [
+        "zh"
+      ],
       "icon": "dist/netease/icon.png"
     },
     {
       "slug": "nhaccuatui",
       "name": "NhacCuaTui",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -116,12 +137,15 @@
       "path": "dist/nhaccuatui/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at NhacCuaTui through its unofficial web API. Not affiliated with NhacCuaTui; it may stop working when the service changes.",
+      "languages": [
+        "vi"
+      ],
       "icon": "dist/nhaccuatui/icon.png"
     },
     {
       "slug": "petitlyrics",
       "name": "PetitLyrics",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -131,12 +155,15 @@
       "path": "dist/petitlyrics/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at PetitLyrics (プチリリ) through its mobile API. Supports word-synced (WSY), line-synced (LSY), and plain text lyrics. Not affiliated with SyncPower Corporation.",
+      "languages": [
+        "ja"
+      ],
       "icon": "dist/petitlyrics/icon.png"
     },
     {
       "slug": "qqmusic",
       "name": "QQ Music",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -147,12 +174,15 @@
       "path": "dist/qqmusic/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at QQ Music (QQ音乐) through its unofficial web API. Not affiliated with QQ Music or Tencent; it may stop working when the service changes.",
+      "languages": [
+        "zh"
+      ],
       "icon": "dist/qqmusic/icon.png"
     },
     {
       "slug": "spotify",
       "name": "Spotify",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -164,12 +194,15 @@
       "path": "dist/spotify/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at Spotify (open.spotify.com) through its web player API. Requires a valid sp_dc cookie configured in plugin settings.",
+      "languages": [
+        "*"
+      ],
       "icon": "dist/spotify/icon.png"
     },
     {
       "slug": "zingmp3",
       "name": "ZingMP3",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -179,6 +212,9 @@
       "path": "dist/zingmp3/plugin.zip",
       "author": "kanaru313",
       "description": "Finds synced (LRC) lyrics at ZingMP3 through its unofficial web API. Not affiliated with ZingMP3; it may stop working when the service changes.",
+      "languages": [
+        "vi"
+      ],
       "icon": "dist/zingmp3/icon.png"
     }
   ]
