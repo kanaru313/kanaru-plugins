@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "lyrics",
     "name": "NhacCuaTui",
-    "version": 2,
+    "version": 3,
     "hosts": ["graph.nhaccuatui.com", "lyric.nct.vn"],
     "author": "kanaru313",
     "description": "Finds synced (LRC) lyrics at NhacCuaTui through its unofficial web API. Not affiliated with NhacCuaTui; it may stop working when the service changes."
