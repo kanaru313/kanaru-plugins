@@ -92,11 +92,12 @@
     },
     "apiKeys": {
       "title": "API keys",
-      "subtitle": "One or more keys, separated by commas or new lines; the next key is used when one is refused or out of quota",
-      "mode": "input",
-      "format": "secret",
-      "required": true,
-      "placeholder": "sk-..."
+      "subtitle": "One or more keys; the next key is used when one is refused or out of quota",
+      "mode": "list",
+      "format": "text",
+      "placeholder": "sk-...",
+      "maxItems": 20,
+      "required": true
     },
     "model": {
       "title": "Model",

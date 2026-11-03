@@ -175,6 +175,15 @@ function readNumber(key, fallback, min, max) {
 }
 
 function readApiKeys() {
+  var val = localConfig.getItem('apiKeys');
+  if (Array.isArray(val)) {
+    var list = [];
+    for (var i = 0; i < val.length; i++) {
+      var item = typeof val[i] === 'string' ? val[i].trim() : String(val[i] || '').trim();
+      if (item && list.indexOf(item) === -1) list.push(item);
+    }
+    return list;
+  }
   var keys = [];
   readText('apiKeys', '').split(/[\s,;]+/).forEach(function (key) {
     if (key && keys.indexOf(key) === -1) keys.push(key);

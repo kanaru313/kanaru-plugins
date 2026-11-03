@@ -55,10 +55,11 @@
     "apiKey": {
       "title": "DeepL API key",
       "subtitle": "A key ending in :fx uses the Free API (api-free.deepl.com), any other key the Pro API",
-      "mode": "input",
-      "format": "secret",
-      "required": true,
-      "placeholder": "...:fx"
+      "mode": "list",
+      "format": "text",
+      "placeholder": "...:fx",
+      "maxItems": 5,
+      "required": true
     },
     "formality": {
       "title": "Formality",

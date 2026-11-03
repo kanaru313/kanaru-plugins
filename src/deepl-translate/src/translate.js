@@ -108,8 +108,15 @@ function hasWords(line) {
 }
 
 function readSettings() {
+  var keyVal = localConfig.getItem('apiKey');
+  var keyStr = '';
+  if (Array.isArray(keyVal) && keyVal.length > 0) {
+    keyStr = String(keyVal[0] || '').trim();
+  } else if (typeof keyVal === 'string') {
+    keyStr = keyVal.trim();
+  }
   return {
-    apiKey: readText('apiKey', '').trim(),
+    apiKey: keyStr,
     formality: readText('formality', 'default'),
     useSongContext: readBoolean('useSongContext', true),
     englishVariant: readText('englishVariant', 'en-US'),
