@@ -179,6 +179,15 @@ Translates lyrics line by line with the xAI Grok API (`api.x.ai`), keeping the s
 - Options: model, reasoning effort, style (natural, literal, poetic, singable), temperature, max output tokens, retry of skipped lines, custom instruction, full system prompt.
 - Errors: 401/403 is *key*, 429 is *rate limited* or *quota*.
 
+### OpenAI-compatible Translate (`openai-compatible`)
+
+Translates lyrics line by line with any OpenAI-compatible API (DeepSeek, OpenRouter, Groq, Together AI, SiliconFlow, Mistral, etc.), keeping the singer's voice and the lines in sync.
+
+- Connects to any service implementing the OpenAI chat completions format. Default base URL is `https://api.deepseek.com/v1`, default model is `deepseek-chat`.
+- Automatically normalizes the base URL, appends `/v1` when missing, and handles Google Gemini's `/openai` layer.
+- Options: Base URL, API keys, model name (free-form text input), style, temperature, max output tokens, retry of skipped lines, custom instruction, system prompt.
+- Supported hosts declared in manifest: DeepSeek, OpenAI, OpenRouter, Groq, Together, Mistral, Google Gemini, SiliconFlow, Moonshot, MiniMax, Qwen DashScope, Novita, Fireworks, xAI, Perplexity, Cohere, Cloudflare, DeepInfra.
+
 ### DeepL Translate (`deepl-translate`)
 
 Translates lyrics line by line with the DeepL API v2 (`api-free.deepl.com` for keys ending in `:fx`, `api.deepl.com` otherwise).
@@ -208,6 +217,7 @@ node tools/check_chatgpt_translate.js
 node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js
 node tools/check_grok_translate.js
+node tools/check_openai_compatible.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 
