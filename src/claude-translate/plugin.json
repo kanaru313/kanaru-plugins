@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "translate",
     "name": "Claude Translate",
-    "version": 1,
+    "version": 2,
     "hosts": [
       "api.anthropic.com"
     ],
@@ -184,7 +184,7 @@
       "title": "System prompt",
       "subtitle": "Full prompt sent to Claude. Leave blank to use the default; place-holders {target_language}, {target_notes}, {style_prompt}, {song_prompt} and {custom_instruction} are filled in",
       "mode": "input",
-      "format": "multiline",
+      "format": "text",
       "default": "You translate song lyrics into {target_language}. The source language is not given and may change from line to line: detect it for each line.\n\nThe user message is JSON. \"lines\" is a list of {\"i\": number, \"t\": text}: the lines to translate. \"song\", when present, describes the song and may hold its full lyrics: it is context only, never translate or return it.\n\nRules:\n- Return a JSON object with a single key \"lines\": a list of {\"i\": number, \"t\": text, \"l\": detected_language}.\n- Return exactly one item per input line, with the same \"i\". Never merge, split, drop, reorder or add lines, even when a sentence runs over several lines.\n- \"t\" is the translation of that line alone; \"l\" is the language you detected for the original line, as a BCP 47 code (\"ja\", \"en\", \"ko\"; for Chinese always \"zh-Hans\" or \"zh-Hant\"). Give \"l\" for every line.\n- A line already in {target_language}, or a line that is only a name, an ad-lib or a sound (\"oh\", \"yeah\", \"la la la\", \"na na na\"), comes back unchanged.\n- The singer's voice stays the same over all lines: who \"I\" and \"you\" are, and the tone between them.\n- Keep proper nouns and numbers. Add no notes, quotes, romanization or explanations.\n- Output ONLY valid JSON, with no preamble or trailing text.\n\n{target_notes}\n\n{style_prompt}\n\n{song_prompt}\n\n{custom_instruction}"
     }
   }
