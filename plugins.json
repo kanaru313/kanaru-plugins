@@ -5,6 +5,40 @@
   },
   "data": [
     {
+      "slug": "chatgpt-translate",
+      "name": "ChatGPT Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "api.openai.com"
+      ],
+      "path": "dist/chatgpt-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with the OpenAI ChatGPT API, keeping the singer’s voice and the lines in sync. Needs your own API key from platform.openai.com/api-keys; the lines, and the title, artist and lyrics when song context is on, are sent to OpenAI.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/chatgpt-translate/icon.png"
+    },
+    {
+      "slug": "claude-translate",
+      "name": "Claude Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "api.anthropic.com"
+      ],
+      "path": "dist/claude-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with the Anthropic Claude API, keeping the singer’s voice and the lines in sync. Needs your own API key from console.anthropic.com; the lines, and the title, artist and lyrics when song context is on, are sent to Anthropic.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/claude-translate/icon.png"
+    },
+    {
       "slug": "colorcodedlyrics",
       "name": "Color Coded Lyrics",
       "version": 3,
@@ -40,9 +74,26 @@
       "icon": "dist/deepl-translate/icon.png"
     },
     {
+      "slug": "deepseek-translate",
+      "name": "DeepSeek Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "api.deepseek.com"
+      ],
+      "path": "dist/deepseek-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with the DeepSeek API, keeping the singer’s voice and the lines in sync. Needs your own API key from platform.deepseek.com; the lines, and the title, artist and lyrics when song context is on, are sent to DeepSeek.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/deepseek-translate/icon.png"
+    },
+    {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -55,6 +106,23 @@
         "*"
       ],
       "icon": "dist/gemini-translate/icon.png"
+    },
+    {
+      "slug": "grok-translate",
+      "name": "Grok Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "api.x.ai"
+      ],
+      "path": "dist/grok-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with the xAI Grok API, keeping the singer’s voice and the lines in sync. Needs your own API key from console.x.ai; the lines, and the title, artist and lyrics when song context is on, are sent to xAI.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/grok-translate/icon.png"
     },
     {
       "slug": "jlyric",

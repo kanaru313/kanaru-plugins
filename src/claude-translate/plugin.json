@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Claude Translate",
+    "version": 1,
+    "hosts": [
+      "api.anthropic.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line with the Anthropic Claude API, keeping the singer’s voice and the lines in sync. Needs your own API key from console.anthropic.com; the lines, and the title, artist and lyrics when song context is on, are sent to Anthropic."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 60,
+    "maxChars": 6000,
+    "timeoutSec": 90
+  },
+  "config": {
+    "apiKeys": {
+      "title": "Anthropic API keys",
+      "subtitle": "One or more keys, separated by commas or new lines; the next key is used when one is refused or out of quota",
+      "mode": "input",
+      "format": "secret",
+      "default": ""
+    },
+    "model": {
+      "title": "Model",
+      "mode": "select",
+      "default": "claude-opus-5",
+      "options": [
+        {
+          "value": "claude-opus-5",
+          "title": "Claude Opus 5 (default, literary and lyric quality)"
+        },
+        {
+          "value": "claude-fable-5-1",
+          "title": "Claude Fable 5.1 (most capable, slowest)"
+        },
+        {
+          "value": "claude-fable-5",
+          "title": "Claude Fable 5"
+        },
+        {
+          "value": "claude-opus-4-8",
+          "title": "Claude Opus 4.8"
+        },
+        {
+          "value": "claude-opus-4-7",
+          "title": "Claude Opus 4.7"
+        },
+        {
+          "value": "claude-opus-4-6",
+          "title": "Claude Opus 4.6 (supports Temperature)"
+        },
+        {
+          "value": "claude-sonnet-5",
+          "title": "Claude Sonnet 5 (balanced, fast and high quality)"
+        },
+        {
+          "value": "claude-sonnet-4-6",
+          "title": "Claude Sonnet 4.6 (supports Temperature)"
+        },
+        {
+          "value": "claude-haiku-4-5",
+          "title": "Claude Haiku 4.5 (fastest and cheapest, supports Temperature)"
+        },
+        {
+          "value": "claude-3-7-sonnet-latest",
+          "title": "Claude 3.7 Sonnet"
+        },
+        {
+          "value": "claude-3-5-sonnet-latest",
+          "title": "Claude 3.5 Sonnet"
+        },
+        {
+          "value": "claude-3-5-haiku-latest",
+          "title": "Claude 3.5 Haiku"
+        }
+      ]
+    },
+    "style": {
+      "title": "Translation style",
+      "mode": "select",
+      "default": "natural",
+      "options": [
+        {
+          "value": "natural",
+          "title": "Natural (how a native speaker would say it, keeping the feeling)"
+        },
+        {
+          "value": "literal",
+          "title": "Close to the original (for learners, wording matches word by word)"
+        },
+        {
+          "value": "poetic",
+          "title": "Poetic (rhyme and rhythm over strict wording, keep imagery)"
+        },
+        {
+          "value": "singable",
+          "title": "Singable (same syllables and rhythm, rhymes where the original rhymes)"
+        }
+      ]
+    },
+    "useSongContext": {
+      "title": "Send the song as context",
+      "subtitle": "Sends the title, artist and lyrics when available, so pronouns and the story fit the song. Turn off for privacy or when the provider objects to explicit lyrics",
+      "mode": "toggle",
+      "default": true
+    },
+    "retryUntranslated": {
+      "title": "Retry lines left in the source language",
+      "subtitle": "When a line comes back unchanged and is not a name or sound, sends it again alone once to get it translated",
+      "mode": "toggle",
+      "default": true
+    },
+    "temperature": {
+      "title": "Temperature",
+      "subtitle": "0 is deterministic, 1 more varied. Only applies to models that support Temperature",
+      "mode": "input",
+      "format": "number",
+      "default": 0.2
+    },
+    "maxOutputTokens": {
+      "title": "Max output tokens",
+      "subtitle": "Ceiling on the answer length. 4096 fits a 60-line chunk well",
+      "mode": "input",
+      "format": "number",
+      "default": 4096
+    },
+    "customInstruction": {
+      "title": "Extra instruction for the model",
+      "subtitle": "Appended to the prompt, e.g. \"Prefer Southern Vietnamese pronouns\"",
+      "mode": "input",
+      "default": ""
+    },
+    "systemPrompt": {
+      "title": "System prompt",
+      "subtitle": "Full prompt sent to Claude. Leave blank to use the default; place-holders {target_language}, {target_notes}, {style_prompt}, {song_prompt} and {custom_instruction} are filled in",
+      "mode": "input",
+      "format": "multiline",
+      "default": "You translate song lyrics into {target_language}. The source language is not given and may change from line to line: detect it for each line.\n\nThe user message is JSON. \"lines\" is a list of {\"i\": number, \"t\": text}: the lines to translate. \"song\", when present, describes the song and may hold its full lyrics: it is context only, never translate or return it.\n\nRules:\n- Return a JSON object with a single key \"lines\": a list of {\"i\": number, \"t\": text, \"l\": detected_language}.\n- Return exactly one item per input line, with the same \"i\". Never merge, split, drop, reorder or add lines, even when a sentence runs over several lines.\n- \"t\" is the translation of that line alone; \"l\" is the language you detected for the original line, as a BCP 47 code (\"ja\", \"en\", \"ko\"; for Chinese always \"zh-Hans\" or \"zh-Hant\"). Give \"l\" for every line.\n- A line already in {target_language}, or a line that is only a name, an ad-lib or a sound (\"oh\", \"yeah\", \"la la la\", \"na na na\"), comes back unchanged.\n- The singer's voice stays the same over all lines: who \"I\" and \"you\" are, and the tone between them.\n- Keep proper nouns and numbers. Add no notes, quotes, romanization or explanations.\n- Output ONLY valid JSON, with no preamble or trailing text.\n\n{target_notes}\n\n{style_prompt}\n\n{song_prompt}\n\n{custom_instruction}"
+    }
+  }
+}

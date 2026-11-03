@@ -53,15 +53,16 @@ function geminiRequest(systemPrompt, userJson, settings) {
 }
 
 /**
- * `low` asks for as little thinking as the model allows, so a chunk fits the
- * plugin's time limit; `auto` leaves the model's default. Gemini 2.5 takes a
- * token budget (Pro cannot go to 0), later models a level.
+ * `minimal` and `low` answer faster and fit the time limit; `medium` and `high`
+ * think deeper; `auto` leaves the model's default. Gemini 2.5 takes a
+ * token budget (Pro cannot go to 0), Gemini 3+ models take a thinkingLevel.
  */
 function thinkingConfig(model, level) {
-  if (level !== 'low') return null;
+  if (level === 'auto' || !level) return null;
   if (/^gemini-2\.5-pro/.test(model)) return { thinkingBudget: 128 };
   if (/^gemini-2\./.test(model)) return { thinkingBudget: 0 };
-  return { thinkingLevel: 'low' };
+  var valid = { minimal: true, low: true, medium: true, high: true };
+  return valid[level] ? { thinkingLevel: level } : { thinkingLevel: 'low' };
 }
 
 /**

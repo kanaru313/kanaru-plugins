@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "translate",
     "name": "Gemini Translate",
-    "version": 3,
+    "version": 4,
     "hosts": [
       "generativelanguage.googleapis.com"
     ],
@@ -142,13 +142,25 @@
     },
     "thinking": {
       "title": "Thinking",
-      "subtitle": "Low answers faster and fits the time limit; Auto lets the model think as long as it likes",
+      "subtitle": "Minimal or Low answers faster and fits the time limit; Medium and High think deeper; Auto lets the model decide",
       "mode": "select",
       "default": "low",
       "options": [
         {
+          "value": "minimal",
+          "title": "Minimal (fastest for Gemini 3+)"
+        },
+        {
           "value": "low",
-          "title": "Low"
+          "title": "Low (fast and balanced)"
+        },
+        {
+          "value": "medium",
+          "title": "Medium (deeper reasoning)"
+        },
+        {
+          "value": "high",
+          "title": "High (most thorough)"
         },
         {
           "value": "auto",

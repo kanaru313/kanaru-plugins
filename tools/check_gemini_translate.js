@@ -179,6 +179,8 @@ t('safety on, thinking auto, 2.5 budgets, unknown and retired models', () => {
   const b1 = body({ safetyFilter: 'true', thinking: 'auto' });
   assert.strictEqual(b1.body.safetySettings, undefined);
   assert.strictEqual(b1.body.generationConfig.thinkingConfig, undefined);
+  assert.deepStrictEqual(body({ model: 'gemini-3.6-flash', thinking: 'minimal' }).body.generationConfig.thinkingConfig, { thinkingLevel: 'minimal' });
+  assert.deepStrictEqual(body({ model: 'gemini-3.6-flash', thinking: 'high' }).body.generationConfig.thinkingConfig, { thinkingLevel: 'high' });
   assert.deepStrictEqual(body({ model: 'gemini-2.5-flash' }).body.generationConfig.thinkingConfig, { thinkingBudget: 0 });
   assert.deepStrictEqual(body({ model: 'gemini-2.5-pro' }).body.generationConfig.thinkingConfig, { thinkingBudget: 128 });
   assert.match(body({ model: 'gpt-4' }).url, /gemini-3\.5-flash-lite:/);

@@ -139,6 +139,46 @@ Translates lyrics line by line with the Google Gemini API (`generativelanguage.g
 - Options: model, style (natural, close, poetic, singable), thinking, temperature, safety filter, retry of skipped lines, your own instruction and a full system prompt.
 - Errors: all keys refused is *key*, a daily quota is *quota*, a per-minute limit is *rate limited*. A run uses at most 10 sends.
 
+### ChatGPT Translate (`chatgpt-translate`)
+
+Translates lyrics line by line with the OpenAI ChatGPT API (`api.openai.com`), keeping the singer's voice and the lines in sync.
+
+- Needs Kanaru with translate plugin support and your own OpenAI API key from https://platform.openai.com/api-keys. Multiple keys can be specified; the next key is used when one is refused or out of quota.
+- **What is sent to OpenAI:** the lines to translate; with *Send the song as context* on (default), also the title, artist and full lyrics of the song as context.
+- Model list: `gpt-6-luna` (default), `gpt-6.1-sol`, `gpt-6-astra`, `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5`, `gpt-4.1`, `gpt-4o`, etc.
+- Options: model, reasoning effort (`auto`, `none`, `low`, `medium`, `high`), style (natural, literal, poetic, singable), temperature, max output tokens, retry of skipped lines, custom instruction, full system prompt.
+- Errors: 401/403 is *key*, 429 quota is *quota*, 429 rate limit is *rate limited*. A run uses at most 10 sends.
+
+### Claude Translate (`claude-translate`)
+
+Translates lyrics line by line with the Anthropic Claude API (`api.anthropic.com`), keeping the singer's voice and the lines in sync.
+
+- Needs Kanaru with translate plugin support and your own Anthropic API key from https://console.anthropic.com. Multiple keys can be specified; rotates upon failure.
+- **What is sent to Anthropic:** the lines to translate; with *Send the song as context* on (default), also the title, artist and lyrics context.
+- Model list: `claude-opus-5` (default), `claude-fable-5-1`, `claude-sonnet-5`, `claude-haiku-4-5`, `claude-3-7-sonnet-latest`, `claude-3-5-sonnet-latest`, etc.
+- Options: model, style (natural, literal, poetic, singable), temperature (on models that accept temperature), max output tokens, retry of skipped lines, custom instruction, full system prompt.
+- Errors: 401/403 is *key*, 429 is *rate limited*, 529 is overloaded server.
+
+### DeepSeek Translate (`deepseek-translate`)
+
+Translates lyrics line by line with the DeepSeek API (`api.deepseek.com`), keeping the singer's voice and the lines in sync.
+
+- Needs Kanaru with translate plugin support and your own DeepSeek API key from https://platform.deepseek.com. Multiple keys can be specified; rotates upon failure.
+- **What is sent to DeepSeek:** the lines to translate; with *Send the song as context* on (default), also the title, artist and lyrics context.
+- Model list: `deepseek-flash` (default), `deepseek-flash-thinking`, `deepseek-v4-pro`, `deepseek-v4-pro-thinking`, `deepseek-chat`, `deepseek-reasoner`.
+- Options: model, style (natural, literal, poetic, singable), temperature, max output tokens, retry of skipped lines, custom instruction, full system prompt.
+- Errors: 401/403 is *key*, 402 is *quota* (Insufficient Balance), 429 is *rate limited*.
+
+### Grok Translate (`grok-translate`)
+
+Translates lyrics line by line with the xAI Grok API (`api.x.ai`), keeping the singer's voice and the lines in sync.
+
+- Needs Kanaru with translate plugin support and your own xAI API key from https://console.x.ai. Multiple keys can be specified; rotates upon failure.
+- **What is sent to xAI:** the lines to translate; with *Send the song as context* on (default), also the title, artist and lyrics context.
+- Model list: `grok-4.20-0309-non-reasoning` (default), `grok-4.20-0309-reasoning`, `grok-4.3`, `grok-4.5`, `grok-4.7`, `grok-2-latest`, `grok-beta`.
+- Options: model, reasoning effort, style (natural, literal, poetic, singable), temperature, max output tokens, retry of skipped lines, custom instruction, full system prompt.
+- Errors: 401/403 is *key*, 429 is *rate limited* or *quota*.
+
 ### DeepL Translate (`deepl-translate`)
 
 Translates lyrics line by line with the DeepL API v2 (`api-free.deepl.com` for keys ending in `:fx`, `api.deepl.com` otherwise).
@@ -164,6 +204,10 @@ Offline tests with Node (host globals stubbed in `tools/translate_harness.js`):
 ```bash
 node tools/check_gemini_translate.js
 node tools/check_deepl_translate.js
+node tools/check_chatgpt_translate.js
+node tools/check_claude_translate.js
+node tools/check_deepseek_translate.js
+node tools/check_grok_translate.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 
