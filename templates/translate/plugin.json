@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Template Translate Provider",
+    "version": 1,
+    "hosts": [
+      "api.example.com"
+    ],
+    "languages": ["*"],
+    "author": "Your Name",
+    "description": "Template plugin demonstrating lyrics line-by-line translation."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id"
+    ],
+    "maxLines": 50,
+    "maxChars": 4000,
+    "timeoutSec": 30
+  },
+  "config": {
+    "apiKey": {
+      "title": "API Key",
+      "subtitle": "Your service API key, stored securely in the system Keyring",
+      "mode": "input",
+      "format": "secret",
+      "required": true,
+      "placeholder": "sk-..."
+    },
+    "model": {
+      "title": "Model",
+      "subtitle": "Select translation model engine",
+      "mode": "select",
+      "default": "model-fast",
+      "options": [
+        {
+          "value": "model-fast",
+          "title": "Fast Model (faster, lower cost)",
+          "subtitle": "Recommended for daily lyric translation"
+        },
+        {
+          "value": "model-pro",
+          "title": "Pro Model (higher reasoning, slower)",
+          "subtitle": "Better nuance and poetic rhymes"
+        }
+      ]
+    },
+    "temperature": {
+      "title": "Temperature",
+      "subtitle": "0.0 for deterministic output, up to 2.0 for higher variation",
+      "mode": "input",
+      "format": "number",
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "default": 0.3
+    },
+    "maxOutputTokens": {
+      "title": "Max Output Tokens",
+      "subtitle": "Maximum tokens returned per chunk request",
+      "mode": "input",
+      "format": "integer",
+      "min": 256,
+      "max": 8192,
+      "step": 256,
+      "default": 4096
+    },
+    "useSongContext": {
+      "title": "Send song info as context",
+      "subtitle": "Sends song title and artist to help determine subject pronouns and tone",
+      "mode": "toggle",
+      "default": true
+    },
+    "customInstruction": {
+      "title": "Custom Instruction",
+      "subtitle": "Extra rules appended to the prompt, e.g. 'Use poetic Vietnamese rhymes'",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "e.g. Keep English slang terms untouched",
+      "default": ""
+    },
+    "systemPrompt": {
+      "title": "System Prompt",
+      "subtitle": "Full system instruction. Variables: {target_language}, {custom_instruction}",
+      "mode": "input",
+      "format": "multiline",
+      "rows": 6,
+      "default": "You translate song lyrics into {target_language}.\n\nRules:\n- Return a JSON object with a single key 'lines': a list of {'i': number, 't': text, 'l': detected_language}.\n- Return exactly one item per input line, preserving original 'i' order.\n- Lines already in {target_language} or sound effects (la la, oh oh) should remain unchanged.\n- Maintain song emotion, rhythm and voice consistency.\n\n{custom_instruction}"
+    }
+  }
+}

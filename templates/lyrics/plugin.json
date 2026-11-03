@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Template Lyrics Provider",
+    "version": 1,
+    "hosts": [
+      "api.example.com"
+    ],
+    "languages": ["*"],
+    "author": "Your Name",
+    "description": "Template plugin demonstrating lyrics search and lyrics retrieval."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "apiKey": {
+      "title": "API Key / Token",
+      "subtitle": "User credentials saved securely into the system Keyring",
+      "mode": "input",
+      "format": "secret",
+      "required": false,
+      "placeholder": "Enter your API key or leave blank"
+    },
+    "serverUrl": {
+      "title": "Custom Server Endpoint",
+      "subtitle": "Alternative HTTPS mirror server",
+      "mode": "input",
+      "format": "url",
+      "placeholder": "https://api.example.com/v1",
+      "default": "https://api.example.com/v1"
+    },
+    "resultLimit": {
+      "title": "Max search candidates",
+      "subtitle": "Maximum number of candidate tracks to fetch from remote (up to 20)",
+      "mode": "input",
+      "format": "integer",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    "preferredFormat": {
+      "title": "Preferred Lyric Format",
+      "subtitle": "Select your preferred lyric display style",
+      "mode": "select",
+      "default": "synced",
+      "options": [
+        {
+          "value": "synced",
+          "title": "Synchronized (LRC line by line)",
+          "subtitle": "Time-stamped lyrics that scroll with playback"
+        },
+        {
+          "value": "plain",
+          "title": "Plain text",
+          "subtitle": "Static full lyric text without timestamps"
+        }
+      ]
+    },
+    "stripCredits": {
+      "title": "Clean credit lines",
+      "subtitle": "Automatically remove headers such as Composer, Lyricist, Singer...",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}
