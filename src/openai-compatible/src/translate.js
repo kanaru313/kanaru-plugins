@@ -147,13 +147,24 @@ function readText(key, fallback) {
 }
 
 function readBoolean(key, fallback) {
-  return readText(key, fallback ? 'true' : 'false') === 'true';
+  var value = localConfig.getItem(key);
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') return value.toLowerCase() === 'true';
+  return fallback;
 }
 
 function readNumber(key, fallback, min, max) {
-  var value = parseFloat(readText(key, String(fallback)));
-  if (isNaN(value)) value = fallback;
-  return Math.min(max, Math.max(min, value));
+  var value = localConfig.getItem(key);
+  var num;
+  if (typeof value === 'number') {
+    num = value;
+  } else if (typeof value === 'string' && value.trim() !== '') {
+    num = Number(value);
+  } else {
+    num = fallback;
+  }
+  if (isNaN(num)) num = fallback;
+  return Math.min(max, Math.max(min, num));
 }
 
 function readApiKeys() {

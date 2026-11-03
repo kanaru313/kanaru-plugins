@@ -11,11 +11,18 @@ const searchCode = fs.readFileSync(path.join(pluginDir, 'src', 'search.js'), 'ut
 const lyricsCode = fs.readFileSync(path.join(pluginDir, 'src', 'lyrics.js'), 'utf8');
 
 // Load bundled CryptoJS for simulation in test environment
-const cryptoJsPath = path.resolve(__dirname, '..', '..', '..', 'rust', 'src', 'plugin_runtime', 'js', 'crypto-js.min.js');
+const candidateCryptoPaths = [
+  path.resolve(__dirname, '..', '..', '..', 'rust', 'src', 'plugin_runtime', 'js', 'crypto-js.min.js'),
+  '/home/hieunm/dev/kanaru/rust/src/plugin_runtime/js/crypto-js.min.js',
+];
 let cryptoJsCode = '';
-if (fs.existsSync(cryptoJsPath)) {
-  cryptoJsCode = fs.readFileSync(cryptoJsPath, 'utf8');
-} else {
+for (const p of candidateCryptoPaths) {
+  if (fs.existsSync(p)) {
+    cryptoJsCode = fs.readFileSync(p, 'utf8');
+    break;
+  }
+}
+if (!cryptoJsCode) {
   // Fallback to npm package if needed
   try {
     cryptoJsCode = fs.readFileSync(require.resolve('crypto-js/crypto-js.js'), 'utf8');

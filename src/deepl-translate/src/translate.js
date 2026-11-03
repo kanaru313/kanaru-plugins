@@ -111,7 +111,7 @@ function readSettings() {
   return {
     apiKey: readText('apiKey', '').trim(),
     formality: readText('formality', 'default'),
-    useSongContext: readText('useSongContext', 'true') === 'true',
+    useSongContext: readBoolean('useSongContext', true),
     englishVariant: readText('englishVariant', 'en-US'),
     portugueseVariant: readText('portugueseVariant', 'pt-BR'),
   };
@@ -120,4 +120,11 @@ function readSettings() {
 function readText(key, fallback) {
   var value = localConfig.getItem(key);
   return value === null || value === undefined || value === '' ? fallback : String(value);
+}
+
+function readBoolean(key, fallback) {
+  var value = localConfig.getItem(key);
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'string') return value.toLowerCase() === 'true';
+  return fallback;
 }

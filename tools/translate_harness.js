@@ -26,7 +26,7 @@ function loadPlugin(pluginDir, { fetch, config = {}, logs = [] }) {
   };
   const code = inline(manifest.script.translate);
   const localConfig = {
-    getItem: (key) => (Object.prototype.hasOwnProperty.call(config, key) ? String(config[key]) : null),
+    getItem: (key) => (Object.prototype.hasOwnProperty.call(config, key) ? config[key] : null),
   };
   const console = { log: (...a) => logs.push(a.join(' ')), warn: (...a) => logs.push(a.join(' ')) };
   const sleep = () => {};
