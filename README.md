@@ -208,6 +208,14 @@ Translates lyrics line by line using Google Translate.
 - Languages: supports all 41 languages in Kanaru's standard language table.
 - Automatic HTML entity decoding and source language detection mapping.
 
+### Immersive Translate (`immersive-translate`)
+
+Translates lyrics line by line using Immersive Translate's AI engines.
+
+- Uses your own `user_token` from the official Immersive Translate extension or account profile (https://immersivetranslate.com/profile/).
+- Model list: `babelfast-pro` (BabelFast, fast and optimized), `deepl-pro` (DeepL Pro), `deepseek-pro`, `gemini-pro`, `openai-pro`, `claude-pro`, `qwen-pro`, `grok-pro`, `openai-max` (GPT-5.4), `claude-max` (Claude Sonnet 4.6), `gemini-max`, `kimi-max`, `zhipu-max`.
+- Supports SSE streaming response and preserves musical symbol lines (`♪`, `(x2)`).
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -224,6 +232,7 @@ Offline tests with Node (host globals stubbed in `tools/translate_harness.js`):
 node tools/check_gemini_translate.js
 node tools/check_deepl_translate.js
 node tools/check_google_translate.js
+node tools/check_immersive_translate.js
 node tools/check_chatgpt_translate.js
 node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js

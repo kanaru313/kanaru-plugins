@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Immersive Translate",
+    "version": 1,
+    "hosts": [
+      "api2.immersivetranslate.com",
+      "api2.imtedge.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line using Immersive Translate (supporting BabelFast, DeepL Pro, GPT, Claude, Gemini, DeepSeek models with your Immersive Translate user token)."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 50,
+    "maxChars": 5000,
+    "timeoutSec": 45
+  },
+  "config": {
+    "userToken": {
+      "title": "Immersive Translate token",
+      "subtitle": "user_token from your Immersive Translate extension or account profile (https://immersivetranslate.com/profile/)",
+      "mode": "input",
+      "format": "secret",
+      "placeholder": "eyJhbGci...",
+      "required": true
+    },
+    "model": {
+      "title": "Model",
+      "subtitle": "Select AI translation model engine",
+      "mode": "select",
+      "default": "babelfast-pro",
+      "options": [
+        {
+          "value": "babelfast-pro",
+          "title": "BabelFast Pro (Fast, High Quality, Recommended)"
+        },
+        {
+          "value": "deepl-pro",
+          "title": "DeepL Pro"
+        },
+        {
+          "value": "deepseek-pro",
+          "title": "DeepSeek-V4-Flash Pro"
+        },
+        {
+          "value": "gemini-pro",
+          "title": "Gemini 3 Flash Pro"
+        },
+        {
+          "value": "openai-pro",
+          "title": "GPT-5 mini Pro"
+        },
+        {
+          "value": "claude-pro",
+          "title": "Claude Haiku 4.5 Pro"
+        },
+        {
+          "value": "qwen-pro",
+          "title": "Qwen 3.5 Plus Pro"
+        },
+        {
+          "value": "grok-pro",
+          "title": "Grok 4.3 Pro"
+        },
+        {
+          "value": "openai-max",
+          "title": "GPT-5.4 Max"
+        },
+        {
+          "value": "claude-max",
+          "title": "Claude Sonnet 4.6 Max"
+        },
+        {
+          "value": "gemini-max",
+          "title": "Gemini 3.1 Pro Max"
+        },
+        {
+          "value": "kimi-max",
+          "title": "Kimi K2.5 Max"
+        },
+        {
+          "value": "zhipu-max",
+          "title": "GLM-5 Max"
+        }
+      ]
+    },
+    "keepSymbols": {
+      "title": "Preserve empty and symbol lines",
+      "subtitle": "Lines without words (♪, ..., x2) are kept as-is and not sent to the API",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}

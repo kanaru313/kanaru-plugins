@@ -144,6 +144,24 @@
       "icon": "dist/grok-translate/icon.png"
     },
     {
+      "slug": "immersive-translate",
+      "name": "Immersive Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "api2.immersivetranslate.com",
+        "api2.imtedge.com"
+      ],
+      "path": "dist/immersive-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line using Immersive Translate (supporting BabelFast, DeepL Pro, GPT, Claude, Gemini, DeepSeek models with your Immersive Translate user token).",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/immersive-translate/icon.png"
+    },
+    {
       "slug": "jlyric",
       "name": "J-Lyric",
       "version": 3,
