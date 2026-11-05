@@ -5,6 +5,23 @@
   },
   "data": [
     {
+      "slug": "baidu-translate",
+      "name": "Baidu Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "fanyi-api.baidu.com"
+      ],
+      "path": "dist/baidu-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with Baidu Translate Open API (https://fanyi-api.baidu.com). Needs your own Baidu Translation App ID and Secret Key.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/baidu-translate/icon.png"
+    },
+    {
       "slug": "chatgpt-translate",
       "name": "ChatGPT Translate",
       "version": 3,

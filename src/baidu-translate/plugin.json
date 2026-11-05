@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Baidu Translate",
+    "version": 1,
+    "hosts": [
+      "fanyi-api.baidu.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line with Baidu Translate Open API (https://fanyi-api.baidu.com). Needs your own Baidu Translation App ID and Secret Key."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 50,
+    "maxChars": 5000,
+    "timeoutSec": 30
+  },
+  "config": {
+    "appId": {
+      "title": "Baidu App ID",
+      "subtitle": "Your Baidu Translation Open API App ID from https://fanyi-api.baidu.com",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "2026...",
+      "required": true
+    },
+    "appSecret": {
+      "title": "Baidu App Secret Key",
+      "subtitle": "Your Baidu Translation Open API Secret Key, stored in system Keyring",
+      "mode": "input",
+      "format": "secret",
+      "placeholder": "...",
+      "required": true
+    },
+    "keepSymbols": {
+      "title": "Preserve empty and symbol lines",
+      "subtitle": "Lines without words (♪, ..., x2) are kept as-is and not sent to Baidu Translate",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}

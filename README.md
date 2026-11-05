@@ -224,6 +224,14 @@ Translates lyrics line by line using Microsoft Edge's translation service (`edge
 - Sends text chunks as structured JSON arrays, matching the Edge browser translator.
 - Preserves empty and musical symbol lines (`♪`, `(x2)`).
 
+### Baidu Translate (`baidu-translate`)
+
+Translates lyrics line by line using the official Baidu Translation Open API (`fanyi-api.baidu.com`).
+
+- Requires your own Baidu Translation App ID and Secret Key from https://fanyi-api.baidu.com.
+- Uses MD5 request signing (`load('crypto.js')`) and maps Baidu language codes (`vie`, `zh`, `cht`, `jp`, `kor`, `fra`, `spa`...).
+- Preserves empty and musical symbol lines (`♪`, `(x2)`).
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -242,6 +250,7 @@ node tools/check_deepl_translate.js
 node tools/check_google_translate.js
 node tools/check_immersive_translate.js
 node tools/check_edge_translate.js
+node tools/check_baidu_translate.js
 node tools/check_chatgpt_translate.js
 node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js

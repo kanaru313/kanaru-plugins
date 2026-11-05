@@ -4,10 +4,18 @@
 // QuickJS; this only approximates it (no limits, no host allowlist).
 const fs = require('fs');
 const path = require('path');
+const nodeCrypto = require('crypto');
 
 const Response = {
   success: (data) => ({ ok: data === undefined ? null : data }),
   error: (message, options) => ({ error: String(message), ...(options || {}) }),
+};
+
+const defaultCryptoJS = {
+  MD5: (str) => {
+    const h = nodeCrypto.createHash('md5').update(String(str), 'utf8').digest('hex');
+    return { toString: () => h };
+  },
 };
 
 /**
@@ -21,6 +29,7 @@ function loadPlugin(pluginDir, { fetch, config = {}, logs = [] }) {
   const inline = (name) => {
     if (loaded.has(name)) return '';
     loaded.add(name);
+    if (name === 'crypto.js') return '';
     const code = fs.readFileSync(path.join(srcDir, name), 'utf8');
     return code.replace(/^\s*load\(['"]([^'"]+)['"]\);?\s*$/gm, (_, dep) => inline(dep));
   };
@@ -30,9 +39,9 @@ function loadPlugin(pluginDir, { fetch, config = {}, logs = [] }) {
   };
   const console = { log: (...a) => logs.push(a.join(' ')), warn: (...a) => logs.push(a.join(' ')) };
   const sleep = () => {};
-  const factory = new Function('Response', 'fetch', 'localConfig', 'console', 'sleep', 'load',
+  const factory = new Function('Response', 'fetch', 'localConfig', 'console', 'sleep', 'load', 'CryptoJS',
     code + '\nreturn { execute, DEFAULT_SYSTEM_PROMPT: typeof DEFAULT_SYSTEM_PROMPT === "undefined" ? null : DEFAULT_SYSTEM_PROMPT };');
-  return factory(Response, fetch, localConfig, console, sleep, () => {});
+  return factory(Response, fetch, localConfig, console, sleep, () => {}, defaultCryptoJS);
 }
 
 /** A frozen-ish response object like the host's fetch returns. */
