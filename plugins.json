@@ -108,6 +108,25 @@
       "icon": "dist/gemini-translate/icon.png"
     },
     {
+      "slug": "google-translate",
+      "name": "Google Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "translate.googleapis.com",
+        "translate.google.com",
+        "translation.googleapis.com"
+      ],
+      "path": "dist/google-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line using Google Translate. Works out of the box with no API key required, or with your own Google Cloud Translation API key.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/google-translate/icon.png"
+    },
+    {
       "slug": "grok-translate",
       "name": "Grok Translate",
       "version": 3,

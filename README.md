@@ -198,6 +198,16 @@ Translates lyrics line by line with the DeepL API v2 (`api-free.deepl.com` for k
 - Languages: the 29 languages of Kanaru's table that DeepL can produce. Hindi, Persian, Malay, Welsh, Albanian, Armenian, Basque, Burmese, Georgian, Icelandic, Macedonian and Maori are not offered.
 - One send per chunk of up to 50 lines. Errors: 403 is *key*, 456 *quota*, 429/529 *rate limited*, 5xx *server*.
 
+### Google Translate (`google-translate`)
+
+Translates lyrics line by line using Google Translate.
+
+- **Works out of the box without an API key** using the free web service (`translate.googleapis.com` or `translate.google.com`).
+- Optionally supports official **Google Cloud Translation API v2** keys (`translation.googleapis.com`) with automatic key rotation upon rate-limiting or quota exhaustion.
+- Options: Google Translate service domain (`translate.googleapis.com` / `translate.google.com`), optional Cloud Translation API keys, preserve empty and musical symbol lines (`♪`, `(x2)`).
+- Languages: supports all 41 languages in Kanaru's standard language table.
+- Automatic HTML entity decoding and source language detection mapping.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -213,6 +223,7 @@ Offline tests with Node (host globals stubbed in `tools/translate_harness.js`):
 ```bash
 node tools/check_gemini_translate.js
 node tools/check_deepl_translate.js
+node tools/check_google_translate.js
 node tools/check_chatgpt_translate.js
 node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js

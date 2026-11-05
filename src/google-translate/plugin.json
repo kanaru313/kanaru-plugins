@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Google Translate",
+    "version": 1,
+    "hosts": [
+      "translate.googleapis.com",
+      "translate.google.com",
+      "translation.googleapis.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line using Google Translate. Works out of the box with no API key required, or with your own Google Cloud Translation API key."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 50,
+    "maxChars": 5000,
+    "timeoutSec": 30
+  },
+  "config": {
+    "serviceHost": {
+      "title": "Google Translate service",
+      "subtitle": "Domain used for free requests (when no API key is specified)",
+      "mode": "select",
+      "default": "translate.googleapis.com",
+      "options": [
+        {
+          "value": "translate.googleapis.com",
+          "title": "translate.googleapis.com (Recommended)"
+        },
+        {
+          "value": "translate.google.com",
+          "title": "translate.google.com"
+        }
+      ]
+    },
+    "apiKeys": {
+      "title": "Google Cloud Translation API keys (optional)",
+      "subtitle": "Leave empty to use Google Translate for free. Provide Cloud Translation API v2 keys if you have a Google Cloud account",
+      "mode": "list",
+      "format": "text",
+      "placeholder": "AIzaSy...",
+      "maxItems": 10,
+      "required": false
+    },
+    "keepSymbols": {
+      "title": "Preserve empty and symbol lines",
+      "subtitle": "Lines without words (♪, ..., x2) are kept as-is and not sent to Google Translate",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}
