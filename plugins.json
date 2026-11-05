@@ -91,6 +91,23 @@
       "icon": "dist/deepseek-translate/icon.png"
     },
     {
+      "slug": "edge-translate",
+      "name": "Edge Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "edge.microsoft.com"
+      ],
+      "path": "dist/edge-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line using Microsoft Edge Translation service. Works out of the box with no API key or token required.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/edge-translate/icon.png"
+    },
+    {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
       "version": 5,

@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Edge Translate",
+    "version": 1,
+    "hosts": [
+      "edge.microsoft.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line using Microsoft Edge Translation service. Works out of the box with no API key or token required."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 50,
+    "maxChars": 5000,
+    "timeoutSec": 30
+  },
+  "config": {
+    "keepSymbols": {
+      "title": "Preserve empty and symbol lines",
+      "subtitle": "Lines without words (♪, ..., x2) are kept as-is and not sent to Edge Translate",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}
