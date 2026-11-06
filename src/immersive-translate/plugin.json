@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "translate",
     "name": "Immersive Translate",
-    "version": 1,
+    "version": 2,
     "hosts": [
       "api2.immersivetranslate.com",
       "api2.imtedge.com"

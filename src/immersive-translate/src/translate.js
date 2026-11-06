@@ -122,9 +122,9 @@ function execute(input) {
     response = translateLLM(todoLines, target, settings.userToken, modelConfig);
   }
 
-  if (response.error) return response;
+  if (!response || response.ok === false || response.error) return response;
 
-  var translations = response.ok;
+  var translations = response.data !== undefined ? response.data : response.ok;
   for (var k = 0; k < todo.length; k++) {
     out[todo[k]] = translations[k];
   }

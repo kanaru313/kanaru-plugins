@@ -164,7 +164,7 @@
     {
       "slug": "google-translate",
       "name": "Google Translate",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -218,7 +218,7 @@
     {
       "slug": "immersive-translate",
       "name": "Immersive Translate",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -468,7 +468,7 @@
     {
       "slug": "qwen-translate",
       "name": "Qwen Translate",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [

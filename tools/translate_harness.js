@@ -7,8 +7,25 @@ const path = require('path');
 const nodeCrypto = require('crypto');
 
 const Response = {
-  success: (data) => ({ ok: data === undefined ? null : data }),
-  error: (message, options) => ({ error: String(message), ...(options || {}) }),
+  success: (data) => ({ ok: true, data: data === undefined ? null : data }),
+  error: (message, options) => {
+    const res = {
+      ok: false,
+      message: String(message),
+      error: String(message),
+      kind: 'server',
+      ...(options || {}),
+    };
+    if (options && typeof options === 'object') {
+      if (['rateLimited', 'invalidResponse', 'server', 'auth', 'quota'].includes(options.kind)) {
+        res.kind = options.kind;
+      }
+      if (typeof options.retryAfterSec === 'number' && Number.isFinite(options.retryAfterSec) && options.retryAfterSec >= 0) {
+        res.retryAfterSec = Math.min(Math.floor(options.retryAfterSec), 4294967295);
+      }
+    }
+    return res;
+  },
 };
 
 const defaultCryptoJS = {
@@ -41,7 +58,25 @@ function loadPlugin(pluginDir, { fetch, config = {}, logs = [] }) {
   const sleep = () => {};
   const factory = new Function('Response', 'fetch', 'localConfig', 'console', 'sleep', 'load', 'CryptoJS',
     code + '\nreturn { execute, DEFAULT_SYSTEM_PROMPT: typeof DEFAULT_SYSTEM_PROMPT === "undefined" ? null : DEFAULT_SYSTEM_PROMPT };');
-  return factory(Response, fetch, localConfig, console, sleep, () => {}, defaultCryptoJS);
+  const mod = factory(Response, fetch, localConfig, console, sleep, () => {}, defaultCryptoJS);
+  return {
+    ...mod,
+    execute: (input) => {
+      const res = mod.execute(input);
+      // In Rust plugin_runtime (globals.rs), execute(input) returns a branded Response
+      // object where res.ok is boolean. If true, Rust unwraps res.data into output_json.
+      // We expose res.data as both `data` and `ok` on the top-level result to keep test
+      // assertions (`result.ok`) compatible while sub-calls see the real `{ ok: true, data }`.
+      if (res && res.ok === true && res.data !== undefined) {
+        return {
+          ok: res.data,
+          data: res.data,
+          status: 'ok',
+        };
+      }
+      return res;
+    },
+  };
 }
 
 /** A frozen-ish response object like the host's fetch returns. */
