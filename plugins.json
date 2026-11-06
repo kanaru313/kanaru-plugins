@@ -540,7 +540,7 @@
       "author": "Kanaru Contributors",
       "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
       "languages": [
-        "all"
+        "*"
       ],
       "icon": "dist/subsonic/icon.png"
     },

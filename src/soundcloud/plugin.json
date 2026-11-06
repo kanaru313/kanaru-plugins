@@ -23,18 +23,25 @@
     "quality": {
       "title": "Chất lượng âm thanh",
       "subtitle": "Ưu tiên chất lượng cao nhất hoặc tiết kiệm dữ liệu",
-      "values": [
-        "Cao nhất (HQ)",
-        "Tiết kiệm dữ liệu"
-      ],
       "mode": "select",
-      "format": "text",
-      "default": "Cao nhất (HQ)"
+      "format": "single",
+      "default": "Cao nhất (HQ)",
+      "options": [
+        {
+          "value": "Cao nhất (HQ)",
+          "title": "Cao nhất (HQ)"
+        },
+        {
+          "value": "Tiết kiệm dữ liệu",
+          "title": "Tiết kiệm dữ liệu"
+        }
+      ]
     },
     "clientId": {
       "title": "Tùy chỉnh Client ID (tùy chọn)",
       "subtitle": "Để trống để tự động trích xuất từ SoundCloud",
-      "mode": "text",
+      "mode": "input",
+      "format": "text",
       "default": ""
     }
   }

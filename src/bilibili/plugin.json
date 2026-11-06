@@ -24,13 +24,19 @@
     "quality": {
       "title": "Chất lượng âm thanh",
       "subtitle": "Ưu tiên bitrate cao nhất hoặc tiết kiệm dữ liệu",
-      "values": [
-        "Cao nhất",
-        "Tiết kiệm dữ liệu"
-      ],
       "mode": "select",
-      "format": "text",
-      "default": "Cao nhất"
+      "format": "single",
+      "default": "Cao nhất",
+      "options": [
+        {
+          "value": "Cao nhất",
+          "title": "Cao nhất"
+        },
+        {
+          "value": "Tiết kiệm dữ liệu",
+          "title": "Tiết kiệm dữ liệu"
+        }
+      ]
     }
   }
 }

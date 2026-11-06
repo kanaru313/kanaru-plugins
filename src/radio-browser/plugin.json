@@ -23,7 +23,8 @@
     "country": {
       "title": "Quốc gia ưu tiên",
       "subtitle": "Lọc đài phát theo quốc gia khi tìm kiếm trống (ví dụ: Vietnam, Japan, United States)",
-      "mode": "text",
+      "mode": "input",
+      "format": "text",
       "default": "Vietnam"
     }
   }

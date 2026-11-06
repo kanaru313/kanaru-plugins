@@ -28,7 +28,8 @@
     "appName": {
       "title": "Tên ứng dụng (app_name)",
       "subtitle": "Tên định danh gửi tới Audius API",
-      "mode": "text",
+      "mode": "input",
+      "format": "text",
       "default": "Kanaru"
     }
   }

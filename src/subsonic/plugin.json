@@ -10,7 +10,7 @@
       "*"
     ],
     "languages": [
-      "all"
+      "*"
     ]
   },
   "script": {
@@ -33,14 +33,14 @@
     "password": {
       "title": "Mật khẩu",
       "mode": "input",
-      "format": "password",
-      "default": "demo"
+      "format": "secret",
+      "placeholder": "demo"
     },
     "maxBitRate": {
       "title": "Tốc độ bit tối đa khi transcode (kbps, 0 = không giới hạn / raw)",
       "mode": "input",
-      "format": "number",
-      "default": "0"
+      "format": "integer",
+      "default": 0
     }
   }
 }
