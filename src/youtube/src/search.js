@@ -6,10 +6,8 @@ function parseCardFromVideoRenderer(renderer) {
     var title = getTextValue(renderer.title);
     var artist = getTextValue(renderer.ownerText || renderer.shortBylineText);
     var durationMs = parseDurationMs(getTextValue(renderer.lengthText));
-    var artworkUrl = "";
-    if (renderer.thumbnail && renderer.thumbnail.thumbnails && renderer.thumbnail.thumbnails.length) {
-        artworkUrl = renderer.thumbnail.thumbnails[renderer.thumbnail.thumbnails.length - 1].url || "";
-    }
+    var thumbnails = renderer.thumbnail && renderer.thumbnail.thumbnails ? renderer.thumbnail.thumbnails : null;
+    var artworkUrl = chooseArtworkUrl(thumbnails, id);
     return {
         id: id,
         title: title || "Không có tiêu đề",
@@ -48,11 +46,11 @@ function parseCardFromLockup(lockup) {
     }
 
     var durationMs = 0;
-    var artworkUrl = "";
+    var thumbnails = null;
     var contentImage = lockup.contentImage && lockup.contentImage.thumbnailViewModel ? lockup.contentImage.thumbnailViewModel : null;
     if (contentImage) {
         if (contentImage.image && contentImage.image.sources && contentImage.image.sources.length) {
-            artworkUrl = contentImage.image.sources[contentImage.image.sources.length - 1].url || "";
+            thumbnails = contentImage.image.sources;
         }
         var overlays = contentImage.overlays || [];
         for (var i = 0; i < overlays.length; i++) {
@@ -66,6 +64,7 @@ function parseCardFromLockup(lockup) {
             }
         }
     }
+    var artworkUrl = chooseArtworkUrl(thumbnails, id);
 
     return {
         id: id,
@@ -148,7 +147,7 @@ function execute(input) {
             title: oembedJson.title || "Video YouTube",
             artist: oembedJson.author_name || "YouTube",
             durationMs: 0,
-            artworkUrl: oembedJson.thumbnail_url || ("https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg"),
+            artworkUrl: sanitizeArtworkUrl(oembedJson.thumbnail_url, videoId),
             webUrl: YT_BASE + "/watch?v=" + videoId
         };
         var res = { items: [item], next: null };
@@ -164,7 +163,7 @@ function execute(input) {
         var playlistHtml = playlistRsp.text();
         var playlistData = extractInitialDataFromHtml(playlistHtml);
         if (!playlistData) {
-            return Response.error("Không đọc được dữ liệu danh sách phát", { kind: "invalidResponse" });
+            return Response.error("Không đọc được dữ liệu danh sách phát", { kind: ERROR_KIND.INVALID_RESPONSE });
         }
         var playlistResult = parseCardsFromInitialData(playlistData);
         cacheSet(cacheKey, playlistResult, 120000);
@@ -206,7 +205,7 @@ function execute(input) {
     var searchHtml = searchRsp.text();
     var initialData = extractInitialDataFromHtml(searchHtml);
     if (!initialData) {
-        return Response.error("Không đọc được kết quả tìm kiếm từ YouTube", { kind: "invalidResponse" });
+        return Response.error("Không đọc được kết quả tìm kiếm từ YouTube", { kind: ERROR_KIND.INVALID_RESPONSE });
     }
 
     var searchResult = parseCardsFromInitialData(initialData);

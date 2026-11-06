@@ -31,21 +31,38 @@ function selectBestAudioFormat(formats, preferLowQuality) {
 
 function execute(input) {
     input = input || {};
-    var idParam = input.id || input.videoId || input;
+    var isFresh = false;
+    var idParam = "";
+    if (typeof input === "string") {
+        idParam = input;
+    } else {
+        idParam = input.id || input.videoId || "";
+        isFresh = Boolean(input.fresh);
+    }
     var videoId = extractVideoId(idParam);
 
-    if (!videoId) {
-        return Response.error("Thiếu ID video YouTube hợp lệ", { kind: "invalidResponse" });
+    var cacheKey = videoId ? ("st:" + videoId) : "";
+
+    function fail(message, kind) {
+        if (isFresh && cacheKey) {
+            cacheRemove(cacheKey);
+        }
+        return Response.error(message, { kind: kind || ERROR_KIND.INVALID_RESPONSE });
     }
 
-    // Cache check
-    var cacheKey = "st:" + videoId;
-    var cached = cacheGet(cacheKey);
-    if (cached && cached.expiresAt) {
-        var nowSec = Math.floor(Date.now() / 1000);
-        // If still valid for at least 60 seconds
-        if (cached.expiresAt - nowSec > 60) {
-            return Response.success(cached);
+    if (!videoId) {
+        return fail("Thiếu ID video YouTube hợp lệ", ERROR_KIND.UNAVAILABLE);
+    }
+
+    // Cache check (ignored when fresh: true)
+    if (!isFresh) {
+        var cached = cacheGet(cacheKey);
+        if (cached && cached.expiresAtMs) {
+            var nowMs = Date.now();
+            // If still valid for at least 60 seconds (60,000 ms)
+            if (cached.expiresAtMs - nowMs > 60000) {
+                return Response.success(cached);
+            }
         }
     }
 
@@ -95,19 +112,19 @@ function execute(input) {
 
         if (status === "LOGIN_REQUIRED") {
             if (/tuổi|age|robot|xác nhận|sign in/i.test(reason)) {
-                return Response.error("Video giới hạn độ tuổi hoặc yêu cầu xác thực: " + reason, { kind: "auth" });
+                return fail("Video giới hạn độ tuổi hoặc yêu cầu xác thực: " + reason, ERROR_KIND.AUTH);
             }
             lastError = "Yêu cầu đăng nhập: " + reason;
             continue;
         }
 
         if (playerJson.videoDetails && (playerJson.videoDetails.isLive || playerJson.videoDetails.isLiveContent)) {
-            return Response.error("Livestream chưa hỗ trợ phát audio", { kind: "invalidResponse" });
+            return fail("Livestream chưa hỗ trợ phát audio", ERROR_KIND.UNSUPPORTED);
         }
 
         if (status && status !== "OK") {
             if (status === "UNPLAYABLE" || status === "GEO_RESTRICTED" || /chặn|vùng|quốc gia|country/i.test(reason)) {
-                return Response.error("Video không khả dụng hoặc bị chặn theo vùng: " + (reason || status), { kind: "invalidResponse" });
+                return fail("Video không khả dụng hoặc bị chặn theo vùng: " + (reason || status), ERROR_KIND.UNAVAILABLE);
             }
             lastError = "YouTube báo không phát được: " + (reason || status);
             continue;
@@ -127,11 +144,18 @@ function execute(input) {
     }
 
     if (!chosenFormat || !chosenFormat.url) {
-        return Response.error(lastError || "Không tìm thấy stream audio khả dụng", { kind: "invalidResponse" });
+        return fail(lastError || "Không tìm thấy stream audio khả dụng", ERROR_KIND.UNSUPPORTED);
     }
 
     var expireMatch = String(chosenFormat.url || "").match(/[?&]expire=(\d+)/);
-    var expiresAt = expireMatch ? parseInt(expireMatch[1], 10) : 0;
+    var nowMs = Date.now();
+    var expiresAtMs = 0;
+    if (expireMatch && expireMatch[1]) {
+        expiresAtMs = parseInt(expireMatch[1], 10) * 1000;
+    } else {
+        expiresAtMs = nowMs + 5 * 60 * 1000;
+        console.log("No expire parameter found on stream URL, defaulting expiresAtMs to now + 5m");
+    }
 
     var result = {
         url: chosenFormat.url,
@@ -141,14 +165,20 @@ function execute(input) {
         },
         mimeType: chosenFormat.mimeType || "audio/mp4",
         bitrate: chosenFormat.bitrate || 0,
-        expiresAt: expiresAt
+        expiresAtMs: expiresAtMs
     };
 
-    // Cache stream for TTL based on expiresAt (up to 30 minutes, or until 60s before expiry)
-    var nowSec = Math.floor(Date.now() / 1000);
-    var ttlSec = expiresAt > nowSec ? Math.min(1800, expiresAt - nowSec - 60) : 300;
-    if (ttlSec > 0) {
-        cacheSet(cacheKey, result, ttlSec * 1000);
+    // Cache stream: max 30 min TTL, or until 60s before expiry
+    var ttlMs = 0;
+    if (expiresAtMs > nowMs + 60000) {
+        ttlMs = Math.min(30 * 60 * 1000, expiresAtMs - nowMs - 60000);
+    }
+
+    if (ttlMs > 0) {
+        cacheSet(cacheKey, result, ttlMs);
+    } else if (isFresh) {
+        // If expired or expiring immediately, clear old entry
+        cacheRemove(cacheKey);
     }
 
     return Response.success(result);

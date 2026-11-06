@@ -13,6 +13,7 @@ const os = require('os');
 const vm = require('vm');
 
 const DEFAULT_STORAGE_QUOTA = 64 * 1024; // 64 KiB
+const DEFAULT_CACHE_STORAGE_QUOTA = 1024 * 1024; // 1 MiB
 const DEFAULT_MAX_SENDS = 10;
 const DEFAULT_DEADLINE_SEC = 15;
 const FORCED_UA_STRING = 'Kanaru/0.1.0 (+https://github.com/hieu313/kanaru)';
@@ -51,9 +52,12 @@ function createHostEnvironment(options = {}) {
     pluginDir = path.join(__dirname, '..', 'src', 'youtube'),
     uaMode = 'plugin', // 'plugin' or 'forced'
     storageQuota = DEFAULT_STORAGE_QUOTA,
+    cacheStorageQuota = DEFAULT_CACHE_STORAGE_QUOTA,
+    disableCacheStorage = false,
     maxSends = DEFAULT_MAX_SENDS,
     deadlineSec = DEFAULT_DEADLINE_SEC,
     initialStorage = {},
+    initialCacheStorage = {},
     config = {},
   } = options;
 
@@ -69,6 +73,7 @@ function createHostEnvironment(options = {}) {
     durationMs: 0,
     outputBytes: 0,
     storageBytes: 0,
+    cacheStorageBytes: 0,
     logs: [],
   };
 
@@ -119,6 +124,58 @@ function createHostEnvironment(options = {}) {
       for (const k of Object.keys(storageMap)) {
         delete storageMap[k];
       }
+    },
+  };
+
+  // 2b. Cache storage simulation (1 MiB quota, evicts oldest entry when full)
+  const cacheStorageMap = new Map();
+  if (initialCacheStorage) {
+    for (const [k, v] of Object.entries(initialCacheStorage)) {
+      cacheStorageMap.set(String(k), String(v));
+    }
+  }
+
+  function calculateCacheStorageBytes() {
+    let bytes = 0;
+    for (const [k, v] of cacheStorageMap.entries()) {
+      bytes += Buffer.byteLength(k, 'utf8') + Buffer.byteLength(v, 'utf8');
+    }
+    return bytes;
+  }
+
+  const cacheStorage = {
+    getItem: (key) => {
+      const k = String(key);
+      if (!cacheStorageMap.has(k)) return null;
+      const v = cacheStorageMap.get(k);
+      // Refresh insertion order for LRU behavior
+      cacheStorageMap.delete(k);
+      cacheStorageMap.set(k, v);
+      return v;
+    },
+    setItem: (key, val) => {
+      const k = String(key);
+      const v = String(val);
+      const itemBytes = Buffer.byteLength(k, 'utf8') + Buffer.byteLength(v, 'utf8');
+      if (itemBytes > cacheStorageQuota) {
+        throw new QuotaExceededError(`Single item exceeds cacheStorageQuota (${itemBytes} > ${cacheStorageQuota})`);
+      }
+      if (cacheStorageMap.has(k)) {
+        cacheStorageMap.delete(k);
+      }
+      cacheStorageMap.set(k, v);
+      // Evict oldest entries until total fits quota
+      while (calculateCacheStorageBytes() > cacheStorageQuota && cacheStorageMap.size > 0) {
+        const oldestKey = cacheStorageMap.keys().next().value;
+        cacheStorageMap.delete(oldestKey);
+      }
+    },
+    removeItem: (key) => {
+      const k = String(key);
+      cacheStorageMap.delete(k);
+    },
+    clear: () => {
+      cacheStorageMap.clear();
     },
   };
 
@@ -266,6 +323,9 @@ function createHostEnvironment(options = {}) {
     localConfig,
     localStorage,
     storageMap,
+    cacheStorage,
+    cacheStorageMap,
+    calculateCacheStorageBytes,
     console: consoleObj,
     sleep,
     fetch: fetchFn,
@@ -303,6 +363,10 @@ function runPluginScript(scriptName, input, options = {}) {
     fetch: env.fetch,
   };
 
+  if (!options.disableCacheStorage) {
+    sandbox.cacheStorage = env.cacheStorage;
+  }
+
   const context = vm.createContext(sandbox);
 
   // Load entry file
@@ -326,6 +390,7 @@ function runPluginScript(scriptName, input, options = {}) {
   env.metrics.endTime = Date.now();
   env.metrics.durationMs = env.metrics.endTime - env.metrics.startTime;
   env.metrics.storageBytes = calculateStorageBytes(env.storageMap);
+  env.metrics.cacheStorageBytes = env.calculateCacheStorageBytes();
 
   const finalResponse = env.getFinalResponse() || result;
   if (finalResponse) {
@@ -339,6 +404,7 @@ function runPluginScript(scriptName, input, options = {}) {
     error: thrownError,
     metrics: env.metrics,
     storage: env.storageMap,
+    cacheStorage: Object.fromEntries(env.cacheStorageMap),
   };
 }
 
@@ -373,6 +439,10 @@ if (require.main === module) {
       input = { id: arg.slice('--id='.length) };
     } else if (arg === '--warm') {
       warm = true;
+    } else if (arg === '--fresh') {
+      if (typeof input === 'object' && input !== null) {
+        input.fresh = true;
+      }
     } else if (arg === '--json') {
       jsonOutput = true;
     }
@@ -387,6 +457,7 @@ if (require.main === module) {
       uaMode,
       storageQuota,
       initialStorage: cold.storage,
+      initialCacheStorage: cold.cacheStorage,
     });
   }
 
@@ -403,11 +474,12 @@ if (require.main === module) {
     console.log(`Duration:`, cold.metrics.durationMs, 'ms');
     console.log(`Bytes Received:`, cold.metrics.bytesReceived, 'B');
     console.log(`Output Size:`, cold.metrics.outputBytes, 'B');
-    console.log(`Storage Used:`, cold.metrics.storageBytes, 'B');
+    console.log(`LocalStorage Used:`, cold.metrics.storageBytes, 'B');
+    console.log(`CacheStorage Used:`, cold.metrics.cacheStorageBytes, 'B');
     if (cold.response?.status === 'ok') {
       const d = cold.response.data;
       if (d.items) console.log(`Items returned:`, d.items.length, '| Has next:', !!d.next);
-      if (d.url) console.log(`Stream URL:`, d.url.slice(0, 80) + '...', '| expiresAt:', d.expiresAt);
+      if (d.url) console.log(`Stream URL:`, d.url.slice(0, 80) + '...', '| expiresAtMs:', d.expiresAtMs);
     } else if (cold.response?.status === 'scriptError') {
       console.log(`Script Error Message:`, cold.response.errorMessage);
     }
@@ -419,7 +491,8 @@ if (require.main === module) {
       console.log(`Duration:`, warmResult.metrics.durationMs, 'ms');
       console.log(`Bytes Received:`, warmResult.metrics.bytesReceived, 'B');
       console.log(`Output Size:`, warmResult.metrics.outputBytes, 'B');
-      console.log(`Storage Used:`, warmResult.metrics.storageBytes, 'B');
+      console.log(`LocalStorage Used:`, warmResult.metrics.storageBytes, 'B');
+      console.log(`CacheStorage Used:`, warmResult.metrics.cacheStorageBytes, 'B');
     }
   }
 }

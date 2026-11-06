@@ -97,11 +97,15 @@ async function runBenchmark() {
       const cold = harness.runPluginScript(c.script, input, { uaMode });
       prevCaseOutputs[c.name] = cold;
 
-      // Warm call (using cold's storage)
+      // Warm call (using cold's storage and cacheStorage)
       const warm = harness.runPluginScript(c.script, input, {
         uaMode,
         initialStorage: cold.storage,
+        initialCacheStorage: cold.cacheStorage,
       });
+
+      const coldStorage = cold.metrics.cacheStorageBytes || cold.metrics.storageBytes;
+      const warmStorage = warm.metrics.cacheStorageBytes || warm.metrics.storageBytes;
 
       results.push({
         caseName: c.name,
@@ -112,7 +116,7 @@ async function runBenchmark() {
           durationMs: cold.metrics.durationMs,
           bytesReceived: cold.metrics.bytesReceived,
           outputBytes: cold.metrics.outputBytes,
-          storageBytes: cold.metrics.storageBytes,
+          storageBytes: coldStorage,
           note: extractNote(cold),
         },
         warm: {
@@ -121,7 +125,7 @@ async function runBenchmark() {
           durationMs: warm.metrics.durationMs,
           bytesReceived: warm.metrics.bytesReceived,
           outputBytes: warm.metrics.outputBytes,
-          storageBytes: warm.metrics.storageBytes,
+          storageBytes: warmStorage,
           note: extractNote(warm),
         },
       });

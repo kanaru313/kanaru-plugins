@@ -53,6 +53,14 @@ var ANDROID_LEGACY_CLIENT = {
     }
 };
 
+var ERROR_KIND = {
+    AUTH: "auth",               // Giới hạn tuổi, cần đăng nhập
+    UNAVAILABLE: "unavailable", // Video bị xoá, chặn vùng, ID sai
+    UNSUPPORTED: "unsupported", // Livestream, không có audio
+    NETWORK: "network",         // Lỗi kết nối mạng
+    INVALID_RESPONSE: "invalidResponse" // YouTube đổi format, parse hỏng
+};
+
 function trimText(text) {
     return String(text || "").replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
 }
@@ -292,17 +300,30 @@ function buildPreferredHeaders(headers) {
     return out;
 }
 
-// Compact localStorage cache to stay within 64 KiB quota
+// Storage helper: prefers cacheStorage (1 MiB), falls back to localStorage (64 KiB)
 var CACHE_PREFIX = "yt:";
 
+function getStorage() {
+    if (typeof cacheStorage !== "undefined" && cacheStorage) {
+        return cacheStorage;
+    }
+    if (typeof localStorage !== "undefined" && localStorage) {
+        return localStorage;
+    }
+    return null;
+}
+
 function cacheGet(key) {
-    if (typeof localStorage === "undefined" || !localStorage) return null;
+    var store = getStorage();
+    if (!store) return null;
     try {
-        var raw = localStorage.getItem(CACHE_PREFIX + key);
+        var raw = store.getItem(CACHE_PREFIX + key);
         if (!raw) return null;
         var entry = safeJsonParse(raw);
         if (!entry || !entry.e || entry.e < Date.now()) {
-            localStorage.removeItem(CACHE_PREFIX + key);
+            try {
+                store.removeItem(CACHE_PREFIX + key);
+            } catch (ignored) {}
             return null;
         }
         return entry.v;
@@ -312,7 +333,8 @@ function cacheGet(key) {
 }
 
 function cacheSet(key, value, ttlMs) {
-    if (typeof localStorage === "undefined" || !localStorage) return;
+    var store = getStorage();
+    if (!store) return;
     try {
         var entry = {
             v: value,
@@ -320,17 +342,76 @@ function cacheSet(key, value, ttlMs) {
         };
         var raw = JSON.stringify(entry);
         try {
-            localStorage.setItem(CACHE_PREFIX + key, raw);
+            store.setItem(CACHE_PREFIX + key, raw);
         } catch (quotaError) {
-            // If quota exceeded, clear all cached keys with prefix yt: and retry
-            try {
-                if (typeof localStorage.clear === "function") {
-                    localStorage.clear();
-                    localStorage.setItem(CACHE_PREFIX + key, raw);
-                }
-            } catch (ignored) {}
+            // If quota exceeded, silently ignore and continue without caching
         }
     } catch (e) {}
+}
+
+function cacheRemove(key) {
+    var store = getStorage();
+    if (!store) return;
+    try {
+        store.removeItem(CACHE_PREFIX + key);
+    } catch (ignored) {}
+}
+
+// Artwork helpers: ensures no letterboxed 4:3 hqdefault.jpg is used
+function sanitizeArtworkUrl(url, videoId) {
+    var str = String(url || "");
+    if (!str && videoId) {
+        return "https://i.ytimg.com/vi/" + videoId + "/hq720.jpg";
+    }
+    if (str.indexOf("hqdefault") !== -1) {
+        str = str.replace(/\/hqdefault\./g, "/hq720.");
+        if (str.indexOf("hqdefault") !== -1) {
+            str = str.replace(/hqdefault/g, "hq720");
+        }
+    }
+    return str;
+}
+
+function chooseArtworkUrl(thumbnails, videoId) {
+    if (!thumbnails || !thumbnails.length) {
+        return sanitizeArtworkUrl("", videoId);
+    }
+
+    // 1. Prioritize square thumbnail (album art, artist art)
+    var squareThumb = null;
+    for (var i = 0; i < thumbnails.length; i++) {
+        var t = thumbnails[i];
+        if (t && t.url && t.width && t.height && Math.abs(t.width - t.height) <= 2) {
+            if (!squareThumb || (t.width || 0) > (squareThumb.width || 0)) {
+                squareThumb = t;
+            }
+        }
+    }
+    if (squareThumb && squareThumb.url) {
+        return sanitizeArtworkUrl(squareThumb.url, videoId);
+    }
+
+    // 2. Look for hq720 or non-hqdefault
+    var bestThumb = null;
+    for (var j = thumbnails.length - 1; j >= 0; j--) {
+        var thumb = thumbnails[j];
+        if (!thumb || !thumb.url) continue;
+        var u = String(thumb.url);
+        if (u.indexOf("hq720") !== -1) {
+            return sanitizeArtworkUrl(u, videoId);
+        }
+        if (u.indexOf("hqdefault") === -1 && !bestThumb) {
+            bestThumb = thumb;
+        }
+    }
+
+    if (bestThumb && bestThumb.url) {
+        return sanitizeArtworkUrl(bestThumb.url, videoId);
+    }
+
+    var last = thumbnails[thumbnails.length - 1];
+    var lastUrl = last && last.url ? last.url : (typeof last === "string" ? last : "");
+    return sanitizeArtworkUrl(lastUrl, videoId);
 }
 
 function buildPlayerClientContext(client) {

@@ -272,6 +272,49 @@ Translates lyrics line by line using Alibaba Cloud DashScope (Qwen) API (`dashsc
 - Region selection: International (Singapore) or China Mainland (Beijing), plus optional custom endpoint override.
 - Automatic key rotation, retry on untranslated lines, and musical symbol line preservation (`♪`, `(x2)`).
 
+### YouTube (`youtube`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm video/playlist âm nhạc và giải mã trực tiếp URL luồng audio (Opus ~160 kbps hoặc AAC ~128 kbps) từ YouTube thông qua client Innertube `VISIONOS`.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khóa tìm kiếm, link video YouTube (`https://youtu.be/...`, `watch?v=...`), hoặc link danh sách phát (`playlist?list=...`).
+    - `next`: token phân trang từ kết quả trước (tùy chọn).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: URL ảnh thumbnail không viền đen (ưu tiên ảnh vuông nếu có, hoặc `hq720` / `mqdefault`; không bao giờ trả về `hqdefault.jpg` 4:3). App luôn cắt vuông lấy phần giữa.
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - Khi không có `fresh` (hoặc `false`): đọc cache nếu còn hạn.
+    - Khi `fresh: true`: bỏ qua cache, luôn gọi Innertube để resolve URL mới, rồi ghi đè cache bằng kết quả mới. Nếu resolve thất bại thì xoá entry cache cũ; không bao giờ trả lại URL cũ đã hết hạn hoặc lỗi.
+    - App dùng cờ `fresh: true` khi gặp HTTP 403 (do đổi mạng / IP khác với `ip=` trên URL) hoặc khi đã quá `expiresAtMs`.
+  - Output: `Response.success({ url, headers, mimeType, bitrate?, expiresAtMs })`
+    - `url`: link stream Googlevideo trực tiếp (chỉ audio).
+    - `headers`: headers cần gửi kèm khi proxy kéo byte stream (`User-Agent`, `Referer: https://www.youtube.com/`).
+    - `mimeType`: định dạng audio (`audio/webm; codecs="opus"` hoặc `audio/mp4; codecs="mp4a.40.2"`).
+    - `bitrate`: tốc độ bit tính bằng bps (ví dụ `160578`).
+    - `expiresAtMs`: Unix epoch timestamp tính bằng mili-giây (`expire=` trên URL × 1000). Nếu URL không có `expire=`, mặc định là `Date.now() + 5 * 60 * 1000` (5 phút).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu xác thực / đăng nhập | Video giới hạn độ tuổi người xem (18+), yêu cầu đăng nhập tài khoản. |
+| `unavailable` | Video không khả dụng | Video bị xoá, video riêng tư, bị chặn bản quyền theo quốc gia/vùng lãnh thổ, ID video không hợp lệ. |
+| `unsupported` | Nội dung chưa được hỗ trợ | Livestream đang phát trực tiếp, video không có luồng audio riêng biệt. |
+| `invalidResponse` | Phản hồi từ YouTube bất thường | Cấu trúc trang watch hoặc Innertube player bị thay đổi, parse JSON thất bại. |
+| `network` | Lỗi mạng / timeout | Kết nối bị ngắt, hết hạn deadline 15 s hoặc vượt quá 10 lần gửi HTTP. |
+
+#### Cơ chế Cache
+
+- Ưu tiên sử dụng `cacheStorage` nếu runtime cung cấp (`typeof cacheStorage !== "undefined"`), ngược lại fallback sang `localStorage`. Gom chung qua helper trong `common.js`.
+- TTL cache cho stream: tối đa 30 phút, với biên an toàn 60 giây trước hạn `expiresAtMs`.
+- Bắt lỗi quota (`QuotaExceededError`) khi ghi dữ liệu để script tiếp tục chạy mà không cache nếu bộ nhớ đầy.
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -300,6 +343,7 @@ node tools/check_grok_translate.js
 node tools/check_openai_compatible.js
 node tools/check_lrclib_lyrics.js
 node tools/check_megalobiz_lyrics.js
+node tools/check_youtube_source.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 
