@@ -5,6 +5,30 @@
   },
   "data": [
     {
+      "slug": "audius",
+      "name": "Audius",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "api.audius.co",
+        "*.audius.co",
+        "*.audiusindex.org",
+        "*.open-audio-validator.com",
+        "*.monophonic.digital",
+        "*.theblueprint.xyz",
+        "*.figment.io",
+        "*.staked.cloud",
+        "*.rickyrombo.com",
+        "*.cloudflarestorage.com",
+        "*.r2.cloudflarestorage.com"
+      ],
+      "path": "dist/audius/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Audius chất lượng cao (MP3 320 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát, dán link track, album và danh sách phát.",
+      "icon": "dist/audius/icon.png"
+    },
+    {
       "slug": "baidu-translate",
       "name": "Baidu Translate",
       "version": 1,
@@ -424,6 +448,25 @@
         "*"
       ],
       "icon": "dist/qwen-translate/icon.png"
+    },
+    {
+      "slug": "soundcloud",
+      "name": "SoundCloud",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "soundcloud.com",
+        "*.soundcloud.com",
+        "*.sndcdn.com",
+        "*.soundcloud.cloud",
+        "*.cloudfront.net",
+        "*.akamaihd.net"
+      ],
+      "path": "dist/soundcloud/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh SoundCloud (HLS AAC 160 kbps / MP3) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+      "icon": "dist/soundcloud/icon.png"
     },
     {
       "slug": "spotify",

@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "name": "Audius",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "source",
+    "description": "Nguồn phát âm thanh Audius chất lượng cao (MP3 320 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát, dán link track, album và danh sách phát.",
+    "hosts": [
+      "api.audius.co",
+      "*.audius.co",
+      "*.audiusindex.org",
+      "*.open-audio-validator.com",
+      "*.monophonic.digital",
+      "*.theblueprint.xyz",
+      "*.figment.io",
+      "*.staked.cloud",
+      "*.rickyrombo.com",
+      "*.cloudflarestorage.com",
+      "*.r2.cloudflarestorage.com"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js"
+  },
+  "config": {
+    "appName": {
+      "title": "Tên ứng dụng (app_name)",
+      "subtitle": "Tên định danh gửi tới Audius API",
+      "mode": "text",
+      "default": "Kanaru"
+    }
+  }
+}

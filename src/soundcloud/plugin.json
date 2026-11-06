@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "name": "SoundCloud",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "source",
+    "description": "Nguồn phát âm thanh SoundCloud (HLS AAC 160 kbps / MP3) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+    "hosts": [
+      "soundcloud.com",
+      "*.soundcloud.com",
+      "*.sndcdn.com",
+      "*.soundcloud.cloud",
+      "*.cloudfront.net",
+      "*.akamaihd.net"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js"
+  },
+  "config": {
+    "quality": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Ưu tiên chất lượng cao nhất hoặc tiết kiệm dữ liệu",
+      "values": [
+        "Cao nhất (HQ)",
+        "Tiết kiệm dữ liệu"
+      ],
+      "mode": "select",
+      "format": "text",
+      "default": "Cao nhất (HQ)"
+    },
+    "clientId": {
+      "title": "Tùy chỉnh Client ID (tùy chọn)",
+      "subtitle": "Để trống để tự động trích xuất từ SoundCloud",
+      "mode": "text",
+      "default": ""
+    }
+  }
+}

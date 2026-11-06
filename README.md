@@ -272,6 +272,77 @@ Translates lyrics line by line using Alibaba Cloud DashScope (Qwen) API (`dashsc
 - Region selection: International (Singapore) or China Mainland (Beijing), plus optional custom endpoint override.
 - Automatic key rotation, retry on untranslated lines, and musical symbol line preservation (`♪`, `(x2)`).
 
+### Audius (`audius`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm bài hát, dán link track/album/playlist và giải mã link stream MP3 320 kbps chất lượng cao từ nền tảng Audius thông qua REST API công khai (`api.audius.co`).
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khoá tìm kiếm, link bài hát Audius (`https://audius.co/...`), hoặc link album/playlist (`https://audius.co/.../playlist/...`).
+    - `next`: offset phân trang (ví dụ `"20"`, `"40"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: ưu tiên ảnh vuông độ phân giải cao `480x480` hoặc `1000x1000` từ Audius CDN.
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - Khi không có `fresh` (hoặc `false`): đọc cache nếu còn hạn.
+    - Khi `fresh: true`: bỏ qua cache, gọi trực tiếp endpoint Audius để lấy link stream mới nhất và ghi đè cache. Nếu resolve thất bại, xóa entry cache cũ.
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs })`
+    - `url`: link stream MP3 320 kbps trực tiếp từ node Audius Creator hoặc Cloudflare R2 storage.
+    - `mimeType`: `audio/mpeg`.
+    - `bitrate`: `320000` (320 kbps).
+    - `expiresAtMs`: thời hạn URL stream (mặc định 2 tiếng).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu trả phí hoặc cấp quyền | Bài hát bị khoá bản quyền, NFT/gated, hoặc yêu cầu mua bằng USDC. |
+| `unavailable` | Bài hát không khả dụng | ID bài hát không tồn tại, đường link Audius sai, bài hát đã bị gỡ bỏ. |
+| `unsupported` | Nội dung không hỗ trợ | Bài hát có cờ `is_streamable: false`. |
+| `invalidResponse` | Phản hồi bất thường | Audius API trả về JSON sai cấu trúc. |
+| `network` | Lỗi mạng / timeout | Kết nối bị ngắt, máy chủ Audius lỗi HTTP 5xx. |
+
+### SoundCloud (`soundcloud`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm bài hát, dán link track/playlist và giải mã link stream HLS AAC 160 kbps (hoặc MP3) chất lượng cao từ SoundCloud thông qua API v2 nội bộ (`api-v2.soundcloud.com`). Tự động trích xuất và xoay vòng `client_id` từ web client, tự hồi phục khi token hết hạn.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khoá tìm kiếm, link bài hát SoundCloud (`https://soundcloud.com/...`), hoặc link playlist/set (`https://soundcloud.com/.../sets/...`).
+    - `next`: offset phân trang (ví dụ `"20"`, `"40"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: tự động chuyển đổi sang ảnh vuông sắc nét độ phân giải cao `500x500` (`-t500x500.jpg`).
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - Khi không có `fresh` (hoặc `false`): đọc cache nếu còn hạn.
+    - Khi `fresh: true`: bỏ qua cache, gọi SoundCloud API để resolve URL phát mới nhất và ghi đè cache. Nếu resolve thất bại, xóa entry cache cũ.
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs })`
+    - `url`: link stream playlist HLS (`.m3u8`) từ SoundCloud CloudFront CDN.
+    - `headers`: headers đính kèm (`Referer: https://soundcloud.com/`).
+    - `mimeType`: `application/x-mpegURL` (hoặc `audio/mp4`).
+    - `bitrate`: `160000` (160 kbps AAC) hoặc `96000` (tiết kiệm dữ liệu).
+    - `expiresAtMs`: thời hạn URL stream được ký từ CDN (`expires=` trên URL, xấp xỉ 2 tiếng).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu tài khoản SoundCloud Go+ | Bài hát thuộc gói trả phí Go+ (`policy: "SNIP"`), chỉ nghe thử 30 s. |
+| `unavailable` | Bài hát không khả dụng | ID bài hát không tồn tại, đường link sai, bài hát đã bị xoá hoặc bị chặn theo vùng/quốc gia (`policy: "BLOCK"`). |
+| `unsupported` | Nội dung không hỗ trợ | Bài hát có cờ `streamable: false` hoặc không có transcoding audio. |
+| `invalidResponse` | Phản hồi bất thường | SoundCloud API trả về JSON sai cấu trúc. |
+| `network` | Lỗi mạng / timeout | Kết nối bị ngắt, máy chủ SoundCloud lỗi HTTP 5xx. |
+
 ### YouTube (`youtube`)
 
 > **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
@@ -344,6 +415,8 @@ node tools/check_openai_compatible.js
 node tools/check_lrclib_lyrics.js
 node tools/check_megalobiz_lyrics.js
 node tools/check_youtube_source.js
+node tools/check_audius_source.js
+node tools/check_soundcloud_source.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 
