@@ -24,6 +24,29 @@ src/<slug>/
 
 The plugin API is described in Kanaru's `docs/lyrics-plugin-api.md`.
 
+Chi tiết tài liệu hướng dẫn phát triển và quy chuẩn viết plugin xem tại:
+👉 **[Tài liệu hướng dẫn phát triển Plugin (templates/README.md)](./templates/README.md)**
+
+### Config Schema Reference
+
+Mục `config` trong `plugin.json` hỗ trợ tối đa 20 trường. Kanaru hỗ trợ chính xác **5 mode** cấu hình (theo `lib/core/lyrics/plugins/package/plugin_config_parser.dart`):
+
+| Mode | Format | Các thuộc tính bổ sung | Kiểu `default` | Giá trị khi đọc `localConfig.getItem(key)` |
+| :--- | :--- | :--- | :--- | :--- |
+| `input` | `text` *(mặc định)* | `placeholder`, `minLength`, `maxLength` | `string` | `string` hoặc `null` |
+| `input` | `multiline` | `rows` (1–10, mặc định 3), `minLength`, `maxLength` | `string` | `string` hoặc `null` |
+| `input` | `number` | `min`, `max`, `step` (số thực) | finite number | `number` hoặc `null` |
+| `input` | `integer` | `min`, `max`, `step` (số nguyên) | integer | `number` hoặc `null` |
+| `input` | `secret` | `placeholder` (lưu an toàn trong OS Keyring) | *không có* | `string` hoặc `null` |
+| `input` | `url` | `placeholder` | string URL (`https://...`) | `string` hoặc `null` |
+| `select` | `single` *(mặc định)* | `options: [{ value, title, subtitle? }]` | `string` (thuộc options) | `string` hoặc `null` |
+| `select` | `multiple` | `options`, `minItems`, `maxItems` | `string[]` | `string[]` hoặc `null` |
+| `toggle` | *(không có)* | *(không có)* | `boolean` (`true`/`false`) | `boolean` hoặc `null` |
+| `list` | `text` / `number` / `integer` / `url` | `placeholder`, `minItems`, `maxItems` (≤ 50) | `Array` tương ứng | `Array` hoặc `null` |
+| `map` | `text` *(hoặc để trống)* | `maxItems` (≤ 50) | Object key-value | `Object` hoặc `null` |
+
+> **Lưu ý**: Tuyệt đối không dùng các mode ngoài 5 mode trên (ví dụ không dùng `textarea`, hãy dùng `mode: "input"` với `format: "multiline"`).
+
 ## Plugins
 
 ### NetEase Cloud Music (`netease`)
