@@ -5,6 +5,26 @@
   },
   "data": [
     {
+      "slug": "animesonglyrics",
+      "name": "Anime Song Lyrics",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "www.animesonglyrics.com",
+        "animesonglyrics.com"
+      ],
+      "path": "dist/animesonglyrics/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds anime theme song lyrics from Anime Song Lyrics (animesonglyrics.com) featuring Romaji, Kanji, and English translations.",
+      "languages": [
+        "ja",
+        "en",
+        "*"
+      ],
+      "icon": "dist/animesonglyrics/icon.png"
+    },
+    {
       "slug": "baidu-translate",
       "name": "Baidu Translate",
       "version": 1,
@@ -178,6 +198,24 @@
       "icon": "dist/grok-translate/icon.png"
     },
     {
+      "slug": "hopamchuan",
+      "name": "Hợp Âm Chuẩn",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "hopamchuan.com"
+      ],
+      "path": "dist/hopamchuan/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds Vietnamese song lyrics with guitar chords from Hợp Âm Chuẩn (hopamchuan.com).",
+      "languages": [
+        "vi",
+        "*"
+      ],
+      "icon": "dist/hopamchuan/icon.png"
+    },
+    {
       "slug": "immersive-translate",
       "name": "Immersive Translate",
       "version": 1,
@@ -228,6 +266,26 @@
         "zh"
       ],
       "icon": "dist/kugou/icon.png"
+    },
+    {
+      "slug": "kuwo",
+      "name": "Kuwo Music",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "search.kuwo.cn",
+        "kuwo.cn",
+        "www.kuwo.cn"
+      ],
+      "path": "dist/kuwo/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) lyrics at Kuwo Music (酷我音乐) through its public web API.",
+      "languages": [
+        "zh",
+        "*"
+      ],
+      "icon": "dist/kuwo/icon.png"
     },
     {
       "slug": "lrclib",
@@ -444,6 +502,25 @@
         "*"
       ],
       "icon": "dist/spotify/icon.png"
+    },
+    {
+      "slug": "vocaloidlyrics",
+      "name": "Vocaloid Lyrics Wiki",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "vocaloidlyrics.miraheze.org"
+      ],
+      "path": "dist/vocaloidlyrics/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds multi-version Vocaloid, CeVIO, Utaite, and Synthesizer V lyrics from Vocaloid Lyrics Wiki (vocaloidlyrics.miraheze.org), featuring Japanese, Romaji, and English translations.",
+      "languages": [
+        "ja",
+        "en",
+        "*"
+      ],
+      "icon": "dist/vocaloidlyrics/icon.png"
     },
     {
       "slug": "zingmp3",

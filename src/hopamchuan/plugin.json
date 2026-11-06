@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Hợp Âm Chuẩn",
+    "version": 1,
+    "hosts": [
+      "hopamchuan.com"
+    ],
+    "languages": [
+      "vi",
+      "*"
+    ],
+    "author": "kanaru313",
+    "description": "Finds Vietnamese song lyrics with guitar chords from Hợp Âm Chuẩn (hopamchuan.com)."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "showChords": {
+      "title": "Include chords in lyrics",
+      "subtitle": "Display guitar chords inline formatted as [C], [Am], [G] next to words",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}

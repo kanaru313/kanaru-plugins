@@ -148,6 +148,43 @@ Finds synchronized (LRC) lyrics from Megalobiz (`megalobiz.com`) through its off
 - Works out of the box with free anonymous access; optionally accepts a custom API key from https://megalobiz.com/developers for higher rate limits.
 - Only the host `api.megalobiz.com` is used.
 
+### Vocaloid Lyrics Wiki (`vocaloidlyrics`)
+
+Finds multi-version Vocaloid, CeVIO, Utaite, and Synthesizer V lyrics from Vocaloid Lyrics Wiki (`vocaloidlyrics.miraheze.org`).
+
+- Search by song title, producer/artist, or free text query via the MediaWiki search API.
+- Extracts original Japanese lyrics, Romaji transliteration, and English translation from wiki tables.
+- Configurable `preferredSection` setting: "All sections (Japanese, Romaji, English)" (default), "Romaji only", "Original Japanese only", or "English translation only".
+- Completely free with no API key or login required; only the host `vocaloidlyrics.miraheze.org` is used.
+
+### Anime Song Lyrics (`animesonglyrics`)
+
+Finds Japanese anime songs, opening, and ending themes from Anime Song Lyrics (`animesonglyrics.com`).
+
+- Search by song title and artist.
+- Extracts side-by-side lyrics: Romaji, Kanji / Japanese, and English translation.
+- Configurable `preferredSection` setting: "All sections (Romaji, Kanji, English)" (default), "Romaji only", "Kanji only", or "English only".
+- Only the host `www.animesonglyrics.com` is used.
+
+### Kuwo Music (`kuwo`)
+
+Finds synchronized (LRC) lyrics from Kuwo Music (酷我音乐, `kuwo.cn` / `search.kuwo.cn`).
+
+- Search by song title, artist, or query text using Kuwo's search API.
+- Fetches synchronized LRC lyrics via Kuwo's lyric service, decoding numeric character references and formatting timestamps (`[mm:ss.xx]`).
+- Detects instrumental tracks (`此歌曲为没有填词的纯音乐，请您欣赏`).
+- Cleans intro/outro credit tags (`作词`, `作曲`, `编曲`, etc.).
+- Only the hosts `search.kuwo.cn` and `kuwo.cn` are used.
+
+### Hợp Âm Chuẩn (`hopamchuan`)
+
+Finds Vietnamese lyrics and guitar chords from Hợp Âm Chuẩn (`hopamchuan.com`).
+
+- Search by song title and singer/composer name.
+- Extracts song lyrics with inline guitar chords (`[Am]`, `[F]`, `[C]`, `[G]`).
+- Configurable `showChords` setting: toggle inline chord display on (default) or off (pure lyrics without chord annotations).
+- Only the host `hopamchuan.com` is used.
+
 ### Gemini Translate (`gemini-translate`)
 
 Translates lyrics line by line with the Google Gemini API (`generativelanguage.googleapis.com`), keeping the singer's voice and the line count.
@@ -300,6 +337,10 @@ node tools/check_grok_translate.js
 node tools/check_openai_compatible.js
 node tools/check_lrclib_lyrics.js
 node tools/check_megalobiz_lyrics.js
+node tools/check_vocaloidlyrics_lyrics.js
+node tools/check_animesonglyrics_lyrics.js
+node tools/check_kuwo_lyrics.js
+node tools/check_hopamchuan_lyrics.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 

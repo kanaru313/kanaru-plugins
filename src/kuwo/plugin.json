@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Kuwo Music",
+    "version": 1,
+    "hosts": [
+      "search.kuwo.cn",
+      "kuwo.cn",
+      "www.kuwo.cn"
+    ],
+    "languages": [
+      "zh",
+      "*"
+    ],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) lyrics at Kuwo Music (酷我音乐) through its public web API."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}

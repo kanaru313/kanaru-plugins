@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Anime Song Lyrics",
+    "version": 1,
+    "hosts": [
+      "www.animesonglyrics.com",
+      "animesonglyrics.com"
+    ],
+    "languages": [
+      "ja",
+      "en",
+      "*"
+    ],
+    "author": "kanaru313",
+    "description": "Finds anime theme song lyrics from Anime Song Lyrics (animesonglyrics.com) featuring Romaji, Kanji, and English translations."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "preferredSection": {
+      "title": "Preferred lyrics section",
+      "subtitle": "Choose which columns to include in the lyrics display",
+      "mode": "select",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "title": "All sections (Romaji, Kanji, English)"
+        },
+        {
+          "value": "romaji",
+          "title": "Romaji only"
+        },
+        {
+          "value": "kanji",
+          "title": "Kanji only"
+        },
+        {
+          "value": "english",
+          "title": "English translation only"
+        }
+      ]
+    }
+  }
+}
