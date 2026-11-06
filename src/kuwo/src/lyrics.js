@@ -3,7 +3,7 @@
 // execute(id) → Response.success({ data, type: 'lrc', instrumental? }) | Response.success(null)
 load('common.js');
 
-var LYRIC_URL = 'http://kuwo.cn/openapi/v1/www/lyric/getlyric';
+var LYRIC_URL = 'https://kuwo.cn/openapi/v1/www/lyric/getlyric';
 
 function execute(id) {
   var idStr = String(id == null ? '' : id).replace(/^MUSIC_/, '').trim();

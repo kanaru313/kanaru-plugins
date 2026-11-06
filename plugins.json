@@ -200,7 +200,7 @@
     {
       "slug": "hopamchuan",
       "name": "Hợp Âm Chuẩn",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -270,7 +270,7 @@
     {
       "slug": "kuwo",
       "name": "Kuwo Music",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [

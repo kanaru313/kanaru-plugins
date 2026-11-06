@@ -141,6 +141,8 @@ function parseSearchResults(html) {
 
     items.push({
       id: songId,
+      title: title,
+      artist: artists.length > 0 ? artists.join(', ') : 'Hợp Âm Chuẩn',
       name: title,
       artists: artists,
     });

@@ -79,10 +79,14 @@ t('search parses song list items and extracts artist/title/id', () => {
 
   assert.strictEqual(res.ok.length, 2);
   assert.strictEqual(res.ok[0].id, '2691/con-mua-ngang-qua');
+  assert.strictEqual(res.ok[0].title, 'Cơn Mưa Ngang Qua');
+  assert.strictEqual(res.ok[0].artist, 'M-TP');
   assert.strictEqual(res.ok[0].name, 'Cơn Mưa Ngang Qua');
   assert.deepStrictEqual(res.ok[0].artists, ['M-TP']);
 
   assert.strictEqual(res.ok[1].id, '31898/mashup-con-mua-ngang-qua');
+  assert.strictEqual(res.ok[1].title, 'Mashup Cơn Mưa Ngang Qua');
+  assert.strictEqual(res.ok[1].artist, 'Sơn Tùng M-TP, Yanbi');
   assert.strictEqual(res.ok[1].name, 'Mashup Cơn Mưa Ngang Qua');
   assert.deepStrictEqual(res.ok[1].artists, ['Sơn Tùng M-TP', 'Yanbi']);
 });

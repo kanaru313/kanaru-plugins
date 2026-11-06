@@ -3,7 +3,7 @@
 // input is {title, artist, album?, durationMs?} or {text}.
 load('common.js');
 
-var SEARCH_URL = 'http://search.kuwo.cn/r.s';
+var SEARCH_URL = 'https://search.kuwo.cn/r.s';
 
 function execute(input) {
   var q = '';
