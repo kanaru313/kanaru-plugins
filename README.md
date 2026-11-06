@@ -243,6 +243,16 @@ Translates lyrics line by line using the official Naver Papago Translation API (
 - Automatic fallback to line-by-line translation if a multiline batch returns mismatched line counts.
 - Preserves empty and musical symbol lines (`♪`, `(x2)`).
 
+### Qwen Translate (`qwen-translate`)
+
+Translates lyrics line by line using Alibaba Cloud DashScope (Qwen) API (`dashscope-intl.aliyuncs.com` or `dashscope.aliyuncs.com`).
+
+- Renowned for outstanding comprehension of Chinese, Japanese, and multilingual nuance.
+- Uses OpenAI-compatible API format with structured JSON outputs.
+- Multiple model choices: `qwen-plus` (balanced default), `qwen-turbo` (fast), `qwen-max` (flagship), specialized machine translation models (`qwen-mt-plus`, `qwen-mt-turbo`), open weights `qwen2.5-72b-instruct` / `qwen2.5-32b-instruct` / `qwen2.5-14b-instruct` / `qwen2.5-7b-instruct`, or custom model names.
+- Region selection: International (Singapore) or China Mainland (Beijing), plus optional custom endpoint override.
+- Automatic key rotation, retry on untranslated lines, and musical symbol line preservation (`♪`, `(x2)`).
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -266,6 +276,7 @@ node tools/check_papago_translate.js
 node tools/check_chatgpt_translate.js
 node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js
+node tools/check_qwen_translate.js
 node tools/check_grok_translate.js
 node tools/check_openai_compatible.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional

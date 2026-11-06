@@ -374,6 +374,24 @@
       "icon": "dist/qqmusic/icon.png"
     },
     {
+      "slug": "qwen-translate",
+      "name": "Qwen Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "dashscope-intl.aliyuncs.com",
+        "dashscope.aliyuncs.com"
+      ],
+      "path": "dist/qwen-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with Alibaba Cloud DashScope (Qwen) API, keeping the singer’s voice and the lines in sync. Renowned for outstanding Chinese and Japanese comprehension. Needs your DashScope API key from alibabacloud.com or dashscope.console.aliyun.com.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/qwen-translate/icon.png"
+    },
+    {
       "slug": "spotify",
       "name": "Spotify",
       "version": 4,

@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Qwen Translate",
+    "version": 1,
+    "hosts": [
+      "dashscope-intl.aliyuncs.com",
+      "dashscope.aliyuncs.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line with Alibaba Cloud DashScope (Qwen) API, keeping the singer’s voice and the lines in sync. Renowned for outstanding Chinese and Japanese comprehension. Needs your DashScope API key from alibabacloud.com or dashscope.console.aliyun.com."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "vi",
+      "en",
+      "ja",
+      "ko",
+      "zh-Hans",
+      "zh-Hant",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "ru",
+      "pt",
+      "th",
+      "id",
+      "hi",
+      "ar",
+      "nl",
+      "sv",
+      "pl",
+      "tr",
+      "uk",
+      "cs",
+      "el",
+      "fa",
+      "ro",
+      "ms",
+      "he",
+      "fi",
+      "da",
+      "no",
+      "hu",
+      "cy",
+      "sk",
+      "sq",
+      "hy",
+      "eu",
+      "my",
+      "ka",
+      "is",
+      "mk",
+      "mi"
+    ],
+    "maxLines": 60,
+    "maxChars": 6000,
+    "timeoutSec": 90
+  },
+  "config": {
+    "apiKeys": {
+      "title": "DashScope API keys",
+      "subtitle": "One or more keys; the next key is used when one is refused or out of quota",
+      "mode": "list",
+      "format": "text",
+      "placeholder": "sk-...",
+      "maxItems": 20,
+      "required": true
+    },
+    "endpointRegion": {
+      "title": "DashScope region endpoint",
+      "subtitle": "International (Singapore) or China Mainland (Beijing)",
+      "mode": "select",
+      "default": "intl",
+      "options": [
+        {
+          "value": "intl",
+          "title": "International (dashscope-intl.aliyuncs.com) - Recommended"
+        },
+        {
+          "value": "cn",
+          "title": "China Mainland (dashscope.aliyuncs.com)"
+        }
+      ]
+    },
+    "customEndpoint": {
+      "title": "Custom endpoint URL (optional)",
+      "subtitle": "Override base URL (e.g. for workspace-dedicated domains or reverse proxies)",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+      "required": false
+    },
+    "model": {
+      "title": "Model",
+      "mode": "select",
+      "default": "qwen-plus",
+      "options": [
+        {
+          "value": "qwen-plus",
+          "title": "Qwen Plus (default, balanced quality and cost)"
+        },
+        {
+          "value": "qwen-turbo",
+          "title": "Qwen Turbo (fast and cost-effective)"
+        },
+        {
+          "value": "qwen-max",
+          "title": "Qwen Max (flagship, best literary nuance and reasoning)"
+        },
+        {
+          "value": "qwen-mt-plus",
+          "title": "Qwen MT Plus (specialized translation flagship)"
+        },
+        {
+          "value": "qwen-mt-turbo",
+          "title": "Qwen MT Turbo (specialized fast translation)"
+        },
+        {
+          "value": "qwen2.5-72b-instruct",
+          "title": "Qwen 2.5 72B Instruct"
+        },
+        {
+          "value": "qwen2.5-32b-instruct",
+          "title": "Qwen 2.5 32B Instruct"
+        },
+        {
+          "value": "qwen2.5-14b-instruct",
+          "title": "Qwen 2.5 14B Instruct"
+        },
+        {
+          "value": "qwen2.5-7b-instruct",
+          "title": "Qwen 2.5 7B Instruct"
+        },
+        {
+          "value": "custom",
+          "title": "Custom model (typed below)"
+        }
+      ]
+    },
+    "customModel": {
+      "title": "Custom model name",
+      "subtitle": "Used when Model is set to 'Custom model'",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "qwen-...",
+      "required": false
+    },
+    "style": {
+      "title": "Translation style",
+      "subtitle": "How each line is shaped into the target language",
+      "mode": "select",
+      "default": "natural",
+      "options": [
+        {
+          "value": "natural",
+          "title": "Natural (expressive and fluent, default)"
+        },
+        {
+          "value": "literal",
+          "title": "Close to the original (word-for-word, good for language learners)"
+        },
+        {
+          "value": "poetic",
+          "title": "Poetic (rhyme, rhythm and literary images)"
+        },
+        {
+          "value": "singable",
+          "title": "Singable (matches syllables and melody rhythm)"
+        }
+      ]
+    },
+    "temperature": {
+      "title": "Temperature",
+      "subtitle": "Higher makes poetic lines more varied; lower stays closer to the prompt",
+      "mode": "select",
+      "default": "0.3",
+      "options": [
+        {
+          "value": "0.0",
+          "title": "0.0 (Strict and deterministic)"
+        },
+        {
+          "value": "0.3",
+          "title": "0.3 (Default, focused and consistent)"
+        },
+        {
+          "value": "0.7",
+          "title": "0.7 (More creative and varied)"
+        }
+      ]
+    },
+    "maxOutputTokens": {
+      "title": "Max output tokens",
+      "subtitle": "Raise if long lyric sets stop halfway with a token limit error",
+      "mode": "select",
+      "default": "4096",
+      "options": [
+        {
+          "value": "2048",
+          "title": "2048"
+        },
+        {
+          "value": "4096",
+          "title": "4096 (Default)"
+        },
+        {
+          "value": "8192",
+          "title": "8192"
+        }
+      ]
+    },
+    "useSongContext": {
+      "title": "Send song context",
+      "subtitle": "Passes title, artist and full lyrics to help Qwen resolve pronouns and theme",
+      "mode": "toggle",
+      "default": true
+    },
+    "retryUntranslated": {
+      "title": "Retry untranslated lines",
+      "subtitle": "When a line comes back identical to the source, ask Qwen once more with only that line",
+      "mode": "toggle",
+      "default": true
+    },
+    "customInstruction": {
+      "title": "Custom instructions (optional)",
+      "subtitle": "Appended to the prompt (e.g. 'keep Japanese honorifics intact')",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "...",
+      "required": false
+    },
+    "systemPrompt": {
+      "title": "System prompt",
+      "subtitle": "Advanced. Edit with care; placeholders like {target_language} and the line rules must stay intact",
+      "mode": "textarea",
+      "default": "You translate song lyrics into {target_language}. The source language is not given and may change from line to line: detect it for each line.\n\nThe user message is JSON. \"lines\" is a list of {\"i\": number, \"t\": text}: the lines to translate. \"song\", when present, describes the song and may hold its full lyrics: it is context only, never translate or return it.\n\nRules:\n- Return a JSON object with a single key \"lines\": a list of {\"i\": number, \"t\": text, \"l\": detected_language}.\n- Return exactly one item per input line, with the same \"i\". Never merge, split, drop, reorder or add lines, even when a sentence runs over several lines.\n- \"t\" is the translation of that line alone; \"l\" is the language you detected for the original line, as a BCP 47 code (\"ja\", \"en\", \"ko\"; for Chinese always \"zh-Hans\" or \"zh-Hant\"). Give \"l\" for every line.\n- A line already in {target_language}, or a line that is only a name, an ad-lib or a sound (\"oh\", \"yeah\", \"la la la\", \"na na na\"), comes back unchanged.\n- The singer's voice stays the same over all lines: who \"I\" and \"you\" are, and the tone between them.\n- Keep proper nouns and numbers. Add no notes, quotes, romanization or explanations.\n- Output ONLY valid JSON, with no preamble or trailing text.\n\n{target_notes}\n\n{style_prompt}\n\n{song_prompt}\n\n{custom_instruction}"
+    }
+  }
+}
