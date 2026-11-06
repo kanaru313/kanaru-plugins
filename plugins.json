@@ -318,6 +318,25 @@
       "icon": "dist/openai-compatible/icon.png"
     },
     {
+      "slug": "papago-translate",
+      "name": "Naver Papago Translate",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "translate",
+      "hosts": [
+        "papago.apigw.ntruss.com",
+        "naveropenapi.apigw.ntruss.com",
+        "openapi.naver.com"
+      ],
+      "path": "dist/papago-translate/plugin.zip",
+      "author": "kanaru313",
+      "description": "Translates lyrics line by line with Naver Papago Translation API (NAVER Cloud Platform / Naver Developers). Renowned for superior Korean and Japanese translation quality.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/papago-translate/icon.png"
+    },
+    {
       "slug": "petitlyrics",
       "name": "PetitLyrics",
       "version": 3,

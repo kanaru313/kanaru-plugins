@@ -232,6 +232,17 @@ Translates lyrics line by line using the official Baidu Translation Open API (`f
 - Uses MD5 request signing (`load('crypto.js')`) and maps Baidu language codes (`vie`, `zh`, `cht`, `jp`, `kor`, `fra`, `spa`...).
 - Preserves empty and musical symbol lines (`♪`, `(x2)`).
 
+### Naver Papago Translate (`papago-translate`)
+
+Translates lyrics line by line using the official Naver Papago Translation API (`papago.apigw.ntruss.com` or `openapi.naver.com`).
+
+- Renowned for industry-leading translation quality for Korean (K-Pop) and Japanese (J-Pop/Anime).
+- Supports both **NAVER Cloud Platform (NCP)** (`X-NCP-APIGW-API-KEY-ID` / `X-NCP-APIGW-API-KEY`) and **Naver Developers** (`X-Naver-Client-Id` / `X-Naver-Client-Secret`).
+- Automatic source language detection (`source=auto`) and language code mapping (`ko`, `ja`, `zh-CN`, `zh-TW`, `vi`, `id`, `th`, `en`...).
+- Optional honorific speech style (존댓말) toggle for Korean translations (`honorific=true`).
+- Automatic fallback to line-by-line translation if a multiline batch returns mismatched line counts.
+- Preserves empty and musical symbol lines (`♪`, `(x2)`).
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -251,6 +262,7 @@ node tools/check_google_translate.js
 node tools/check_immersive_translate.js
 node tools/check_edge_translate.js
 node tools/check_baidu_translate.js
+node tools/check_papago_translate.js
 node tools/check_chatgpt_translate.js
 node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js

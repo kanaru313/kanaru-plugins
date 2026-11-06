@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "translate",
+    "name": "Naver Papago Translate",
+    "version": 1,
+    "hosts": [
+      "papago.apigw.ntruss.com",
+      "naveropenapi.apigw.ntruss.com",
+      "openapi.naver.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Translates lyrics line by line with Naver Papago Translation API (NAVER Cloud Platform / Naver Developers). Renowned for superior Korean and Japanese translation quality."
+  },
+  "script": {
+    "translate": "translate.js"
+  },
+  "translate": {
+    "languages": [
+      "ko",
+      "en",
+      "ja",
+      "zh-Hans",
+      "zh-Hant",
+      "vi",
+      "id",
+      "th",
+      "fr",
+      "es",
+      "ru",
+      "de",
+      "it",
+      "pt"
+    ],
+    "maxLines": 50,
+    "maxChars": 5000,
+    "timeoutSec": 30
+  },
+  "config": {
+    "apiType": {
+      "title": "Papago API service",
+      "subtitle": "Select NAVER Cloud Platform (apigw.ntruss.com) or Naver Developers (openapi.naver.com)",
+      "mode": "select",
+      "default": "ncp",
+      "options": [
+        {
+          "value": "ncp",
+          "title": "NAVER Cloud Platform (papago.apigw.ntruss.com)"
+        },
+        {
+          "value": "developers",
+          "title": "Naver Developers (openapi.naver.com)"
+        }
+      ]
+    },
+    "clientId": {
+      "title": "Client ID",
+      "subtitle": "Your Naver Application Client ID (X-NCP-APIGW-API-KEY-ID or X-Naver-Client-Id)",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "...",
+      "required": true
+    },
+    "clientSecret": {
+      "title": "Client Secret",
+      "subtitle": "Your Naver Application Client Secret Key, stored in system Keyring",
+      "mode": "input",
+      "format": "secret",
+      "placeholder": "...",
+      "required": true
+    },
+    "honorific": {
+      "title": "Honorific form (Korean target only)",
+      "subtitle": "Translates into polite/honorific Korean speech style (존댓말)",
+      "mode": "toggle",
+      "default": false
+    },
+    "keepSymbols": {
+      "title": "Preserve empty and symbol lines",
+      "subtitle": "Lines without words (♪, ..., x2) are kept as-is and not sent to Naver Papago",
+      "mode": "toggle",
+      "default": true
+    }
+  }
+}
