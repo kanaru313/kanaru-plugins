@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "Megalobiz",
+    "version": 1,
+    "hosts": [
+      "api.megalobiz.com"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Finds synchronized (LRC) lyrics from Megalobiz (megalobiz.com) using its official public API."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  },
+  "config": {
+    "apiKey": {
+      "title": "Megalobiz API key (optional)",
+      "subtitle": "Leave blank for free anonymous access. Get a free key at https://megalobiz.com/developers for higher limits",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "...",
+      "required": false
+    }
+  }
+}

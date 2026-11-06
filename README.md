@@ -129,6 +129,25 @@ Finds multi-version K-Pop and Asian pop lyrics at Color Coded Lyrics (`colorcode
 - Configurable `preferredSection` setting in plugin preferences: choose between "All sections" (default), "Romanization only", "Original language only", or "English translation only".
 - No cookie, key or login required; only the host `colorcodedlyrics.com` is used.
 
+### LRCLIB (`lrclib`)
+
+Finds synced (LRC) and plain text lyrics from LRCLIB (`lrclib.net`), the largest open community-driven lyrics database.
+
+- Direct access via LRCLIB's official public REST API (`lrclib.net/api`).
+- Returns high-quality synchronized LRC lyrics when available, plain text otherwise.
+- Identifies and marks instrumental tracks (`instrumental: true`).
+- Supports search by song tags (title, artist, album, duration) and manual search queries.
+- Completely free with no API key, cookie, or login required; only the host `lrclib.net` is used.
+
+### Megalobiz (`megalobiz`)
+
+Finds synchronized (LRC) lyrics from Megalobiz (`megalobiz.com`) through its official public developer API (`api.megalobiz.com`).
+
+- Search by title, artist, duration matching, or free text query.
+- Returns synchronized LRC timestamps. Automatically cleans Megalobiz metadata headers.
+- Works out of the box with free anonymous access; optionally accepts a custom API key from https://megalobiz.com/developers for higher rate limits.
+- Only the host `api.megalobiz.com` is used.
+
 ### Gemini Translate (`gemini-translate`)
 
 Translates lyrics line by line with the Google Gemini API (`generativelanguage.googleapis.com`), keeping the singer's voice and the line count.
@@ -279,6 +298,8 @@ node tools/check_deepseek_translate.js
 node tools/check_qwen_translate.js
 node tools/check_grok_translate.js
 node tools/check_openai_compatible.js
+node tools/check_lrclib_lyrics.js
+node tools/check_megalobiz_lyrics.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 

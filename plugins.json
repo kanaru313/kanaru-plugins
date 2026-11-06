@@ -230,6 +230,40 @@
       "icon": "dist/kugou/icon.png"
     },
     {
+      "slug": "lrclib",
+      "name": "LRCLIB",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "lrclib.net"
+      ],
+      "path": "dist/lrclib/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synced (LRC) and plain text lyrics from LRCLIB (lrclib.net), the community-driven open lyrics database.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/lrclib/icon.png"
+    },
+    {
+      "slug": "megalobiz",
+      "name": "Megalobiz",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "lyrics",
+      "hosts": [
+        "api.megalobiz.com"
+      ],
+      "path": "dist/megalobiz/plugin.zip",
+      "author": "kanaru313",
+      "description": "Finds synchronized (LRC) lyrics from Megalobiz (megalobiz.com) using its official public API.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/megalobiz/icon.png"
+    },
+    {
       "slug": "musixmatch",
       "name": "Musixmatch",
       "version": 4,

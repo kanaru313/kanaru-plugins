@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "lyrics",
+    "name": "LRCLIB",
+    "version": 1,
+    "hosts": [
+      "lrclib.net"
+    ],
+    "languages": ["*"],
+    "author": "kanaru313",
+    "description": "Finds synced (LRC) and plain text lyrics from LRCLIB (lrclib.net), the community-driven open lyrics database."
+  },
+  "script": {
+    "search": "search.js",
+    "lyrics": "lyrics.js"
+  }
+}
