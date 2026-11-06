@@ -446,6 +446,21 @@
       "icon": "dist/spotify/icon.png"
     },
     {
+      "slug": "youtube",
+      "name": "YouTube",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "www.youtube.com",
+        "i.ytimg.com",
+        "*.googlevideo.com"
+      ],
+      "path": "dist/youtube/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, dán link video và playlist."
+    },
+    {
       "slug": "zingmp3",
       "name": "ZingMP3",
       "version": 3,
