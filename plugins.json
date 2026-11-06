@@ -480,7 +480,7 @@
     {
       "slug": "soundcloud",
       "name": "SoundCloud",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
@@ -493,7 +493,7 @@
       ],
       "path": "dist/soundcloud/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát âm thanh SoundCloud (HLS AAC 160 kbps / MP3) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+      "description": "Nguồn phát âm thanh SoundCloud (Progressive MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
       "icon": "dist/soundcloud/icon.png"
     },
     {

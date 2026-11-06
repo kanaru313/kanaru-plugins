@@ -1,41 +1,38 @@
 load("common.js");
 
-function selectBestTranscoding(transcodings, preferLowQuality) {
-    if (!transcodings || !transcodings.length) return null;
+function getProgressiveCandidates(transcodings) {
+    if (!transcodings || !transcodings.length) return [];
 
-    var aac160 = null;
-    var abrSq = null;
-    var aac96 = null;
-    var progressive = null;
-    var any = null;
-
+    var list = [];
     for (var i = 0; i < transcodings.length; i++) {
         var t = transcodings[i];
         if (!t || !t.url) continue;
-        if (t.snipped) continue; // Skip 30s previews for SoundCloud Go+
-        if (!any) any = t;
+        if (t.snipped) continue; // Bỏ qua bản nghe thử 30s của SoundCloud Go+
 
-        var preset = String(t.preset || "").toLowerCase();
         var protocol = String((t.format && t.format.protocol) || "").toLowerCase();
+        // Bỏ qua mọi luồng HLS vì app stream proxy chỉ hỗ trợ luồng phát liên tục theo Range (MP3 / Progressive)
+        if (protocol === "hls" || protocol.indexOf("hls") !== -1) {
+            continue;
+        }
 
         if (protocol === "progressive") {
-            progressive = t;
-        }
-        if (preset === "aac_160k") {
-            aac160 = t;
-        } else if (preset === "abr_sq" || preset === "mp3_128k") {
-            abrSq = t;
-        } else if (preset === "aac_96k") {
-            aac96 = t;
+            list.push(t);
         }
     }
 
-    if (preferLowQuality) {
-        return aac96 || abrSq || aac160 || progressive || any;
-    }
+    // Sắp xếp ưu tiên: mp3_128k / abr_sq trước, rồi tới các preset khác
+    list.sort(function(a, b) {
+        var pa = String(a.preset || "").toLowerCase();
+        var pb = String(b.preset || "").toLowerCase();
+        function score(p) {
+            if (p === "mp3_128k" || p === "abr_sq") return 10;
+            if (p.indexOf("mp3") !== -1) return 8;
+            return 5;
+        }
+        return score(pb) - score(pa);
+    });
 
-    // Default: prioritize highest quality (aac_160k > abr_sq > progressive > aac96)
-    return aac160 || abrSq || progressive || aac96 || any;
+    return list;
 }
 
 function execute(input) {
@@ -117,34 +114,36 @@ function execute(input) {
         return fail("Track này không cho phép phát trực tuyến", ERROR_KIND.UNSUPPORTED);
     }
 
+    var trackAuth = trackJson.track_authorization || "";
     var transcodings = (trackJson.media && trackJson.media.transcodings) || [];
     if (!transcodings.length) {
         return fail("Không tìm thấy transcoding âm thanh cho track này", ERROR_KIND.UNSUPPORTED);
     }
 
-    var qualityPref = "";
-    try {
-        if (typeof localConfig !== "undefined" && localConfig.getItem) {
-            qualityPref = String(localConfig.getItem("quality") || "");
+    var progressiveCandidates = getProgressiveCandidates(transcodings);
+    if (!progressiveCandidates.length) {
+        // Track chỉ có HLS (nằm ngoài contract của app stream proxy)
+        return fail("Bài hát này chỉ có luồng phát HLS (m3u8), ứng dụng hiện chỉ hỗ trợ luồng phát liên tục (MP3 / Progressive)", ERROR_KIND.UNAVAILABLE);
+    }
+
+    // 2. Thử lần lượt các progressive transcoding cho đến khi tìm được luồng tải thành công
+    var playUrl = "";
+    var chosen = null;
+    for (var i = 0; i < progressiveCandidates.length; i++) {
+        var cand = progressiveCandidates[i];
+        var streamRsp = fetchWithAuth(cand.url, {}, trackAuth);
+        if (streamRsp && streamRsp.ok) {
+            var streamJson = safeJsonParse(streamRsp.text());
+            if (streamJson && streamJson.url) {
+                playUrl = streamJson.url;
+                chosen = cand;
+                break;
+            }
         }
-    } catch (e) {}
-    var preferLow = /tiết kiệm|low/i.test(qualityPref);
-
-    var chosen = selectBestTranscoding(transcodings, preferLow);
-    if (!chosen || !chosen.url) {
-        return fail("Không tìm thấy transcoding phù hợp khả dụng", ERROR_KIND.UNSUPPORTED);
     }
 
-    // 2. Fetch stream URL from chosen transcoding
-    var streamRsp = fetchWithAuth(chosen.url);
-    if (!streamRsp.ok) {
-        return fail("Không thể lấy luồng phát trực tiếp từ SoundCloud (HTTP " + streamRsp.status + ")", ERROR_KIND.NETWORK);
-    }
-
-    var streamJson = safeJsonParse(streamRsp.text());
-    var playUrl = streamJson && streamJson.url;
-    if (!playUrl) {
-        return fail("SoundCloud không trả về URL stream", ERROR_KIND.INVALID_RESPONSE);
+    if (!playUrl || !chosen) {
+        return fail("Không thể lấy luồng âm thanh phát trực tiếp từ SoundCloud", ERROR_KIND.UNAVAILABLE);
     }
 
     // Parse expiration from URL if present
@@ -154,22 +153,17 @@ function execute(input) {
         expiresAtMs = parseInt(expMatch[1], 10) * 1000;
     }
 
-    var mimeType = "application/x-mpegURL";
-    var protocol = String((chosen.format && chosen.format.protocol) || "").toLowerCase();
-    if (protocol === "progressive" || playUrl.indexOf(".mp3") !== -1) {
-        mimeType = "audio/mpeg";
-    } else if (chosen.format && chosen.format.mime_type) {
+    var mimeType = "audio/mpeg";
+    if (chosen.format && chosen.format.mime_type && chosen.format.mime_type.indexOf("mpeg") !== -1) {
         mimeType = chosen.format.mime_type;
     }
 
-    var bitrate = 160000;
+    var bitrate = 128000;
     var preset = String(chosen.preset || "").toLowerCase();
-    if (preset === "aac_160k") {
-        bitrate = 160000;
-    } else if (preset === "abr_sq" || preset === "mp3_128k") {
+    if (preset === "mp3_128k" || preset === "abr_sq") {
         bitrate = 128000;
-    } else if (preset === "aac_96k") {
-        bitrate = 96000;
+    } else if (preset === "aac_160k") {
+        bitrate = 160000;
     }
 
     var result = {

@@ -169,7 +169,7 @@ function getClientId(forceFresh) {
     return FALLBACK_CLIENT_ID;
 }
 
-function fetchWithAuth(url, options) {
+function fetchWithAuth(url, options, trackAuth) {
     options = options || {};
     var headers = options.headers || {};
     headers["User-Agent"] = headers["User-Agent"] || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
@@ -179,6 +179,9 @@ function fetchWithAuth(url, options) {
     var clientId = getClientId(false);
     var delimiter = url.indexOf("?") === -1 ? "?" : "&";
     var authedUrl = url + delimiter + "client_id=" + encodeURIComponent(clientId);
+    if (trackAuth) {
+        authedUrl += "&track_authorization=" + encodeURIComponent(trackAuth);
+    }
 
     var rsp = fetch(authedUrl, options);
     // If 401 Unauthorized, client_id likely expired -> scrape fresh and retry once
@@ -186,6 +189,9 @@ function fetchWithAuth(url, options) {
         cacheRemove("client_id");
         var freshCid = getClientId(true);
         var retryUrl = url + delimiter + "client_id=" + encodeURIComponent(freshCid);
+        if (trackAuth) {
+            retryUrl += "&track_authorization=" + encodeURIComponent(trackAuth);
+        }
         rsp = fetch(retryUrl, options);
     }
     return rsp;
