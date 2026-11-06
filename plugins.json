@@ -480,15 +480,16 @@
     {
       "slug": "soundcloud",
       "name": "SoundCloud",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
         "soundcloud.com",
         "api-v2.soundcloud.com",
+        "api.soundcloud.com",
         "*.sndcdn.com",
-        "*.soundcloud.cloud",
-        "*.soundcloud.com"
+        "*.media-streaming.soundcloud.cloud",
+        "*.soundcloud.cloud"
       ],
       "path": "dist/soundcloud/plugin.zip",
       "author": "Kanaru Contributors",
