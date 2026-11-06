@@ -46,6 +46,26 @@
       "icon": "dist/baidu-translate/icon.png"
     },
     {
+      "slug": "bilibili",
+      "name": "Bilibili",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "www.bilibili.com",
+        "api.bilibili.com",
+        "*.bilibili.com",
+        "*.hdslb.com",
+        "*.akamaized.net",
+        "*.bilivideo.com",
+        "*.bilivideo.cn"
+      ],
+      "path": "dist/bilibili/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Bilibili (DASH .m4a AAC) cho Kanaru. Hỗ trợ tìm kiếm video âm nhạc và dán link Bilibili (BV/av).",
+      "icon": "dist/bilibili/icon.png"
+    },
+    {
       "slug": "chatgpt-translate",
       "name": "ChatGPT Translate",
       "version": 3,
@@ -450,6 +470,25 @@
       "icon": "dist/qwen-translate/icon.png"
     },
     {
+      "slug": "radio-browser",
+      "name": "Radio Browser",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "de1.api.radio-browser.info",
+        "at1.api.radio-browser.info",
+        "nl1.api.radio-browser.info",
+        "*.api.radio-browser.info",
+        "*.radio-browser.info",
+        "*"
+      ],
+      "path": "dist/radio-browser/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser.",
+      "icon": "dist/radio-browser/icon.png"
+    },
+    {
       "slug": "soundcloud",
       "name": "SoundCloud",
       "version": 1,
@@ -489,6 +528,23 @@
       "icon": "dist/spotify/icon.png"
     },
     {
+      "slug": "subsonic",
+      "name": "Subsonic / Navidrome",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "*"
+      ],
+      "path": "dist/subsonic/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
+      "languages": [
+        "all"
+      ],
+      "icon": "dist/subsonic/icon.png"
+    },
+    {
       "slug": "youtube",
       "name": "YouTube",
       "version": 1,
@@ -520,6 +576,25 @@
         "vi"
       ],
       "icon": "dist/zingmp3/icon.png"
+    },
+    {
+      "slug": "zingmp3-source",
+      "name": "ZingMP3",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "zingmp3.vn",
+        "*.zingmp3.vn",
+        "*.zmdcdn.me"
+      ],
+      "path": "dist/zingmp3-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát V-Pop và dán link ZingMP3.",
+      "languages": [
+        "vi"
+      ],
+      "icon": "dist/zingmp3-source/icon.png"
     }
   ]
 }

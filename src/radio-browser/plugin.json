@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "name": "Radio Browser",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "source",
+    "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser.",
+    "hosts": [
+      "de1.api.radio-browser.info",
+      "at1.api.radio-browser.info",
+      "nl1.api.radio-browser.info",
+      "*.api.radio-browser.info",
+      "*.radio-browser.info",
+      "*"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js"
+  },
+  "config": {
+    "country": {
+      "title": "Quốc gia ưu tiên",
+      "subtitle": "Lọc đài phát theo quốc gia khi tìm kiếm trống (ví dụ: Vietnam, Japan, United States)",
+      "mode": "text",
+      "default": "Vietnam"
+    }
+  }
+}
