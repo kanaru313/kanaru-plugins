@@ -2,12 +2,15 @@
   "metadata": {
     "name": "Subsonic / Navidrome",
     "author": "Kanaru Contributors",
-    "version": 1,
+    "version": 2,
     "apiVersion": 1,
     "type": "source",
     "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
     "hosts": [
-      "*"
+      "demo.navidrome.org",
+      "*.navidrome.org",
+      "*.subsonic.org",
+      "*.airsonic.media"
     ],
     "languages": [
       "*"

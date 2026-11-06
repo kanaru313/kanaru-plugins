@@ -2,15 +2,13 @@
   "metadata": {
     "name": "Bilibili",
     "author": "Kanaru Contributors",
-    "version": 1,
+    "version": 2,
     "apiVersion": 1,
     "type": "source",
     "description": "Nguồn phát âm thanh Bilibili (DASH .m4a AAC) cho Kanaru. Hỗ trợ tìm kiếm video âm nhạc và dán link Bilibili (BV/av).",
     "hosts": [
-      "www.bilibili.com",
       "api.bilibili.com",
-      "*.bilibili.com",
-      "*.hdslb.com",
+      "www.bilibili.com",
       "*.akamaized.net",
       "*.bilivideo.com",
       "*.bilivideo.cn"

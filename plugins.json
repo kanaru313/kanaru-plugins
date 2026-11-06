@@ -7,21 +7,13 @@
     {
       "slug": "audius",
       "name": "Audius",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
         "api.audius.co",
-        "*.audius.co",
-        "*.audiusindex.org",
-        "*.open-audio-validator.com",
-        "*.monophonic.digital",
-        "*.theblueprint.xyz",
-        "*.figment.io",
-        "*.staked.cloud",
-        "*.rickyrombo.com",
-        "*.cloudflarestorage.com",
-        "*.r2.cloudflarestorage.com"
+        "audius.co",
+        "*.audius.co"
       ],
       "path": "dist/audius/plugin.zip",
       "author": "Kanaru Contributors",
@@ -48,14 +40,12 @@
     {
       "slug": "bilibili",
       "name": "Bilibili",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
-        "www.bilibili.com",
         "api.bilibili.com",
-        "*.bilibili.com",
-        "*.hdslb.com",
+        "www.bilibili.com",
         "*.akamaized.net",
         "*.bilivideo.com",
         "*.bilivideo.cn"
@@ -472,7 +462,7 @@
     {
       "slug": "radio-browser",
       "name": "Radio Browser",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
@@ -480,8 +470,7 @@
         "at1.api.radio-browser.info",
         "nl1.api.radio-browser.info",
         "*.api.radio-browser.info",
-        "*.radio-browser.info",
-        "*"
+        "*.radio-browser.info"
       ],
       "path": "dist/radio-browser/plugin.zip",
       "author": "Kanaru Contributors",
@@ -491,16 +480,15 @@
     {
       "slug": "soundcloud",
       "name": "SoundCloud",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
         "soundcloud.com",
-        "*.soundcloud.com",
+        "api-v2.soundcloud.com",
         "*.sndcdn.com",
         "*.soundcloud.cloud",
-        "*.cloudfront.net",
-        "*.akamaihd.net"
+        "*.soundcloud.com"
       ],
       "path": "dist/soundcloud/plugin.zip",
       "author": "Kanaru Contributors",
@@ -530,11 +518,14 @@
     {
       "slug": "subsonic",
       "name": "Subsonic / Navidrome",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
-        "*"
+        "demo.navidrome.org",
+        "*.navidrome.org",
+        "*.subsonic.org",
+        "*.airsonic.media"
       ],
       "path": "dist/subsonic/plugin.zip",
       "author": "Kanaru Contributors",
