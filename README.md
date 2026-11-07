@@ -332,6 +332,234 @@ Translates lyrics line by line using Alibaba Cloud DashScope (Qwen) API (`dashsc
 - Region selection: International (Singapore) or China Mainland (Beijing), plus optional custom endpoint override.
 - Automatic key rotation, retry on untranslated lines, and musical symbol line preservation (`♪`, `(x2)`).
 
+### Audius (`audius`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm bài hát, dán link track/album/playlist và giải mã link stream MP3 320 kbps chất lượng cao từ nền tảng Audius thông qua REST API công khai (`api.audius.co`).
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khoá tìm kiếm, link bài hát Audius (`https://audius.co/...`), hoặc link album/playlist (`https://audius.co/.../playlist/...`).
+    - `next`: offset phân trang (ví dụ `"20"`, `"40"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: ưu tiên ảnh vuông độ phân giải cao `480x480` hoặc `1000x1000` từ Audius CDN.
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - Khi không có `fresh` (hoặc `false`): đọc cache nếu còn hạn.
+    - Khi `fresh: true`: bỏ qua cache, gọi trực tiếp endpoint Audius để lấy link stream mới nhất và ghi đè cache. Nếu resolve thất bại, xóa entry cache cũ.
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs })`
+    - `url`: link stream MP3 320 kbps trực tiếp từ node Audius Creator hoặc Cloudflare R2 storage.
+    - `mimeType`: `audio/mpeg`.
+    - `bitrate`: `320000` (320 kbps).
+    - `expiresAtMs`: thời hạn URL stream (mặc định 2 tiếng).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu trả phí hoặc cấp quyền | Bài hát bị khoá bản quyền, NFT/gated, hoặc yêu cầu mua bằng USDC. |
+| `unavailable` | Bài hát không khả dụng | ID bài hát không tồn tại, đường link Audius sai, bài hát đã bị gỡ bỏ. |
+| `unsupported` | Nội dung không hỗ trợ | Bài hát có cờ `is_streamable: false`. |
+| `invalidResponse` | Phản hồi bất thường | Audius API trả về JSON sai cấu trúc. |
+| `network` | Lỗi mạng / timeout | Kết nối bị ngắt, máy chủ Audius lỗi HTTP 5xx. |
+
+### SoundCloud (`soundcloud`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm bài hát, dán link track/playlist và giải mã link stream HLS AAC 160 kbps (hoặc MP3) chất lượng cao từ SoundCloud thông qua API v2 nội bộ (`api-v2.soundcloud.com`). Tự động trích xuất và xoay vòng `client_id` từ web client, tự hồi phục khi token hết hạn.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khoá tìm kiếm, link bài hát SoundCloud (`https://soundcloud.com/...`), hoặc link playlist/set (`https://soundcloud.com/.../sets/...`).
+    - `next`: offset phân trang (ví dụ `"20"`, `"40"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: tự động chuyển đổi sang ảnh vuông sắc nét độ phân giải cao `500x500` (`-t500x500.jpg`).
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - Khi không có `fresh` (hoặc `false`): đọc cache nếu còn hạn.
+    - Khi `fresh: true`: bỏ qua cache, gọi SoundCloud API để resolve URL phát mới nhất và ghi đè cache. Nếu resolve thất bại, xóa entry cache cũ.
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs })`
+    - `url`: link stream playlist HLS (`.m3u8`) từ SoundCloud CloudFront CDN.
+    - `headers`: headers đính kèm (`Referer: https://soundcloud.com/`).
+    - `mimeType`: `application/x-mpegURL` (hoặc `audio/mp4`).
+    - `bitrate`: `160000` (160 kbps AAC) hoặc `96000` (tiết kiệm dữ liệu).
+    - `expiresAtMs`: thời hạn URL stream được ký từ CDN (`expires=` trên URL, xấp xỉ 2 tiếng).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu tài khoản SoundCloud Go+ | Bài hát thuộc gói trả phí Go+ (`policy: "SNIP"`), chỉ nghe thử 30 s. |
+| `unavailable` | Bài hát không khả dụng | ID bài hát không tồn tại, đường link sai, bài hát đã bị xoá hoặc bị chặn theo vùng/quốc gia (`policy: "BLOCK"`). |
+| `unsupported` | Nội dung không hỗ trợ | Bài hát có cờ `streamable: false` hoặc không có transcoding audio. |
+| `invalidResponse` | Phản hồi bất thường | SoundCloud API trả về JSON sai cấu trúc. |
+| `network` | Lỗi mạng / timeout | Kết nối bị ngắt, máy chủ SoundCloud lỗi HTTP 5xx. |
+
+### YouTube (`youtube`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm video/playlist âm nhạc và giải mã trực tiếp URL luồng audio (Opus ~160 kbps hoặc AAC ~128 kbps) từ YouTube thông qua client Innertube `VISIONOS`.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khóa tìm kiếm, link video YouTube (`https://youtu.be/...`, `watch?v=...`), hoặc link danh sách phát (`playlist?list=...`).
+    - `next`: token phân trang từ kết quả trước (tùy chọn).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: URL ảnh thumbnail không viền đen (ưu tiên ảnh vuông nếu có, hoặc `hq720` / `mqdefault`; không bao giờ trả về `hqdefault.jpg` 4:3). App luôn cắt vuông lấy phần giữa.
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - Khi không có `fresh` (hoặc `false`): đọc cache nếu còn hạn.
+    - Khi `fresh: true`: bỏ qua cache, luôn gọi Innertube để resolve URL mới, rồi ghi đè cache bằng kết quả mới. Nếu resolve thất bại thì xoá entry cache cũ; không bao giờ trả lại URL cũ đã hết hạn hoặc lỗi.
+    - App dùng cờ `fresh: true` khi gặp HTTP 403 (do đổi mạng / IP khác với `ip=` trên URL) hoặc khi đã quá `expiresAtMs`.
+  - Output: `Response.success({ url, headers, mimeType, bitrate?, expiresAtMs })`
+    - `url`: link stream Googlevideo trực tiếp (chỉ audio).
+    - `headers`: headers cần gửi kèm khi proxy kéo byte stream (`User-Agent`, `Referer: https://www.youtube.com/`).
+    - `mimeType`: định dạng audio (`audio/webm; codecs="opus"` hoặc `audio/mp4; codecs="mp4a.40.2"`).
+    - `bitrate`: tốc độ bit tính bằng bps (ví dụ `160578`).
+    - `expiresAtMs`: Unix epoch timestamp tính bằng mili-giây (`expire=` trên URL × 1000). Nếu URL không có `expire=`, mặc định là `Date.now() + 5 * 60 * 1000` (5 phút).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu xác thực / đăng nhập | Video giới hạn độ tuổi người xem (18+), yêu cầu đăng nhập tài khoản. |
+| `unavailable` | Video không khả dụng | Video bị xoá, video riêng tư, bị chặn bản quyền theo quốc gia/vùng lãnh thổ, ID video không hợp lệ. |
+| `unsupported` | Nội dung chưa được hỗ trợ | Livestream đang phát trực tiếp, video không có luồng audio riêng biệt. |
+| `invalidResponse` | Phản hồi từ YouTube bất thường | Cấu trúc trang watch hoặc Innertube player bị thay đổi, parse JSON thất bại. |
+| `network` | Lỗi mạng / timeout | Kết nối bị ngắt, hết hạn deadline 15 s hoặc vượt quá 10 lần gửi HTTP. |
+
+#### Cơ chế Cache
+
+- Ưu tiên sử dụng `cacheStorage` nếu runtime cung cấp (`typeof cacheStorage !== "undefined"`), ngược lại fallback sang `localStorage`. Gom chung qua helper trong `common.js`.
+- TTL cache cho stream: tối đa 30 phút, với biên an toàn 60 giây trước hạn `expiresAtMs`.
+- Bắt lỗi quota (`QuotaExceededError`) khi ghi dữ liệu để script tiếp tục chạy mà không cache nếu bộ nhớ đầy.
+
+### Bilibili (`bilibili`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm video âm nhạc, giải mã link shortlink `b23.tv`, mã `BV...`/`av...` và bóc tách luồng âm thanh DASH (`.m4a` AAC 64–192 kbps) trực tiếp từ Bilibili. Bắt buộc kèm header `Referer: https://www.bilibili.com/` khi stream.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khóa tìm kiếm hoặc link video Bilibili (`https://www.bilibili.com/video/BV...`, `b23.tv/...`).
+    - `next`: số trang phân trang (ví dụ `"2"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: ảnh bìa video sắc nét chuẩn `@300w_300h_1c.jpg`.
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs })`
+    - `url`: link CDN phân phối audio DASH `.m4a` trực tiếp.
+    - `headers`: bắt buộc `{ "Referer": "https://www.bilibili.com/", "User-Agent": "Kanaru/1.0 (+https://github.com/hieu313/kanaru)" }`.
+    - `mimeType`: `audio/mp4`.
+    - `bitrate`: bitrate thực tế của luồng audio tốt nhất (lên tới 192000 bps).
+    - `expiresAtMs`: thời hạn token CDN (mặc định 2 giờ).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Yêu cầu tài khoản VIP Đại hội viên | Video giới hạn người xem hoặc chất lượng âm thanh cao cấp độc quyền VIP. |
+| `unavailable` | Video không khả dụng | Video bị ẩn, bị xóa do bản quyền hoặc ID không tồn tại (code 62002, -404). |
+| `unsupported` | Không có luồng audio | Video không có stream audio riêng rẽ hoặc livestream. |
+| `network` | Bị giới hạn tần suất / chặn WAF | Bilibili phản hồi HTTP 412 hoặc rate limit HTTP 429. |
+| `invalidResponse` | Phản hồi bất thường | Bilibili API trả về dữ liệu không đúng chuẩn. |
+
+### Radio Browser (`radio-browser`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Kết nối tới danh bạ hơn 30.000 đài phát thanh Internet cộng đồng toàn cầu (`api.radio-browser.info`) với các luồng Icecast / Shoutcast phát liên tục 24/7. Hỗ trợ truyền header `Icy-MetaData: 1` cho phép player trích xuất tiêu đề bài hát thời gian thực.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: tên đài phát thanh, thể loại (jazz, lofi, rock, classical...), quốc gia hoặc dán trực tiếp link stream `.pls`/`.m3u`/HTTP.
+    - `next`: offset phân trang (ví dụ `"20"`, `"40"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs: 0, artworkUrl, webUrl } ], next })`
+    - `durationMs`: luôn bằng `0` đại diện cho luồng vô hạn (live stream).
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs: 0 })`
+    - `headers`: `{ "Icy-MetaData": "1", "User-Agent": "Kanaru/1.0 (+https://github.com/hieu313/kanaru)" }`.
+    - `expiresAtMs`: `0` (luồng trực tiếp không có hạn dùng token).
+
+### ZingMP3 (`zingmp3-source`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm bài hát nhạc Việt (V-Pop) và giải mã đường link trực tiếp CDN MP3 128 kbps từ ZingMP3. Tự động sinh chữ ký bảo mật HMAC-SHA512 + SHA-256 kèm quản lý session cookie `zmp3_rqid`.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: tên bài hát, ca sĩ hoặc link bài hát ZingMP3 (`https://zingmp3.vn/bai-hat/.../{id}.html`).
+    - `next`: số trang (ví dụ `"2"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType: "audio/mpeg", bitrate: 128000, expiresAtMs })`
+    - `url`: link CDN trực tiếp `https://a128-z3.zmdcdn.me/...` kèm token `authen=exp=...`.
+    - `expiresAtMs`: trích xuất chính xác từ timestamp `exp=` trong URL ký.
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Bài hát VIP độc quyền | Bài hát chỉ dành riêng cho tài khoản ZingMP3 VIP (`128: ""`, `320: "VIP"`). |
+| `unavailable` | Bài hát không khả dụng | Bài hát bị gỡ bản quyền hoặc ID encodeId không tồn tại. |
+| `invalidResponse` | Sai chữ ký API | ZingMP3 từ chối chữ ký điện tử (`err: -104`). |
+| `network` | Giới hạn tần suất | ZingMP3 trả về HTTP 429 hoặc 503. |
+
+### Subsonic / Navidrome (`subsonic`)
+
+> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Nguồn phát âm thanh chuẩn Subsonic REST API (tương thích Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode đa định dạng với byte-range requests cho gapless playback mượt mà. Mặc định kết nối sẵn máy chủ demo `https://demo.navidrome.org`.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khóa bài hát/nghệ sĩ trong thư viện, hoặc link/id bài hát Subsonic.
+    - `next`: offset bài hát (ví dụ `"20"`, `"40"`).
+  - Output: `Response.success({ items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+    - `artworkUrl`: URL ảnh bìa kích thước 300px gọi qua `/rest/getCoverArt.view`.
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs })`
+    - `url`: link stream `/rest/stream.view` kèm thông số xác thực token salt.
+    - `bitrate`: tự động bám theo `maxBitRate` (kbps) trong cài đặt cấu hình plugin khi cần transcode tiết kiệm dữ liệu.
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Sai thông tin xác thực | Sai tên đăng nhập hoặc mật khẩu Subsonic (code 40/50/60). |
+| `unavailable` | Không tìm thấy bài hát | Bài hát không tồn tại trên server (code 70). |
+| `unsupported` | Tham số không hỗ trợ | Phiên bản Subsonic không tương thích (code 10/20). |
+| `network` | Lỗi kết nối | Địa chỉ máy chủ sai hoặc không truy cập được mạng nội bộ. |
+
 ### Genius: not shipped
 
 There is no Genius plugin on purpose. The Genius Terms of Service (Last Updated January 13, 2026, https://genius.com/static/terms) say: "In connection with your use of the Service you shall not engage in or use any data mining, robots, scraping or similar data gathering or extraction methods" and "you agree not to modify, copy, frame, scrape, ... the Service or the Genius Content". The official Genius API returns no lyrics, so a plugin would have to scrape the lyric pages, which the terms forbid.
@@ -364,6 +592,13 @@ node tools/check_vocaloidlyrics_lyrics.js
 node tools/check_animesonglyrics_lyrics.js
 node tools/check_kuwo_lyrics.js
 node tools/check_hopamchuan_lyrics.js
+node tools/check_youtube_source.js
+node tools/check_audius_source.js
+node tools/check_soundcloud_source.js
+node tools/check_bilibili_source.js
+node tools/check_radio_browser_source.js
+node tools/check_zingmp3_source.js
+node tools/check_subsonic_source.js
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 

@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "name": "SoundCloud",
+    "author": "Kanaru Contributors",
+    "version": 4,
+    "apiVersion": 1,
+    "type": "source",
+    "description": "Nguồn phát âm thanh SoundCloud (Progressive MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+    "hosts": [
+      "soundcloud.com",
+      "api-v2.soundcloud.com",
+      "api.soundcloud.com",
+      "*.sndcdn.com",
+      "*.media-streaming.soundcloud.cloud",
+      "*.soundcloud.cloud"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js"
+  },
+  "config": {
+    "quality": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Ưu tiên chất lượng cao nhất hoặc tiết kiệm dữ liệu",
+      "mode": "select",
+      "format": "single",
+      "default": "Cao nhất (HQ)",
+      "options": [
+        {
+          "value": "Cao nhất (HQ)",
+          "title": "Cao nhất (HQ)"
+        },
+        {
+          "value": "Tiết kiệm dữ liệu",
+          "title": "Tiết kiệm dữ liệu"
+        }
+      ]
+    },
+    "clientId": {
+      "title": "Tùy chỉnh Client ID (tùy chọn)",
+      "subtitle": "Để trống để tự động trích xuất từ SoundCloud",
+      "mode": "input",
+      "format": "text",
+      "default": ""
+    }
+  }
+}

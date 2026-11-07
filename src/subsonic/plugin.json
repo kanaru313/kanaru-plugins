@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "name": "Subsonic / Navidrome",
+    "author": "Kanaru Contributors",
+    "version": 2,
+    "apiVersion": 1,
+    "type": "source",
+    "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
+    "hosts": [
+      "demo.navidrome.org",
+      "*.navidrome.org",
+      "*.subsonic.org",
+      "*.airsonic.media"
+    ],
+    "languages": [
+      "*"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js"
+  },
+  "config": {
+    "serverUrl": {
+      "title": "Địa chỉ máy chủ Subsonic / Navidrome (URL)",
+      "mode": "input",
+      "format": "text",
+      "default": "https://demo.navidrome.org"
+    },
+    "username": {
+      "title": "Tên đăng nhập",
+      "mode": "input",
+      "format": "text",
+      "default": "demo"
+    },
+    "password": {
+      "title": "Mật khẩu",
+      "mode": "input",
+      "format": "secret",
+      "placeholder": "demo"
+    },
+    "maxBitRate": {
+      "title": "Tốc độ bit tối đa khi transcode (kbps, 0 = không giới hạn / raw)",
+      "mode": "input",
+      "format": "integer",
+      "default": 0
+    }
+  }
+}

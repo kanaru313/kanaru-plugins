@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "name": "YouTube",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "source",
+    "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, dán link video và playlist.",
+    "hosts": [
+      "www.youtube.com",
+      "i.ytimg.com",
+      "*.googlevideo.com"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js"
+  },
+  "config": {
+    "quality": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Ưu tiên bitrate cao nhất hoặc tiết kiệm dữ liệu",
+      "mode": "select",
+      "format": "single",
+      "default": "Cao nhất",
+      "options": [
+        {
+          "value": "Cao nhất",
+          "title": "Cao nhất"
+        },
+        {
+          "value": "Tiết kiệm dữ liệu",
+          "title": "Tiết kiệm dữ liệu"
+        }
+      ]
+    }
+  }
+}

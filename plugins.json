@@ -25,6 +25,22 @@
       "icon": "dist/animesonglyrics/icon.png"
     },
     {
+      "slug": "audius",
+      "name": "Audius",
+      "version": 2,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "api.audius.co",
+        "audius.co",
+        "*.audius.co"
+      ],
+      "path": "dist/audius/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Audius chất lượng cao (MP3 320 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát, dán link track, album và danh sách phát.",
+      "icon": "dist/audius/icon.png"
+    },
+    {
       "slug": "baidu-translate",
       "name": "Baidu Translate",
       "version": 1,
@@ -40,6 +56,24 @@
         "*"
       ],
       "icon": "dist/baidu-translate/icon.png"
+    },
+    {
+      "slug": "bilibili",
+      "name": "Bilibili",
+      "version": 2,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "api.bilibili.com",
+        "www.bilibili.com",
+        "*.akamaized.net",
+        "*.bilivideo.com",
+        "*.bilivideo.cn"
+      ],
+      "path": "dist/bilibili/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Bilibili (DASH .m4a AAC) cho Kanaru. Hỗ trợ tìm kiếm video âm nhạc và dán link Bilibili (BV/av).",
+      "icon": "dist/bilibili/icon.png"
     },
     {
       "slug": "chatgpt-translate",
@@ -484,6 +518,43 @@
       "icon": "dist/qwen-translate/icon.png"
     },
     {
+      "slug": "radio-browser",
+      "name": "Radio Browser",
+      "version": 2,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "de1.api.radio-browser.info",
+        "at1.api.radio-browser.info",
+        "nl1.api.radio-browser.info",
+        "*.api.radio-browser.info",
+        "*.radio-browser.info"
+      ],
+      "path": "dist/radio-browser/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser.",
+      "icon": "dist/radio-browser/icon.png"
+    },
+    {
+      "slug": "soundcloud",
+      "name": "SoundCloud",
+      "version": 4,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "soundcloud.com",
+        "api-v2.soundcloud.com",
+        "api.soundcloud.com",
+        "*.sndcdn.com",
+        "*.media-streaming.soundcloud.cloud",
+        "*.soundcloud.cloud"
+      ],
+      "path": "dist/soundcloud/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh SoundCloud (Progressive MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+      "icon": "dist/soundcloud/icon.png"
+    },
+    {
       "slug": "spotify",
       "name": "Spotify",
       "version": 4,
@@ -502,6 +573,26 @@
         "*"
       ],
       "icon": "dist/spotify/icon.png"
+    },
+    {
+      "slug": "subsonic",
+      "name": "Subsonic / Navidrome",
+      "version": 2,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "demo.navidrome.org",
+        "*.navidrome.org",
+        "*.subsonic.org",
+        "*.airsonic.media"
+      ],
+      "path": "dist/subsonic/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
+      "languages": [
+        "*"
+      ],
+      "icon": "dist/subsonic/icon.png"
     },
     {
       "slug": "vocaloidlyrics",
@@ -523,6 +614,22 @@
       "icon": "dist/vocaloidlyrics/icon.png"
     },
     {
+      "slug": "youtube",
+      "name": "YouTube",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "www.youtube.com",
+        "i.ytimg.com",
+        "*.googlevideo.com"
+      ],
+      "path": "dist/youtube/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, dán link video và playlist.",
+      "icon": "dist/youtube/icon.png"
+    },
+    {
       "slug": "zingmp3",
       "name": "ZingMP3",
       "version": 3,
@@ -539,6 +646,25 @@
         "vi"
       ],
       "icon": "dist/zingmp3/icon.png"
+    },
+    {
+      "slug": "zingmp3-source",
+      "name": "ZingMP3",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "source",
+      "hosts": [
+        "zingmp3.vn",
+        "*.zingmp3.vn",
+        "*.zmdcdn.me"
+      ],
+      "path": "dist/zingmp3-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát V-Pop và dán link ZingMP3.",
+      "languages": [
+        "vi"
+      ],
+      "icon": "dist/zingmp3-source/icon.png"
     }
   ]
 }
