@@ -549,7 +549,8 @@
       ],
       "path": "dist/youtube/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, dán link video và playlist."
+      "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, dán link video và playlist.",
+      "icon": "dist/youtube/icon.png"
     },
     {
       "slug": "zingmp3",

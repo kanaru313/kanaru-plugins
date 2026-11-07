@@ -362,7 +362,8 @@ test('stream.js: expiresAtMs, fresh bypasses cache, and fresh error evicts cache
 
   const store = {};
   let fetchCount = 0;
-  let currentExpireSec = 1793955755;
+  const baseExpireSec = Math.floor(Date.now() / 1000) + 21600;
+  let currentExpireSec = baseExpireSec;
   let currentFormatUrl = `https://rr1.googlevideo.com/videoplayback?expire=${currentExpireSec}&itag=251`;
 
   const sandbox = {
@@ -418,7 +419,7 @@ test('stream.js: expiresAtMs, fresh bypasses cache, and fresh error evicts cache
   const coldRes = ctx.execute({ id: 'CHw1b_1LVBA' });
   assert.strictEqual(coldRes.status, 'ok');
   assert.ok(fetchCount > 0, 'Cold call must fetch over network');
-  assert.strictEqual(coldRes.data.expiresAtMs, 1793955755000, 'expiresAtMs must equal expire * 1000');
+  assert.strictEqual(coldRes.data.expiresAtMs, baseExpireSec * 1000, 'expiresAtMs must equal expire * 1000');
   assert.strictEqual(coldRes.data.expiresAt, undefined, 'expiresAt (seconds) must not exist');
 
   // 2. Warm call without fresh (must use cache, 0 sends)
@@ -426,16 +427,17 @@ test('stream.js: expiresAtMs, fresh bypasses cache, and fresh error evicts cache
   const warmRes = ctx.execute({ id: 'CHw1b_1LVBA' });
   assert.strictEqual(warmRes.status, 'ok');
   assert.strictEqual(fetchCount, 0, 'Warm call must return from cache with 0 sends');
-  assert.strictEqual(warmRes.data.expiresAtMs, 1793955755000);
+  assert.strictEqual(warmRes.data.expiresAtMs, baseExpireSec * 1000);
 
   // 3. Fresh call with fresh: true (must bypass cache, fetch over network, overwrite cache)
   fetchCount = 0;
-  currentExpireSec = 1793999999;
+  const renewedExpireSec = baseExpireSec + 3600;
+  currentExpireSec = renewedExpireSec;
   currentFormatUrl = `https://rr1.googlevideo.com/videoplayback?expire=${currentExpireSec}&itag=251&renewed=1`;
   const freshRes = ctx.execute({ id: 'CHw1b_1LVBA', fresh: true });
   assert.strictEqual(freshRes.status, 'ok');
   assert.ok(fetchCount > 0, 'Fresh call must bypass cache and fetch over network');
-  assert.strictEqual(freshRes.data.expiresAtMs, 1793999999000, 'Fresh call must return newly resolved expiresAtMs');
+  assert.strictEqual(freshRes.data.expiresAtMs, renewedExpireSec * 1000, 'Fresh call must return newly resolved expiresAtMs');
   assert.ok(freshRes.data.url.includes('renewed=1'));
 
   // 3b. Next normal call should have the NEW cached result
@@ -443,7 +445,7 @@ test('stream.js: expiresAtMs, fresh bypasses cache, and fresh error evicts cache
   const warmAfterFresh = ctx.execute({ id: 'CHw1b_1LVBA' });
   assert.strictEqual(warmAfterFresh.status, 'ok');
   assert.strictEqual(fetchCount, 0, 'Subsequent call must hit the updated cache');
-  assert.strictEqual(warmAfterFresh.data.expiresAtMs, 1793999999000);
+  assert.strictEqual(warmAfterFresh.data.expiresAtMs, renewedExpireSec * 1000);
 
   // 4. Fresh call that fails during resolution (must delete old cache entry)
   postPlayerShouldFail = true;
