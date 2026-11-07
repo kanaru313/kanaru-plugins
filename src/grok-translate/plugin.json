@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "Grok Translate",
-    "version": 3,
+    "version": 4,
     "hosts": [
       "api.x.ai"
     ],
@@ -79,27 +79,33 @@
       "options": [
         {
           "value": "grok-4.20-0309-non-reasoning",
-          "title": "Grok 4.20 (default, fast non-reasoning, supports Temperature)"
+          "title": "Grok 4.20",
+          "subtitle": "Default, fast non-reasoning, supports Temperature"
         },
         {
           "value": "grok-4.20-0309-reasoning",
-          "title": "Grok 4.20 Reasoning (reasons before translating)"
+          "title": "Grok 4.20 Reasoning",
+          "subtitle": "Reasons before translating"
         },
         {
           "value": "grok-4.3",
-          "title": "Grok 4.3 (1M token context)"
+          "title": "Grok 4.3",
+          "subtitle": "1M token context"
         },
         {
           "value": "grok-4.5",
-          "title": "Grok 4.5 (reasoning model, high quality)"
+          "title": "Grok 4.5",
+          "subtitle": "Reasoning model, high quality"
         },
         {
           "value": "grok-4.6",
-          "title": "Grok 4.6 (reasoning model)"
+          "title": "Grok 4.6",
+          "subtitle": "Reasoning model"
         },
         {
           "value": "grok-4.7",
-          "title": "Grok 4.7 (strongest reasoning model)"
+          "title": "Grok 4.7",
+          "subtitle": "Strongest reasoning model"
         },
         {
           "value": "grok-2-latest",
@@ -142,19 +148,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural (how a native speaker would say it, keeping the feeling)"
+          "title": "Natural",
+          "subtitle": "How a native speaker would say it, keeping the feeling"
         },
         {
           "value": "literal",
-          "title": "Close to the original (for learners, wording matches word by word)"
+          "title": "Close to the original",
+          "subtitle": "For learners, wording matches word by word"
         },
         {
           "value": "poetic",
-          "title": "Poetic (rhyme and rhythm over strict wording, keep imagery)"
+          "title": "Poetic",
+          "subtitle": "Rhyme and rhythm over strict wording, keep imagery"
         },
         {
           "value": "singable",
-          "title": "Singable (same syllables and rhythm, rhymes where the original rhymes)"
+          "title": "Singable",
+          "subtitle": "Same syllables and rhythm, rhymes where the original rhymes"
         }
       ]
     },

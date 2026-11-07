@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "ChatGPT Translate",
-    "version": 3,
+    "version": 4,
     "hosts": [
       "api.openai.com"
     ],
@@ -79,27 +79,33 @@
       "options": [
         {
           "value": "gpt-6-luna",
-          "title": "GPT-6 Luna (default, fastest and cheapest GPT-6)"
+          "title": "GPT-6 Luna",
+          "subtitle": "Default, fastest and cheapest GPT-6"
         },
         {
           "value": "gpt-6.1-sol",
-          "title": "GPT-6.1 Sol (balanced high quality)"
+          "title": "GPT-6.1 Sol",
+          "subtitle": "Balanced high quality"
         },
         {
           "value": "gpt-6-astra",
-          "title": "GPT-6 Astra (strongest, slower)"
+          "title": "GPT-6 Astra",
+          "subtitle": "Strongest, slower"
         },
         {
           "value": "gpt-5.5",
-          "title": "GPT-5.5 (latest GPT-5 generation)"
+          "title": "GPT-5.5",
+          "subtitle": "Latest GPT-5 generation"
         },
         {
           "value": "gpt-5.4",
-          "title": "GPT-5.4 (high quality)"
+          "title": "GPT-5.4",
+          "subtitle": "High quality"
         },
         {
           "value": "gpt-5.4-mini",
-          "title": "GPT-5.4 mini (fast and cheap)"
+          "title": "GPT-5.4 mini",
+          "subtitle": "Fast and cheap"
         },
         {
           "value": "gpt-5",
@@ -111,19 +117,23 @@
         },
         {
           "value": "gpt-4.1",
-          "title": "GPT-4.1 (fast, supports Temperature)"
+          "title": "GPT-4.1",
+          "subtitle": "Fast, supports Temperature"
         },
         {
           "value": "gpt-4.1-mini",
-          "title": "GPT-4.1 mini (very cheap, supports Temperature)"
+          "title": "GPT-4.1 mini",
+          "subtitle": "Very cheap, supports Temperature"
         },
         {
           "value": "gpt-4o",
-          "title": "GPT-4o (multimodal, supports Temperature)"
+          "title": "GPT-4o",
+          "subtitle": "Multimodal, supports Temperature"
         },
         {
           "value": "gpt-4o-mini",
-          "title": "GPT-4o mini (legacy cheapest, supports Temperature)"
+          "title": "GPT-4o mini",
+          "subtitle": "Legacy cheapest, supports Temperature"
         }
       ]
     },
@@ -135,7 +145,8 @@
       "options": [
         {
           "value": "auto",
-          "title": "Auto (lowest effort supported by model)"
+          "title": "Auto",
+          "subtitle": "Lowest effort supported by model"
         },
         {
           "value": "none",
@@ -162,19 +173,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural (how a native speaker would say it, keeping the feeling)"
+          "title": "Natural",
+          "subtitle": "How a native speaker would say it, keeping the feeling"
         },
         {
           "value": "literal",
-          "title": "Close to the original (for learners, wording matches word by word)"
+          "title": "Close to the original",
+          "subtitle": "For learners, wording matches word by word"
         },
         {
           "value": "poetic",
-          "title": "Poetic (rhyme and rhythm over strict wording, keep imagery)"
+          "title": "Poetic",
+          "subtitle": "Rhyme and rhythm over strict wording, keep imagery"
         },
         {
           "value": "singable",
-          "title": "Singable (same syllables and rhythm, rhymes where the original rhymes)"
+          "title": "Singable",
+          "subtitle": "Same syllables and rhythm, rhymes where the original rhymes"
         }
       ]
     },

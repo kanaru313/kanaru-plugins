@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "Claude Translate",
-    "version": 3,
+    "version": 4,
     "hosts": [
       "api.anthropic.com"
     ],
@@ -79,11 +79,13 @@
       "options": [
         {
           "value": "claude-opus-5",
-          "title": "Claude Opus 5 (default, literary and lyric quality)"
+          "title": "Claude Opus 5",
+          "subtitle": "Default, literary and lyric quality"
         },
         {
           "value": "claude-fable-5-1",
-          "title": "Claude Fable 5.1 (most capable, slowest)"
+          "title": "Claude Fable 5.1",
+          "subtitle": "Most capable, slowest"
         },
         {
           "value": "claude-fable-5",
@@ -99,19 +101,23 @@
         },
         {
           "value": "claude-opus-4-6",
-          "title": "Claude Opus 4.6 (supports Temperature)"
+          "title": "Claude Opus 4.6",
+          "subtitle": "Supports Temperature"
         },
         {
           "value": "claude-sonnet-5",
-          "title": "Claude Sonnet 5 (balanced, fast and high quality)"
+          "title": "Claude Sonnet 5",
+          "subtitle": "Balanced, fast and high quality"
         },
         {
           "value": "claude-sonnet-4-6",
-          "title": "Claude Sonnet 4.6 (supports Temperature)"
+          "title": "Claude Sonnet 4.6",
+          "subtitle": "Supports Temperature"
         },
         {
           "value": "claude-haiku-4-5",
-          "title": "Claude Haiku 4.5 (fastest and cheapest, supports Temperature)"
+          "title": "Claude Haiku 4.5",
+          "subtitle": "Fastest and cheapest, supports Temperature"
         },
         {
           "value": "claude-3-7-sonnet-latest",
@@ -134,19 +140,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural (how a native speaker would say it, keeping the feeling)"
+          "title": "Natural",
+          "subtitle": "How a native speaker would say it, keeping the feeling"
         },
         {
           "value": "literal",
-          "title": "Close to the original (for learners, wording matches word by word)"
+          "title": "Close to the original",
+          "subtitle": "For learners, wording matches word by word"
         },
         {
           "value": "poetic",
-          "title": "Poetic (rhyme and rhythm over strict wording, keep imagery)"
+          "title": "Poetic",
+          "subtitle": "Rhyme and rhythm over strict wording, keep imagery"
         },
         {
           "value": "singable",
-          "title": "Singable (same syllables and rhythm, rhymes where the original rhymes)"
+          "title": "Singable",
+          "subtitle": "Same syllables and rhythm, rhymes where the original rhymes"
         }
       ]
     },

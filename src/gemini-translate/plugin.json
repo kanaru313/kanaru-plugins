@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "Gemini Translate",
-    "version": 5,
+    "version": 6,
     "hosts": [
       "generativelanguage.googleapis.com"
     ],
@@ -79,19 +79,23 @@
       "options": [
         {
           "value": "gemini-3.5-flash-lite",
-          "title": "Gemini 3.5 Flash-Lite (default, fastest and cheapest)"
+          "title": "Gemini 3.5 Flash-Lite",
+          "subtitle": "Default, fastest and cheapest"
         },
         {
           "value": "gemini-3.6-flash",
-          "title": "Gemini 3.6 Flash (balanced)"
+          "title": "Gemini 3.6 Flash",
+          "subtitle": "Balanced"
         },
         {
           "value": "gemini-3.8-flash",
-          "title": "Gemini 3.8 Flash (smartest Flash)"
+          "title": "Gemini 3.8 Flash",
+          "subtitle": "Smartest Flash"
         },
         {
           "value": "gemini-4-argon",
-          "title": "Gemini 4 Argon (strongest, slowest)"
+          "title": "Gemini 4 Argon",
+          "subtitle": "Strongest, slowest"
         },
         {
           "value": "gemini-3-flash-preview",
@@ -99,23 +103,28 @@
         },
         {
           "value": "gemini-3.1-pro-preview",
-          "title": "Gemini 3.1 Pro Preview (needs Pro quota)"
+          "title": "Gemini 3.1 Pro Preview",
+          "subtitle": "Needs Pro quota"
         },
         {
           "value": "gemini-3.1-flash-lite",
-          "title": "Gemini 3.1 Flash-Lite (shuts down 2027-05-07)"
+          "title": "Gemini 3.1 Flash-Lite",
+          "subtitle": "Shuts down 2027-05-07"
         },
         {
           "value": "gemini-2.5-flash",
-          "title": "Gemini 2.5 Flash (older accounts only)"
+          "title": "Gemini 2.5 Flash",
+          "subtitle": "Older accounts only"
         },
         {
           "value": "gemini-2.5-flash-lite",
-          "title": "Gemini 2.5 Flash-Lite (older accounts only)"
+          "title": "Gemini 2.5 Flash-Lite",
+          "subtitle": "Older accounts only"
         },
         {
           "value": "gemini-2.5-pro",
-          "title": "Gemini 2.5 Pro (older accounts only)"
+          "title": "Gemini 2.5 Pro",
+          "subtitle": "Older accounts only"
         }
       ]
     },
@@ -126,19 +135,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural: the meaning, as a native speaker says it"
+          "title": "Natural",
+          "subtitle": "The meaning, as a native speaker says it"
         },
         {
           "value": "literal",
-          "title": "Close to the original: for learning the language"
+          "title": "Close to the original",
+          "subtitle": "For learning the language"
         },
         {
           "value": "poetic",
-          "title": "Poetic: keeps images and rhythm"
+          "title": "Poetic",
+          "subtitle": "Keeps images and rhythm"
         },
         {
           "value": "singable",
-          "title": "Singable: fits the melody, rhymes where it can"
+          "title": "Singable",
+          "subtitle": "Fits the melody, rhymes where it can"
         }
       ]
     },
@@ -150,23 +163,28 @@
       "options": [
         {
           "value": "minimal",
-          "title": "Minimal (fastest for Gemini 3+)"
+          "title": "Minimal",
+          "subtitle": "Fastest for Gemini 3+"
         },
         {
           "value": "low",
-          "title": "Low (fast and balanced)"
+          "title": "Low",
+          "subtitle": "Fast and balanced"
         },
         {
           "value": "medium",
-          "title": "Medium (deeper reasoning)"
+          "title": "Medium",
+          "subtitle": "Deeper reasoning"
         },
         {
           "value": "high",
-          "title": "High (most thorough)"
+          "title": "High",
+          "subtitle": "Most thorough"
         },
         {
           "value": "auto",
-          "title": "Auto (model default)"
+          "title": "Auto",
+          "subtitle": "Model default"
         }
       ]
     },

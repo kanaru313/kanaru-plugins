@@ -277,7 +277,7 @@ t('send cap is shared with the retry call', () => {
 
 t('manifest: translate section matches the contract', () => {
   const m = manifest.translate;
-  assert.strictEqual(manifest.metadata.type, 'translate');
+  assert.strictEqual(manifest.metadata.type, 'ai-translate');
   assert.strictEqual(manifest.script.translate, 'translate.js');
   assert.ok(m.maxLines >= 10 && m.maxLines <= 200 && m.maxChars >= 1000 && m.maxChars <= 20000 && m.timeoutSec <= 90);
   assert.strictEqual(manifest.metadata.supportUrl, undefined);

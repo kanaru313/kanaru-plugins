@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "Qwen Translate",
-    "version": 2,
+    "version": 3,
     "hosts": [
       "dashscope-intl.aliyuncs.com",
       "dashscope.aliyuncs.com"
@@ -100,27 +100,34 @@
     "model": {
       "title": "Model",
       "mode": "select",
+      "custom": true,
+      "required": true,
       "default": "qwen-plus",
       "options": [
         {
           "value": "qwen-plus",
-          "title": "Qwen Plus (default, balanced quality and cost)"
+          "title": "Qwen Plus",
+          "subtitle": "Default, balanced quality and cost"
         },
         {
           "value": "qwen-turbo",
-          "title": "Qwen Turbo (fast and cost-effective)"
+          "title": "Qwen Turbo",
+          "subtitle": "Fast and cost-effective"
         },
         {
           "value": "qwen-max",
-          "title": "Qwen Max (flagship, best literary nuance and reasoning)"
+          "title": "Qwen Max",
+          "subtitle": "Flagship, best literary nuance and reasoning"
         },
         {
           "value": "qwen-mt-plus",
-          "title": "Qwen MT Plus (specialized translation flagship)"
+          "title": "Qwen MT Plus",
+          "subtitle": "Specialized translation flagship"
         },
         {
           "value": "qwen-mt-turbo",
-          "title": "Qwen MT Turbo (specialized fast translation)"
+          "title": "Qwen MT Turbo",
+          "subtitle": "Specialized fast translation"
         },
         {
           "value": "qwen2.5-72b-instruct",
@@ -137,20 +144,8 @@
         {
           "value": "qwen2.5-7b-instruct",
           "title": "Qwen 2.5 7B Instruct"
-        },
-        {
-          "value": "custom",
-          "title": "Custom model (typed below)"
         }
       ]
-    },
-    "customModel": {
-      "title": "Custom model name",
-      "subtitle": "Used when Model is set to 'Custom model'",
-      "mode": "input",
-      "format": "text",
-      "placeholder": "qwen-...",
-      "required": false
     },
     "style": {
       "title": "Translation style",
@@ -160,19 +155,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural (expressive and fluent, default)"
+          "title": "Natural",
+          "subtitle": "Expressive and fluent, default"
         },
         {
           "value": "literal",
-          "title": "Close to the original (word-for-word, good for language learners)"
+          "title": "Close to the original",
+          "subtitle": "Word-for-word, good for language learners"
         },
         {
           "value": "poetic",
-          "title": "Poetic (rhyme, rhythm and literary images)"
+          "title": "Poetic",
+          "subtitle": "Rhyme, rhythm and literary images"
         },
         {
           "value": "singable",
-          "title": "Singable (matches syllables and melody rhythm)"
+          "title": "Singable",
+          "subtitle": "Matches syllables and melody rhythm"
         }
       ]
     },
@@ -184,15 +183,18 @@
       "options": [
         {
           "value": "0.0",
-          "title": "0.0 (Strict and deterministic)"
+          "title": "0.0",
+          "subtitle": "Strict and deterministic"
         },
         {
           "value": "0.3",
-          "title": "0.3 (Default, focused and consistent)"
+          "title": "0.3",
+          "subtitle": "Default, focused and consistent"
         },
         {
           "value": "0.7",
-          "title": "0.7 (More creative and varied)"
+          "title": "0.7",
+          "subtitle": "More creative and varied"
         }
       ]
     },
@@ -208,7 +210,8 @@
         },
         {
           "value": "4096",
-          "title": "4096 (Default)"
+          "title": "4096",
+          "subtitle": "Default"
         },
         {
           "value": "8192",

@@ -24,6 +24,31 @@ src/<slug>/
 
 The plugin API is described in Kanaru's `docs/lyrics-plugin-api.md`.
 
+### AI translate plugins
+
+An AI translate plugin (`metadata.type: "ai-translate"`) shares the exact same runtime layout, script contract (`script.translate` pointing to `translate.js`), and `translate` block (`languages`, `maxLines`, `maxChars`, `timeoutSec`) as a standard translate plugin. The input passed to `translate.js` is unchanged. Kanaru identifies this kind to display an "AI" badge and provide an in-app AI tuning row.
+
+**Required config fields:**
+An `ai-translate` plugin **must** define the following three fields under `config` (failing to declare them or using an invalid mode causes Kanaru to refuse installation):
+- `model`: `mode: "select"`, single-select (not `format: "multiple"`), with at least 1 option — unless `"custom": true` is specified.
+- `style`: `mode: "select"`, single-select, with at least 1 option.
+- `customInstruction`: `mode: "input"`, text format (`format: "text"` or default; not `multiline`, `secret`, or `url`).
+
+**Custom models (`"custom": true`):**
+- The `"custom": true` attribute is valid **only** on the `model` field of an `ai-translate` plugin (specifying it on any other field or on `translate`/`lyrics` plugins is rejected).
+- When `custom: true` is set, `options` may be empty (`options: []` or omitted), and the `model` field **must** have `"required": true`.
+- Users can add their own model IDs in the app's plugin settings. Kanaru stores the custom model list and supplies the user's selected model as a single string to the plugin script via `localConfig.getItem('model')`.
+
+**Option title & subtitle convention:**
+- Options for select fields use `{ "value": "...", "title": "...", "subtitle": "..." }` (up to 50 options; `value` 1–200 characters, unique).
+- `title` is a concise display label (e.g., `"Gemini 3.5 Flash-Lite"`).
+- `subtitle` provides context or reasons to choose it (e.g., `"Default, fastest and cheapest"`). Descriptions should not be embedded inside `title`.
+- Existing option `value` identifiers must not be changed so existing user configurations remain valid.
+
+**General and per-song custom instructions:**
+- `customInstruction` defines the general instruction configured in the plugin settings.
+- In addition, Kanaru provides per-song custom instructions in the song translation sheet. At runtime, Kanaru merges both into `config.customInstruction = general + "\n" + perSong` (omitting empty parts). The plugin script reads `customInstruction` as usual, but note that the combined string may exceed the manifest field's `maxLength`.
+
 Chi tiết tài liệu hướng dẫn phát triển và quy chuẩn viết plugin xem tại:
 👉 **[Tài liệu hướng dẫn phát triển Plugin (templates/README.md)](./templates/README.md)**
 

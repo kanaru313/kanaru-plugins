@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "translate",
     "name": "DeepL Translate",
-    "version": 4,
+    "version": 5,
     "hosts": [
       "api-free.deepl.com",
       "api.deepl.com"
@@ -73,11 +73,13 @@
         },
         {
           "value": "prefer_more",
-          "title": "More formal, if the language supports it"
+          "title": "More formal",
+          "subtitle": "If the language supports it"
         },
         {
           "value": "prefer_less",
-          "title": "More informal, if the language supports it"
+          "title": "More informal",
+          "subtitle": "If the language supports it"
         }
       ]
     },

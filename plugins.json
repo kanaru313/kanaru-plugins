@@ -78,9 +78,9 @@
     {
       "slug": "chatgpt-translate",
       "name": "ChatGPT Translate",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "api.openai.com"
       ],
@@ -95,9 +95,9 @@
     {
       "slug": "claude-translate",
       "name": "Claude Translate",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "api.anthropic.com"
       ],
@@ -129,7 +129,7 @@
     {
       "slug": "deepl-translate",
       "name": "DeepL Translate",
-      "version": 4,
+      "version": 5,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -147,9 +147,9 @@
     {
       "slug": "deepseek-translate",
       "name": "DeepSeek Translate",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "api.deepseek.com"
       ],
@@ -181,9 +181,9 @@
     {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
-      "version": 5,
+      "version": 6,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "generativelanguage.googleapis.com"
       ],
@@ -217,9 +217,9 @@
     {
       "slug": "grok-translate",
       "name": "Grok Translate",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "api.x.ai"
       ],
@@ -410,9 +410,9 @@
     {
       "slug": "openai-compatible",
       "name": "OpenAI-compatible Translate",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "api.deepseek.com",
         "api.openai.com",
@@ -502,9 +502,9 @@
     {
       "slug": "qwen-translate",
       "name": "Qwen Translate",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
-      "type": "translate",
+      "type": "ai-translate",
       "hosts": [
         "dashscope-intl.aliyuncs.com",
         "dashscope.aliyuncs.com"

@@ -40,7 +40,7 @@ let n = 0;
 const t = (name, f) => { try { f(); n++; } catch (e) { console.error('FAIL', name); throw e; } };
 
 t('manifest integrity and hosts limits', () => {
-  assert.strictEqual(manifest.metadata.type, 'translate');
+  assert.strictEqual(manifest.metadata.type, 'ai-translate');
   assert.strictEqual(manifest.metadata.apiVersion, 1);
   assert.strictEqual(manifest.script.translate, 'translate.js');
   assert.ok(manifest.metadata.hosts.length > 0 && manifest.metadata.hosts.length <= 20);

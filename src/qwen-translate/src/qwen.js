@@ -21,7 +21,7 @@ function getEndpoint(settings) {
 
 /** The request body; [userJson] is the JSON text of the user message. */
 function qwenRequest(systemPrompt, userJson, settings) {
-  var model = settings.model === 'custom' ? (settings.customModel || 'qwen-plus') : settings.model;
+  var model = settings.model || 'qwen-plus';
 
   var body = {
     model: model,

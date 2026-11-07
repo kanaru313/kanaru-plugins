@@ -141,7 +141,6 @@ function readSettings() {
     endpointRegion: readText('endpointRegion', 'intl'),
     customEndpoint: readText('customEndpoint', '').trim(),
     model: normalizeModel(readText('model', DEFAULT_MODEL)),
-    customModel: readText('customModel', '').trim(),
     style: readText('style', 'natural'),
     temperature: readNumber('temperature', 0.3, 0, 2),
     maxOutputTokens: Math.round(readNumber('maxOutputTokens', 4096, 256, 8192)),
@@ -196,5 +195,5 @@ function readApiKeys() {
 }
 
 function normalizeModel(model) {
-  return MODELS.indexOf(model) >= 0 ? model : DEFAULT_MODEL;
+  return typeof model === 'string' && model.trim() ? model.trim() : DEFAULT_MODEL;
 }

@@ -40,7 +40,7 @@ let n = 0;
 const t = (name, f) => { try { f(); n++; } catch (e) { console.error('FAIL', name); throw e; } };
 
 t('manifest integrity and default options', () => {
-  assert.strictEqual(manifest.metadata.type, 'translate');
+  assert.strictEqual(manifest.metadata.type, 'ai-translate');
   assert.strictEqual(manifest.metadata.apiVersion, 1);
   assert.strictEqual(manifest.metadata.name, 'Qwen Translate');
   assert.strictEqual(manifest.script.translate, 'translate.js');
@@ -141,7 +141,7 @@ t('model parameter supports specialized and custom models', () => {
 
   const customRun = run({ lines: ['hello world'], to: 'vi' }, {
     replies: echo,
-    config: { model: 'custom', customModel: 'qwen-vl-max' },
+    config: { model: 'qwen-vl-max' },
   });
   assert.strictEqual(customRun.calls[0].body.model, 'qwen-vl-max');
 });

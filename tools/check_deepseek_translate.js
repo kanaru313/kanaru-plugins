@@ -40,7 +40,7 @@ let n = 0;
 const t = (name, f) => { try { f(); n++; } catch (e) { console.error('FAIL', name); throw e; } };
 
 t('manifest integrity and default options', () => {
-  assert.strictEqual(manifest.metadata.type, 'translate');
+  assert.strictEqual(manifest.metadata.type, 'ai-translate');
   assert.strictEqual(manifest.metadata.apiVersion, 1);
   assert.strictEqual(manifest.script.translate, 'translate.js');
   assert.ok(manifest.config.model.options.some((o) => o.value === manifest.config.model.default));

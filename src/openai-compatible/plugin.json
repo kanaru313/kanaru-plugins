@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "OpenAI-compatible Translate",
-    "version": 3,
+    "version": 4,
     "hosts": [
       "api.deepseek.com",
       "api.openai.com",
@@ -102,10 +102,10 @@
     "model": {
       "title": "Model",
       "subtitle": "Model name (e.g. deepseek-chat, gpt-4o, meta-llama/llama-3.3-70b-instruct, qwen-2.5-72b)",
-      "mode": "input",
-      "format": "text",
-      "placeholder": "deepseek-chat",
-      "default": "deepseek-chat"
+      "mode": "select",
+      "custom": true,
+      "required": true,
+      "options": []
     },
     "style": {
       "title": "Translation style",
@@ -114,19 +114,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural (how a native speaker would say it, keeping the feeling)"
+          "title": "Natural",
+          "subtitle": "How a native speaker would say it, keeping the feeling"
         },
         {
           "value": "literal",
-          "title": "Close to the original (for learners, wording matches word by word)"
+          "title": "Close to the original",
+          "subtitle": "For learners, wording matches word by word"
         },
         {
           "value": "poetic",
-          "title": "Poetic (rhyme and rhythm over strict wording, keep imagery)"
+          "title": "Poetic",
+          "subtitle": "Rhyme and rhythm over strict wording, keep imagery"
         },
         {
           "value": "singable",
-          "title": "Singable (same syllables and rhythm, rhymes where the original rhymes)"
+          "title": "Singable",
+          "subtitle": "Same syllables and rhythm, rhymes where the original rhymes"
         }
       ]
     },

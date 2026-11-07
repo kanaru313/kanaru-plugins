@@ -1,9 +1,9 @@
 {
   "metadata": {
     "apiVersion": 1,
-    "type": "translate",
+    "type": "ai-translate",
     "name": "DeepSeek Translate",
-    "version": 3,
+    "version": 4,
     "hosts": [
       "api.deepseek.com"
     ],
@@ -79,27 +79,33 @@
       "options": [
         {
           "value": "deepseek-flash",
-          "title": "DeepSeek Flash (default, fast and cost-effective)"
+          "title": "DeepSeek Flash",
+          "subtitle": "Default, fast and cost-effective"
         },
         {
           "value": "deepseek-flash-thinking",
-          "title": "DeepSeek Flash Thinking (reasons before translating)"
+          "title": "DeepSeek Flash Thinking",
+          "subtitle": "Reasons before translating"
         },
         {
           "value": "deepseek-v4-pro",
-          "title": "DeepSeek V4 Pro (higher quality, non-thinking)"
+          "title": "DeepSeek V4 Pro",
+          "subtitle": "Higher quality, non-thinking"
         },
         {
           "value": "deepseek-v4-pro-thinking",
-          "title": "DeepSeek V4 Pro Thinking (highest quality reasoning, slower)"
+          "title": "DeepSeek V4 Pro Thinking",
+          "subtitle": "Highest quality reasoning, slower"
         },
         {
           "value": "deepseek-chat",
-          "title": "DeepSeek Chat (V3 compatibility)"
+          "title": "DeepSeek Chat",
+          "subtitle": "V3 compatibility"
         },
         {
           "value": "deepseek-reasoner",
-          "title": "DeepSeek Reasoner (R1 reasoning model)"
+          "title": "DeepSeek Reasoner",
+          "subtitle": "R1 reasoning model"
         }
       ]
     },
@@ -110,19 +116,23 @@
       "options": [
         {
           "value": "natural",
-          "title": "Natural (how a native speaker would say it, keeping the feeling)"
+          "title": "Natural",
+          "subtitle": "How a native speaker would say it, keeping the feeling"
         },
         {
           "value": "literal",
-          "title": "Close to the original (for learners, wording matches word by word)"
+          "title": "Close to the original",
+          "subtitle": "For learners, wording matches word by word"
         },
         {
           "value": "poetic",
-          "title": "Poetic (rhyme and rhythm over strict wording, keep imagery)"
+          "title": "Poetic",
+          "subtitle": "Rhyme and rhythm over strict wording, keep imagery"
         },
         {
           "value": "singable",
-          "title": "Singable (same syllables and rhythm, rhymes where the original rhymes)"
+          "title": "Singable",
+          "subtitle": "Same syllables and rhythm, rhymes where the original rhymes"
         }
       ]
     },
