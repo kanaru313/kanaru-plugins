@@ -27,13 +27,15 @@
     {
       "slug": "audius",
       "name": "Audius",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
         "api.audius.co",
         "audius.co",
-        "*.audius.co"
+        "*.audius.co",
+        "*.eeba4a6ca56a0d87af802270217c2a51.r2.cloudflarestorage.com",
+        "validator.eeba4a6ca56a0d87af802270217c2a51.r2.cloudflarestorage.com"
       ],
       "path": "dist/audius/plugin.zip",
       "author": "Kanaru Contributors",
