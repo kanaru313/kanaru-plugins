@@ -2,22 +2,31 @@
   "metadata": {
     "name": "ZingMP3",
     "author": "Kanaru Contributors",
-    "version": 1,
+    "version": 2,
     "apiVersion": 1,
     "type": "source",
-    "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát V-Pop và dán link ZingMP3.",
+    "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link ZingMP3.",
     "hosts": [
       "zingmp3.vn",
       "*.zingmp3.vn",
       "*.zmdcdn.me"
     ],
+    "regexp": "^https?:\\/\\/(?:(?:www|m)\\.)?zingmp3\\.vn\\/",
     "languages": [
       "vi"
     ]
   },
   "script": {
     "search": "search.js",
-    "stream": "stream.js"
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
   },
   "config": {
     "apiKey": {
@@ -33,7 +42,7 @@
       "default": "acOrvUS15XRW2o9JksiK1KgQ6Vbds8ZW"
     },
     "version": {
-      "title": "Phiên bản web client",
+      "title": "Phiên bản Web API",
       "mode": "input",
       "format": "text",
       "default": "1.22.4"

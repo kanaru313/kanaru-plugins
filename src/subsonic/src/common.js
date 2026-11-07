@@ -232,6 +232,7 @@ function parseTrackCard(song, baseUrl, auth) {
 
     var title = trimText(song.title || "Unknown");
     var artist = trimText(song.artist || song.albumArtist || song.displayArtist || "Unknown Artist");
+    var artistId = String(song.artistId || "");
     var durationSec = Number(song.duration || 0);
     var durationMs = durationSec > 0 ? Math.round(durationSec * 1000) : 0;
 
@@ -248,10 +249,108 @@ function parseTrackCard(song, baseUrl, auth) {
     }
 
     return {
+        kind: "track",
         id: id,
         title: title,
+        subtitle: artist,
         artist: artist,
+        artists: [{ id: artistId, title: artist }],
         durationMs: durationMs,
+        artworkUrl: artworkUrl,
+        webUrl: (baseUrl || getServerUrl()) + "/#"
+    };
+}
+
+function parseAlbumCard(album, baseUrl, auth) {
+    if (!album) return null;
+    var id = String(album.id || "");
+    if (!id) return null;
+
+    var title = trimText(album.name || album.title || "Album");
+    var artist = trimText(album.artist || "Unknown Artist");
+    var count = album.songCount ? (album.songCount + " bài hát") : "Album";
+
+    var artworkUrl = "";
+    if (album.coverArt) {
+        var authParams = auth || getAuthParams();
+        var covParams = {
+            id: album.coverArt,
+            size: 300
+        };
+        for (var k in authParams) covParams[k] = authParams[k];
+        var root = baseUrl || getServerUrl();
+        artworkUrl = root + "/rest/getCoverArt.view?" + toQueryString(covParams);
+    }
+
+    return {
+        kind: "album",
+        id: id,
+        title: title,
+        subtitle: artist + " · " + count,
+        artist: artist,
+        artworkUrl: artworkUrl,
+        webUrl: (baseUrl || getServerUrl()) + "/#"
+    };
+}
+
+function parsePlaylistCard(pl, baseUrl, auth) {
+    if (!pl) return null;
+    var id = String(pl.id || "");
+    if (!id) return null;
+
+    var title = trimText(pl.name || pl.title || "Playlist");
+    var artist = trimText(pl.owner || "Subsonic");
+    var count = pl.songCount ? (pl.songCount + " bài hát") : "Playlist";
+
+    var artworkUrl = "";
+    if (pl.coverArt) {
+        var authParams = auth || getAuthParams();
+        var covParams = {
+            id: pl.coverArt,
+            size: 300
+        };
+        for (var k in authParams) covParams[k] = authParams[k];
+        var root = baseUrl || getServerUrl();
+        artworkUrl = root + "/rest/getCoverArt.view?" + toQueryString(covParams);
+    }
+
+    return {
+        kind: "playlist",
+        id: id,
+        title: title,
+        subtitle: artist + " · " + count,
+        artist: artist,
+        artworkUrl: artworkUrl,
+        webUrl: (baseUrl || getServerUrl()) + "/#"
+    };
+}
+
+function parseArtistCard(art, baseUrl, auth) {
+    if (!art) return null;
+    var id = String(art.id || "");
+    if (!id) return null;
+
+    var name = trimText(art.name || "Nghệ sĩ");
+    var count = art.albumCount ? (art.albumCount + " album") : "Nghệ sĩ";
+
+    var artworkUrl = "";
+    if (art.coverArt || art.artistImageUrl) {
+        var authParams = auth || getAuthParams();
+        var covParams = {
+            id: art.coverArt || art.artistImageUrl,
+            size: 300
+        };
+        for (var k in authParams) covParams[k] = authParams[k];
+        var root = baseUrl || getServerUrl();
+        artworkUrl = root + "/rest/getCoverArt.view?" + toQueryString(covParams);
+    }
+
+    return {
+        kind: "artist",
+        id: id,
+        title: name,
+        subtitle: count,
+        artist: name,
         artworkUrl: artworkUrl,
         webUrl: (baseUrl || getServerUrl()) + "/#"
     };

@@ -1,15 +1,16 @@
 load("common.js");
 
-function resolveBilibiliVideo(bvid) {
+function resolveBilibiliUrl(url) {
+    var bvid = extractBvid(url);
+    if (!bvid) {
+        return { error: "Không tìm thấy mã video Bilibili (BV/av)", kind: ERROR_KIND.UNAVAILABLE };
+    }
+
     var viewUrl = BILI_API_BASE + "/x/web-interface/view?bvid=" + encodeURIComponent(bvid);
-    var rsp = fetch(viewUrl, {
-        headers: {
-            "User-Agent": "Kanaru/1.0 (+https://github.com/hieu313/kanaru)"
-        }
-    });
+    var rsp = fetchBili(viewUrl);
 
     if (rsp.status === 404) {
-        return { error: "Không tìm thấy video Bilibili từ đường link này", kind: ERROR_KIND.UNAVAILABLE };
+        return { error: "Không tìm thấy video trên Bilibili", kind: ERROR_KIND.UNAVAILABLE };
     }
     if (!rsp.ok) {
         return { error: "Không thể lấy thông tin video Bilibili (HTTP " + rsp.status + ")", kind: ERROR_KIND.NETWORK };
@@ -17,33 +18,46 @@ function resolveBilibiliVideo(bvid) {
 
     var json = safeJsonParse(rsp.text());
     if (!json || json.code !== 0 || !json.data) {
-        return { error: (json && json.message) || "Video không tồn tại hoặc đã bị ẩn", kind: ERROR_KIND.UNAVAILABLE };
+        return { error: (json && json.message) || "Video Bilibili không hợp lệ", kind: ERROR_KIND.INVALID_RESPONSE };
     }
 
     var card = parseTrackCard(json.data);
-    return { items: card ? [card] : [], next: null };
+    if (!card) {
+        return { error: "Không đọc được dữ liệu video Bilibili", kind: ERROR_KIND.INVALID_RESPONSE };
+    }
+
+    return {
+        filters: [],
+        sections: [{ title: "Kết quả liên kết", layout: "list", items: [card] }],
+        items: [card],
+        next: null
+    };
 }
 
 function execute(input) {
     input = input || {};
     var query = trimText(input.query || "");
+    var filter = trimText(input.filter || "");
     var next = input.next ? trimText(input.next) : null;
 
     if (!query && !next) {
-        return Response.success({ items: [], next: null });
+        return Response.success({ filters: [], sections: [], items: [], next: null });
     }
 
-    // Cache check
-    var cacheKey = "s:" + (next ? ("n:" + next) : ("q:" + query));
+    var filters = [
+        { title: "Video & Nhạc", input: "videos" },
+        { title: "UP Chủ / Nghệ sĩ", input: "users" }
+    ];
+
+    var cacheKey = "s:" + (next ? ("n:" + next) : ("q:" + query + ":f:" + filter));
     var cached = cacheGet(cacheKey);
     if (cached) {
         return Response.success(cached);
     }
 
-    // Case 1: Pasted Bilibili URL or direct BV/av id
-    var directBvid = extractBvid(query);
-    if (directBvid && !next) {
-        var resolved = resolveBilibiliVideo(directBvid);
+    // Direct link resolve
+    if (/(?:bilibili\.com|b23\.tv)/i.test(query) && !next) {
+        var resolved = resolveBilibiliUrl(query);
         if (resolved.error) {
             return Response.error(resolved.error, { kind: resolved.kind || ERROR_KIND.INVALID_RESPONSE });
         }
@@ -51,22 +65,39 @@ function execute(input) {
         return Response.success(resolved);
     }
 
-    // Case 2: Standard video search with page pagination
     var page = next ? (parseInt(next, 10) || 1) : 1;
-    var searchUrl = BILI_API_BASE + "/x/web-interface/search/type?search_type=video&keyword="
-        + encodeURIComponent(query)
-        + "&page=" + page;
+    var pageSize = 20;
 
-    var rsp = fetch(searchUrl, {
-        headers: {
-            "User-Agent": "Kanaru/1.0 (+https://github.com/hieu313/kanaru)"
+    if (filter === "users") {
+        var uUrl = BILI_API_BASE + "/x/web-interface/search/type?search_type=bili_user&keyword=" + encodeURIComponent(query)
+            + "&page=" + page + "&page_size=" + pageSize;
+        var uRsp = fetchBili(uUrl);
+        var uJson = uRsp.ok ? safeJsonParse(uRsp.text()) : null;
+        var uItems = [];
+        var rawUsers = (uJson && uJson.data && Array.isArray(uJson.data.result)) ? uJson.data.result : [];
+        for (var u = 0; u < rawUsers.length; u++) {
+            var uCard = parseUserCard(rawUsers[u]);
+            if (uCard) uItems.push(uCard);
         }
-    });
+        var uNext = (rawUsers.length >= pageSize) ? String(page + 1) : null;
+        var uPage = {
+            filters: filters,
+            sections: [{ title: "UP Chủ / Nghệ sĩ", layout: "list", items: uItems }],
+            items: uItems,
+            next: uNext
+        };
+        cacheSet(cacheKey, uPage, 60000);
+        return Response.success(uPage);
+    }
+
+    // Default: Video search
+    var searchUrl = BILI_API_BASE + "/x/web-interface/search/type?search_type=video&keyword=" + encodeURIComponent(query)
+        + "&page=" + page + "&page_size=" + pageSize;
+    var rsp = fetchBili(searchUrl);
 
     if (rsp.status >= 500) {
         return Response.error("Máy chủ Bilibili gặp sự cố tạm thời (HTTP " + rsp.status + ")", { kind: ERROR_KIND.NETWORK });
     }
-
     if (!rsp.ok) {
         return Response.error("Không đọc được kết quả tìm kiếm từ Bilibili (HTTP " + rsp.status + ")", { kind: ERROR_KIND.INVALID_RESPONSE });
     }
@@ -79,17 +110,34 @@ function execute(input) {
     var items = [];
     var seen = {};
     for (var i = 0; i < json.data.result.length; i++) {
-        var card = parseTrackCard(json.data.result[i]);
-        if (card && !seen[card.id]) {
-            seen[card.id] = true;
-            items.push(card);
+        var item = json.data.result[i];
+        var c = parseTrackCard(item);
+        if (c && !seen[c.id]) {
+            seen[c.id] = true;
+            items.push(c);
         }
     }
 
-    var numPages = json.data.numPages || 1;
-    var nextToken = (page < numPages && json.data.result.length > 0) ? String(page + 1) : null;
+    var nextToken = (json.data.result.length >= pageSize) ? String(page + 1) : null;
+
+    var sections = [];
+    if (items.length > 0) {
+        sections.push({
+            title: "Kết quả hàng đầu",
+            layout: "top",
+            items: [items[0]]
+        });
+        sections.push({
+            title: "Video & Bài hát",
+            layout: "list",
+            items: items.slice(1),
+            more: { filter: "videos" }
+        });
+    }
 
     var result = {
+        filters: filters,
+        sections: sections,
         items: items,
         next: nextToken
     };

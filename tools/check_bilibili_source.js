@@ -370,4 +370,29 @@ test('Live integration test: search and stream resolution', () => {
   console.log(`  Live DASH audio stream resolved: ${streamResult.result.data.url.slice(0, 65)}...`);
 });
 
+// 8. Test all new source specification scripts
+test('all 10 scripts exported and conform to latest source contract', () => {
+  // autocomplete
+  const autoRes = runScript('autocomplete.js', { query: 'yoasobi' }, { pluginSlug: 'bilibili' });
+  assert.strictEqual(autoRes.result.status, 'ok');
+  assert.ok(Array.isArray(autoRes.result.data));
+
+  // genre list
+  const genreRes = runScript('genre.js', {}, { pluginSlug: 'bilibili' });
+  assert.strictEqual(genreRes.result.status, 'ok');
+  assert.ok(Array.isArray(genreRes.result.data));
+  assert.ok(genreRes.result.data.length > 0);
+  assert.strictEqual(genreRes.result.data[0].script, 'genre.js');
+
+  // related
+  const relRes = runScript('related.js', { id: 'BV1xx411c7mD' }, { pluginSlug: 'bilibili' });
+  assert.strictEqual(relRes.result.status, 'ok');
+  assert.ok(Array.isArray(relRes.result.data.items));
+
+  // resolve
+  const resolveRes = runScript('resolve.js', { url: 'https://www.bilibili.com/video/BV1xx411c7mD' }, { pluginSlug: 'bilibili' });
+  assert.strictEqual(resolveRes.result.status, 'ok');
+  assert.strictEqual(resolveRes.result.data.kind, 'track');
+});
+
 console.log(`\nAll ${passedTests} Bilibili tests passed successfully.`);

@@ -1,136 +1,149 @@
 load("common.js");
 
-function parseCardFromVideoRenderer(renderer) {
-    if (!renderer || !renderer.videoId) return null;
-    var id = renderer.videoId;
-    var title = getTextValue(renderer.title);
-    var artist = getTextValue(renderer.ownerText || renderer.shortBylineText);
-    var durationMs = parseDurationMs(getTextValue(renderer.lengthText));
-    var thumbnails = renderer.thumbnail && renderer.thumbnail.thumbnails ? renderer.thumbnail.thumbnails : null;
-    var artworkUrl = chooseArtworkUrl(thumbnails, id);
-    return {
-        id: id,
-        title: title || "Không có tiêu đề",
-        artist: artist || "YouTube",
-        durationMs: durationMs,
-        artworkUrl: artworkUrl,
-        webUrl: YT_BASE + "/watch?v=" + id
-    };
-}
+function buildPageResult(items, playlists, channels, continuationToken, filter) {
+    var filters = [
+        { title: "Bài hát & Video", input: "videos" },
+        { title: "Danh sách phát", input: "playlists" },
+        { title: "Kênh", input: "channels" }
+    ];
 
-function parseCardFromLockup(lockup) {
-    if (!lockup) return null;
-    var id = lockup.contentId || "";
-    if (!id && lockup.rendererContext && lockup.rendererContext.commandContext) {
-        var onTap = lockup.rendererContext.commandContext.onTap;
-        if (onTap && onTap.innertubeCommand && onTap.innertubeCommand.watchEndpoint) {
-            id = onTap.innertubeCommand.watchEndpoint.videoId || "";
-        }
-    }
-    if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
+    items = items || [];
+    playlists = playlists || [];
+    channels = channels || [];
 
-    var title = "";
-    if (lockup.metadata && lockup.metadata.lockupMetadataViewModel) {
-        title = getTextValue(lockup.metadata.lockupMetadataViewModel.title);
-    }
-    if (!title && lockup.rendererContext && lockup.rendererContext.accessibilityContext) {
-        title = lockup.rendererContext.accessibilityContext.label || "";
+    if (filter === "playlists") {
+        var pItems = playlists.length ? playlists : items.filter(function(x) { return x.kind === "playlist"; });
+        return {
+            filters: filters,
+            sections: [
+                { title: "Danh sách phát", layout: "shelf", items: pItems }
+            ],
+            items: pItems,
+            next: continuationToken
+        };
     }
 
-    var artist = "";
-    if (lockup.metadata && lockup.metadata.lockupMetadataViewModel && lockup.metadata.lockupMetadataViewModel.metadataRows) {
-        var rows = lockup.metadata.lockupMetadataViewModel.metadataRows;
-        if (rows.length && rows[0].metadataParts && rows[0].metadataParts.length) {
-            artist = getTextValue(rows[0].metadataParts[0].text);
-        }
+    if (filter === "channels") {
+        var cItems = channels.length ? channels : items.filter(function(x) { return x.kind === "artist"; });
+        return {
+            filters: filters,
+            sections: [
+                { title: "Kênh", layout: "list", items: cItems }
+            ],
+            items: cItems,
+            next: continuationToken
+        };
     }
 
-    var durationMs = 0;
-    var thumbnails = null;
-    var contentImage = lockup.contentImage && lockup.contentImage.thumbnailViewModel ? lockup.contentImage.thumbnailViewModel : null;
-    if (contentImage) {
-        if (contentImage.image && contentImage.image.sources && contentImage.image.sources.length) {
-            thumbnails = contentImage.image.sources;
-        }
-        var overlays = contentImage.overlays || [];
-        for (var i = 0; i < overlays.length; i++) {
-            var badges = overlays[i].thumbnailBottomOverlayViewModel ? overlays[i].thumbnailBottomOverlayViewModel.badges : [];
-            for (var j = 0; j < (badges || []).length; j++) {
-                var badge = badges[j].thumbnailBadgeViewModel;
-                if (badge && badge.text) {
-                    var d = parseDurationMs(getTextValue(badge.text));
-                    if (d > 0) durationMs = d;
-                }
-            }
-        }
-    }
-    var artworkUrl = chooseArtworkUrl(thumbnails, id);
-
-    return {
-        id: id,
-        title: title || "Không có tiêu đề",
-        artist: artist || "YouTube",
-        durationMs: durationMs,
-        artworkUrl: artworkUrl,
-        webUrl: YT_BASE + "/watch?v=" + id
-    };
-}
-
-function parseCardsFromInitialData(initialData) {
-    var items = [];
-    var seen = {};
-    var continuationToken = null;
-
-    var sectionList = collectRenderers(initialData, "sectionListRenderer");
-    var itemSections = collectRenderers(initialData, "itemSectionRenderer");
-
-    // Look for continuation token
-    var continuations = collectRenderers(initialData, "continuationItemRenderer");
-    for (var c = 0; c < continuations.length; c++) {
-        var cont = continuations[c];
-        if (cont && cont.continuationEndpoint && cont.continuationEndpoint.continuationCommand) {
-            continuationToken = cont.continuationEndpoint.continuationCommand.token || null;
-            if (continuationToken) break;
-        }
+    if (filter === "videos") {
+        var vItems = items.filter(function(x) { return x.kind === "track"; });
+        return {
+            filters: filters,
+            sections: [
+                { title: "Bài hát & Video", layout: "list", items: vItems }
+            ],
+            items: vItems,
+            next: continuationToken
+        };
     }
 
-    // Collect videoRenderers
-    var videoRenderers = collectRenderers(initialData, "videoRenderer");
-    for (var i = 0; i < videoRenderers.length; i++) {
-        var card = parseCardFromVideoRenderer(videoRenderers[i]);
-        if (card && !seen[card.id]) {
-            seen[card.id] = true;
-            items.push(card);
-        }
+    // Default: Multi-section Page
+    var sections = [];
+    var trackItems = [];
+    var otherItems = [];
+
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].kind === "track") trackItems.push(items[i]);
+        else otherItems.push(items[i]);
     }
 
-    // Collect lockupViewModels (playlist items or new search layout)
-    var lockups = collectRenderers(initialData, "lockupViewModel");
-    for (var j = 0; j < lockups.length; j++) {
-        var lockupCard = parseCardFromLockup(lockups[j]);
-        if (lockupCard && !seen[lockupCard.id]) {
-            seen[lockupCard.id] = true;
-            items.push(lockupCard);
-        }
+    if (trackItems.length > 0) {
+        sections.push({
+            title: "Kết quả hàng đầu",
+            layout: "top",
+            items: [trackItems[0]]
+        });
+        sections.push({
+            title: "Bài hát & Video",
+            layout: "list",
+            items: trackItems.slice(1, 15),
+            more: { filter: "videos" }
+        });
+    }
+
+    var allPlaylists = playlists.concat(otherItems.filter(function(x) { return x.kind === "playlist"; }));
+    if (allPlaylists.length > 0) {
+        sections.push({
+            title: "Danh sách phát",
+            layout: "shelf",
+            items: allPlaylists.slice(0, 10),
+            more: { filter: "playlists" }
+        });
+    }
+
+    var allChannels = channels.concat(otherItems.filter(function(x) { return x.kind === "artist"; }));
+    if (allChannels.length > 0) {
+        sections.push({
+            title: "Kênh",
+            layout: "shelf",
+            items: allChannels.slice(0, 10),
+            more: { filter: "channels" }
+        });
+    }
+
+    if (sections.length === 0 && items.length > 0) {
+        sections.push({
+            title: "Kết quả",
+            layout: "list",
+            items: items
+        });
     }
 
     return {
+        filters: filters,
+        sections: sections,
         items: items,
-        next: continuationToken
+        next: null
+    };
+}
+
+function parseAllFromInitialData(initialData) {
+    var raw = parseCardsFromInitialData(initialData);
+    var playlists = [];
+    var channels = [];
+
+    var pRenderers = collectRenderers(initialData, "playlistRenderer");
+    for (var i = 0; i < pRenderers.length; i++) {
+        var pCard = parseCardFromPlaylistRenderer(pRenderers[i]);
+        if (pCard) playlists.push(pCard);
+    }
+
+    var cRenderers = collectRenderers(initialData, "channelRenderer");
+    for (var j = 0; j < cRenderers.length; j++) {
+        var cCard = parseCardFromChannelRenderer(cRenderers[j]);
+        if (cCard) channels.push(cCard);
+    }
+
+    return {
+        items: raw.items,
+        playlists: playlists,
+        channels: channels,
+        next: raw.next
     };
 }
 
 function execute(input) {
     input = input || {};
     var query = trimText(input.query || "");
+    var filter = trimText(input.filter || "");
     var next = input.next ? trimText(input.next) : null;
 
     if (!query && !next) {
-        return Response.success({ items: [], next: null });
+        return Response.success({ filters: [], sections: [], items: [], next: null });
     }
 
     // Cache check
-    var cacheKey = "s:" + (next ? "n:" + next.slice(0, 32) : "q:" + query);
+    var cacheKey = "s:" + (next ? "n:" + next.slice(0, 32) : "q:" + query + ":f:" + filter);
     var cached = cacheGet(cacheKey);
     if (cached) {
         return Response.success(cached);
@@ -143,14 +156,17 @@ function execute(input) {
         var oembedRsp = fetch(oembedUrl, { headers: buildPreferredHeaders() });
         var oembedJson = safeJsonParse(oembedRsp.text()) || {};
         var item = {
+            kind: "track",
             id: videoId,
             title: oembedJson.title || "Video YouTube",
+            subtitle: oembedJson.author_name || "YouTube",
             artist: oembedJson.author_name || "YouTube",
+            artists: [{ id: "", title: oembedJson.author_name || "YouTube" }],
             durationMs: 0,
             artworkUrl: sanitizeArtworkUrl(oembedJson.thumbnail_url, videoId),
             webUrl: YT_BASE + "/watch?v=" + videoId
         };
-        var res = { items: [item], next: null };
+        var res = buildPageResult([item], [], [], null, filter);
         cacheSet(cacheKey, res, 120000);
         return Response.success(res);
     }
@@ -165,9 +181,10 @@ function execute(input) {
         if (!playlistData) {
             return Response.error("Không đọc được dữ liệu danh sách phát", { kind: ERROR_KIND.INVALID_RESPONSE });
         }
-        var playlistResult = parseCardsFromInitialData(playlistData);
-        cacheSet(cacheKey, playlistResult, 120000);
-        return Response.success(playlistResult);
+        var parsedPlaylist = parseAllFromInitialData(playlistData);
+        var pageRes = buildPageResult(parsedPlaylist.items, parsedPlaylist.playlists, parsedPlaylist.channels, parsedPlaylist.next, filter);
+        cacheSet(cacheKey, pageRes, 120000);
+        return Response.success(pageRes);
     }
 
     // Case 3: Continuation (page 2+)
@@ -194,9 +211,10 @@ function execute(input) {
             body: JSON.stringify(continuationBody)
         });
         var contJson = safeJsonParse(continuationRsp.text()) || {};
-        var contResult = parseCardsFromInitialData(contJson);
-        cacheSet(cacheKey, contResult, 60000);
-        return Response.success(contResult);
+        var parsedCont = parseAllFromInitialData(contJson);
+        var contPageRes = buildPageResult(parsedCont.items, parsedCont.playlists, parsedCont.channels, parsedCont.next, filter);
+        cacheSet(cacheKey, contPageRes, 60000);
+        return Response.success(contPageRes);
     }
 
     // Case 4: Standard search query
@@ -208,7 +226,8 @@ function execute(input) {
         return Response.error("Không đọc được kết quả tìm kiếm từ YouTube", { kind: ERROR_KIND.INVALID_RESPONSE });
     }
 
-    var searchResult = parseCardsFromInitialData(initialData);
+    var parsedSearch = parseAllFromInitialData(initialData);
+    var searchResult = buildPageResult(parsedSearch.items, parsedSearch.playlists, parsedSearch.channels, parsedSearch.next, filter);
     cacheSet(cacheKey, searchResult, 60000);
     return Response.success(searchResult);
 }

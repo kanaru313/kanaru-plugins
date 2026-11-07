@@ -1,6 +1,6 @@
 load("common.js");
 
-function getProgressiveCandidates(transcodings) {
+function getStreamCandidates(transcodings) {
     if (!transcodings || !transcodings.length) return [];
 
     var list = [];
@@ -10,24 +10,23 @@ function getProgressiveCandidates(transcodings) {
         if (t.snipped) continue; // Bỏ qua bản nghe thử 30s của SoundCloud Go+
 
         var protocol = String((t.format && t.format.protocol) || "").toLowerCase();
-        // Bỏ qua mọi luồng HLS vì app stream proxy chỉ hỗ trợ luồng phát liên tục theo Range (MP3 / Progressive)
-        if (protocol === "hls" || protocol.indexOf("hls") !== -1) {
-            continue;
-        }
-
-        if (protocol === "progressive") {
+        // Hỗ trợ cả luồng HLS (m3u8) và luồng progressive (MP3)
+        if (protocol === "hls" || protocol === "progressive") {
             list.push(t);
         }
     }
 
-    // Sắp xếp ưu tiên: mp3_128k / abr_sq trước, rồi tới các preset khác
+    // Sắp xếp ưu tiên:
+    // aac_160k (HLS AAC 160k) > mp3_128k (Progressive MP3 128k) > aac_96k (HLS AAC 96k) > abr_sq
     list.sort(function(a, b) {
         var pa = String(a.preset || "").toLowerCase();
         var pb = String(b.preset || "").toLowerCase();
         function score(p) {
-            if (p === "mp3_128k" || p === "abr_sq") return 10;
-            if (p.indexOf("mp3") !== -1) return 8;
-            return 5;
+            if (p === "aac_160k") return 20; // HLS AAC 160k (chất lượng cao nhất, dùng test HLS)
+            if (p === "mp3_128k") return 15; // Progressive MP3 128k
+            if (p === "aac_96k") return 10;  // HLS AAC 96k
+            if (p === "abr_sq") return 5;
+            return 1;
         }
         return score(pb) - score(pa);
     });
@@ -120,17 +119,16 @@ function execute(input) {
         return fail("Không tìm thấy transcoding âm thanh cho track này", ERROR_KIND.UNSUPPORTED);
     }
 
-    var progressiveCandidates = getProgressiveCandidates(transcodings);
-    if (!progressiveCandidates.length) {
-        // Track chỉ có HLS (nằm ngoài contract của app stream proxy)
-        return fail("Bài hát này chỉ có luồng phát HLS (m3u8), ứng dụng hiện chỉ hỗ trợ luồng phát liên tục (MP3 / Progressive)", ERROR_KIND.UNAVAILABLE);
+    var streamCandidates = getStreamCandidates(transcodings);
+    if (!streamCandidates.length) {
+        return fail("Không tìm thấy transcoding âm thanh (HLS / Progressive) khả dụng", ERROR_KIND.UNSUPPORTED);
     }
 
-    // 2. Thử lần lượt các progressive transcoding cho đến khi tìm được luồng tải thành công
+    // 2. Thử lần lượt các transcoding cho đến khi tìm được luồng tải thành công
     var playUrl = "";
     var chosen = null;
-    for (var i = 0; i < progressiveCandidates.length; i++) {
-        var cand = progressiveCandidates[i];
+    for (var i = 0; i < streamCandidates.length; i++) {
+        var cand = streamCandidates[i];
         var streamRsp = fetchWithAuth(cand.url, {}, trackAuth);
         if (streamRsp && streamRsp.ok) {
             var streamJson = safeJsonParse(streamRsp.text());
@@ -153,17 +151,24 @@ function execute(input) {
         expiresAtMs = parseInt(expMatch[1], 10) * 1000;
     }
 
+    var chosenProtocol = String((chosen.format && chosen.format.protocol) || "").toLowerCase();
+    var isHls = chosenProtocol === "hls" || /\.m3u8(\?|$)/i.test(playUrl);
+
     var mimeType = "audio/mpeg";
-    if (chosen.format && chosen.format.mime_type && chosen.format.mime_type.indexOf("mpeg") !== -1) {
+    if (isHls) {
+        mimeType = "application/vnd.apple.mpegurl";
+    } else if (chosen.format && chosen.format.mime_type && chosen.format.mime_type.indexOf("mpeg") !== -1) {
         mimeType = chosen.format.mime_type;
     }
 
     var bitrate = 128000;
     var preset = String(chosen.preset || "").toLowerCase();
-    if (preset === "mp3_128k" || preset === "abr_sq") {
-        bitrate = 128000;
-    } else if (preset === "aac_160k") {
+    if (preset === "aac_160k") {
         bitrate = 160000;
+    } else if (preset === "aac_96k") {
+        bitrate = 96000;
+    } else if (preset === "mp3_128k" || preset === "abr_sq") {
+        bitrate = 128000;
     }
 
     var result = {

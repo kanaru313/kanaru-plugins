@@ -211,8 +211,10 @@ function parseTrackCard(track) {
     var title = trimText(track.title) || "Không có tiêu đề";
 
     var artist = "";
+    var userId = "";
     if (track.user) {
         artist = trimText(track.user.username || track.user.full_name || "");
+        if (track.user.id) userId = String(track.user.id);
     }
     if (!artist) artist = "SoundCloud";
 
@@ -221,10 +223,61 @@ function parseTrackCard(track) {
     var webUrl = track.permalink_url || (SC_WEB_BASE + "/tracks/" + id);
 
     return {
+        kind: "track",
         id: id,
         title: title,
+        subtitle: artist,
         artist: artist,
+        artists: [{ id: userId, title: artist }],
         durationMs: durationMs,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parsePlaylistCard(playlist) {
+    if (!playlist) return null;
+    var id = playlist.id ? String(playlist.id) : "";
+    if (!id) return null;
+
+    var title = trimText(playlist.title) || "Danh sách phát";
+    var artist = "";
+    if (playlist.user) {
+        artist = trimText(playlist.user.username || playlist.user.full_name || "");
+    }
+    if (!artist) artist = "SoundCloud";
+
+    var count = playlist.track_count || (playlist.tracks ? playlist.tracks.length : 0);
+    var artworkUrl = chooseArtworkUrl(playlist.artwork_url, playlist.user && playlist.user.avatar_url);
+    var webUrl = playlist.permalink_url || (SC_WEB_BASE + "/playlists/" + id);
+
+    return {
+        kind: "playlist",
+        id: id,
+        title: title,
+        subtitle: (artist ? artist + " · " : "") + (count ? count + " tracks" : "Danh sách phát"),
+        artist: artist,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parseUserCard(user) {
+    if (!user) return null;
+    var id = user.id ? String(user.id) : (user.permalink ? String(user.permalink) : "");
+    if (!id) return null;
+
+    var name = trimText(user.username || user.full_name || "");
+    var subs = user.followers_count ? (user.followers_count + " followers") : "SoundCloud";
+    var artworkUrl = chooseArtworkUrl(user.avatar_url);
+    var webUrl = user.permalink_url || (SC_WEB_BASE + "/" + id);
+
+    return {
+        kind: "artist",
+        id: id,
+        title: name || "Nghệ sĩ",
+        subtitle: subs,
+        artist: name || "SoundCloud",
         artworkUrl: artworkUrl,
         webUrl: webUrl
     };

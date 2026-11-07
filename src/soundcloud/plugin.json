@@ -2,22 +2,32 @@
   "metadata": {
     "name": "SoundCloud",
     "author": "Kanaru Contributors",
-    "version": 4,
+    "version": 6,
     "apiVersion": 1,
     "type": "source",
-    "description": "Nguồn phát âm thanh SoundCloud (Progressive MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+    "description": "Nguồn phát âm thanh SoundCloud (HLS AAC 160 kbps & Progressive MP3) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link SoundCloud.",
     "hosts": [
       "soundcloud.com",
+      "*.soundcloud.com",
       "api-v2.soundcloud.com",
       "api.soundcloud.com",
       "*.sndcdn.com",
       "*.media-streaming.soundcloud.cloud",
       "*.soundcloud.cloud"
-    ]
+    ],
+    "regexp": "^https?:\\/\\/(?:(?:www|m|on)\\.)?soundcloud\\.com\\/"
   },
   "script": {
     "search": "search.js",
-    "stream": "stream.js"
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
   },
   "config": {
     "quality": {
@@ -32,14 +42,14 @@
           "title": "Cao nhất (HQ)"
         },
         {
-          "value": "Tiết kiệm dữ liệu",
-          "title": "Tiết kiệm dữ liệu"
+          "value": "Tiêu chuẩn (SQ)",
+          "title": "Tiêu chuẩn (SQ)"
         }
       ]
     },
     "clientId": {
-      "title": "Tùy chỉnh Client ID (tùy chọn)",
-      "subtitle": "Để trống để tự động trích xuất từ SoundCloud",
+      "title": "SoundCloud Client ID tuỳ chỉnh",
+      "subtitle": "Để trống để plugin tự động lấy và làm mới Client ID từ web",
       "mode": "input",
       "format": "text",
       "default": ""

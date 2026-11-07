@@ -2,21 +2,33 @@
   "metadata": {
     "name": "Radio Browser",
     "author": "Kanaru Contributors",
-    "version": 2,
+    "version": 3,
     "apiVersion": 1,
     "type": "source",
-    "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser.",
+    "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser. Hỗ trợ tìm kiếm, khám phá đài thịnh hành, phân loại theo thể loại, quốc gia, trạm tương tự và giải mã URL trực tiếp.",
     "hosts": [
       "de1.api.radio-browser.info",
       "at1.api.radio-browser.info",
       "nl1.api.radio-browser.info",
       "*.api.radio-browser.info",
       "*.radio-browser.info"
+    ],
+    "regexp": "^https?:\\/\\/(?:www\\.)?radio-browser\\.info\\/|^https?:\\/\\/.+\\.api\\.radio-browser\\.info\\/",
+    "languages": [
+      "*"
     ]
   },
   "script": {
     "search": "search.js",
-    "stream": "stream.js"
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
   },
   "config": {
     "country": {

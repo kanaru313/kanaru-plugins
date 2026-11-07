@@ -5,20 +5,29 @@
     "version": 2,
     "apiVersion": 1,
     "type": "source",
-    "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
+    "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ tìm kiếm, khám phá thư viện cá nhân, thể loại, radio, playlist, nghệ sĩ và stream trực tiếp / transcode.",
     "hosts": [
       "demo.navidrome.org",
       "*.navidrome.org",
       "*.subsonic.org",
       "*.airsonic.media"
     ],
+    "regexp": "^https?:\\/\\/.+\\/(?:rest|app)\\/|^https?:\\/\\/.+subsonic|^https?:\\/\\/.+navidrome",
     "languages": [
       "*"
     ]
   },
   "script": {
     "search": "search.js",
-    "stream": "stream.js"
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
   },
   "config": {
     "serverUrl": {
@@ -37,13 +46,14 @@
       "title": "Mật khẩu",
       "mode": "input",
       "format": "secret",
-      "placeholder": "demo"
+      "default": "demo"
     },
     "maxBitRate": {
-      "title": "Tốc độ bit tối đa khi transcode (kbps, 0 = không giới hạn / raw)",
+      "title": "Bitrate giới hạn khi phát (kbps)",
+      "subtitle": "Để trống để phát file gốc, hoặc nhập số bitrate (ví dụ: 128, 192, 256, 320)",
       "mode": "input",
-      "format": "integer",
-      "default": 0
+      "format": "text",
+      "default": ""
     }
   }
 }

@@ -343,4 +343,37 @@ test('Live integration test: search and stream resolution against demo.navidrome
   console.log(`  Live Subsonic stream resolved: ${streamResult.result.data.url.slice(0, 70)}...`);
 });
 
+// 7. Live home.js test
+test('Live home.js: returns sections from demo server', () => {
+  const homeRes = runScript('home.js', {}, { pluginSlug: 'subsonic' });
+  assert.strictEqual(homeRes.result.status, 'ok');
+  assert.ok(Array.isArray(homeRes.result.data.sections));
+  console.log(`  Home sections returned: ${homeRes.result.data.sections.length}`);
+});
+
+// 8. Live genre.js test
+test('Live genre.js: returns genre list from demo server', () => {
+  const genreRes = runScript('genre.js', {}, { pluginSlug: 'subsonic' });
+  assert.strictEqual(genreRes.result.status, 'ok');
+  assert.ok(Array.isArray(genreRes.result.data.genres) || Array.isArray(genreRes.result.data.sections));
+  console.log(`  Genres returned: ${(genreRes.result.data.genres || []).length}`);
+});
+
+// 9. Live autocomplete.js test
+test('Live autocomplete.js: returns suggestions for query "love"', () => {
+  const acRes = runScript('autocomplete.js', { query: 'love' }, { pluginSlug: 'subsonic' });
+  assert.strictEqual(acRes.result.status, 'ok');
+  assert.ok(Array.isArray(acRes.result.data));
+  console.log(`  Suggestions: ${JSON.stringify(acRes.result.data.slice(0, 3))}`);
+});
+
+// 10. Live resolve.js test
+test('Live resolve.js: resolves track by ID', () => {
+  const res = runScript('resolve.js', { id: '2ASymUTMYY5377TW2J6oZW' }, { pluginSlug: 'subsonic' });
+  assert.strictEqual(res.result.status, 'ok');
+  assert.strictEqual(res.result.data.kind, 'track');
+  assert.strictEqual(res.result.data.id, '2ASymUTMYY5377TW2J6oZW');
+  console.log(`  Resolved: ${res.result.data.title}`);
+});
+
 console.log(`\nAll ${passedTests} Subsonic source tests passed successfully.`);

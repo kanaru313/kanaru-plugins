@@ -4,25 +4,34 @@ function execute(input) {
     input = input || {};
     var query = trimText(input.query || "");
     var next = input.next ? trimText(input.next) : null;
+    var filter = input.filter ? trimText(input.filter) : "all";
 
     // Cache check
-    var cacheKey = "s:" + (next ? ("n:" + next) : ("q:" + query));
+    var cacheKey = "s:" + filter + ":" + (next ? ("n:" + next) : ("q:" + query));
     var cached = cacheGet(cacheKey);
     if (cached) {
         return Response.success(cached);
     }
 
-    // Case 1: Pasted direct HTTP live stream link
+    // Direct HTTP live stream link pasted
     if (/^https?:\/\//i.test(query) && !next) {
         var card = {
+            kind: "track",
             id: query,
             title: "Đài phát thanh trực tiếp",
+            subtitle: "Live Audio Stream",
             artist: "Live Audio Stream",
+            artists: [{ id: "", title: "Live Audio Stream" }],
             durationMs: 0,
             artworkUrl: "",
             webUrl: query
         };
-        var directRes = { items: [card], next: null };
+        var directRes = {
+            filters: [],
+            sections: [{ title: "Kết quả", layout: "list", items: [card] }],
+            items: [card],
+            next: null
+        };
         cacheSet(cacheKey, directRes, 120000);
         return Response.success(directRes);
     }
@@ -30,14 +39,24 @@ function execute(input) {
     var offset = next ? (parseInt(next, 10) || 0) : 0;
     var limit = 20;
 
-    var url = "";
-    if (query) {
-        url = RADIO_API_BASE + "/json/stations/search?name=" + encodeURIComponent(query)
+    var filters = [
+        { title: "Tất cả", input: { query: query, filter: "all" } },
+        { title: "Đài phát", input: { query: query, filter: "station" } },
+        { title: "Thể loại", input: { query: query, filter: "tag" } },
+        { title: "Quốc gia", input: { query: query, filter: "country" } }
+    ];
+
+    var path = "";
+    if (filter === "tag") {
+        path = "/json/tags/" + encodeURIComponent(query || "") + "?limit=" + limit + "&offset=" + offset + "&order=stationcount&reverse=true";
+    } else if (filter === "country") {
+        path = "/json/countries/" + encodeURIComponent(query || "") + "?limit=" + limit + "&offset=" + offset + "&order=stationcount&reverse=true";
+    } else if (query) {
+        path = "/json/stations/search?name=" + encodeURIComponent(query)
             + "&limit=" + limit
             + "&offset=" + offset
             + "&order=votes&reverse=true";
     } else {
-        // Empty query: fetch popular stations by preferred country or global topvote
         var country = "";
         try {
             if (typeof localConfig !== "undefined" && localConfig.getItem) {
@@ -46,47 +65,65 @@ function execute(input) {
         } catch (e) {}
 
         if (country) {
-            url = RADIO_API_BASE + "/json/stations/bycountry/" + encodeURIComponent(country)
+            path = "/json/stations/bycountry/" + encodeURIComponent(country)
                 + "?limit=" + limit
                 + "&offset=" + offset
                 + "&order=votes&reverse=true";
         } else {
-            url = RADIO_API_BASE + "/json/stations/topvote?limit=" + limit + "&offset=" + offset;
+            path = "/json/stations/topvote?limit=" + limit + "&offset=" + offset;
         }
     }
 
-    var rsp = fetch(url, {
-        headers: {
-            "Accept": "application/json",
-            "User-Agent": "Kanaru/1.0 (+https://github.com/hieu313/kanaru)"
-        }
-    });
-
-    if (rsp.status >= 500) {
-        return Response.error("Máy chủ Radio Browser gặp sự cố (HTTP " + rsp.status + ")", { kind: ERROR_KIND.NETWORK });
+    var apiRes = fetchApi(path);
+    if (!apiRes.ok || !Array.isArray(apiRes.data)) {
+        return Response.error("Không thể kết nối đến hệ thống Radio Browser", { kind: ERROR_KIND.NETWORK });
     }
 
-    if (!rsp.ok) {
-        return Response.error("Lỗi khi tìm kiếm đài phát thanh (HTTP " + rsp.status + ")", { kind: ERROR_KIND.INVALID_RESPONSE });
-    }
-
-    var json = safeJsonParse(rsp.text());
-    if (!Array.isArray(json)) {
-        return Response.error("Định dạng dữ liệu Radio Browser không đúng", { kind: ERROR_KIND.INVALID_RESPONSE });
-    }
-
+    var rawList = apiRes.data;
     var items = [];
     var seen = {};
-    for (var i = 0; i < json.length; i++) {
-        var c = parseRadioCard(json[i]);
-        if (c && !seen[c.id]) {
-            seen[c.id] = true;
-            items.push(c);
+
+    if (filter === "tag") {
+        for (var i = 0; i < rawList.length; i++) {
+            var tagCard = parseTagCard(rawList[i]);
+            if (tagCard && !seen[tagCard.id]) {
+                seen[tagCard.id] = true;
+                items.push(tagCard);
+            }
+        }
+    } else if (filter === "country") {
+        for (var j = 0; j < rawList.length; j++) {
+            var cCard = parseCountryCard(rawList[j]);
+            if (cCard && !seen[cCard.id]) {
+                seen[cCard.id] = true;
+                items.push(cCard);
+            }
+        }
+    } else {
+        for (var k = 0; k < rawList.length; k++) {
+            var sCard = parseRadioCard(rawList[k]);
+            if (sCard && !seen[sCard.id]) {
+                seen[sCard.id] = true;
+                items.push(sCard);
+            }
         }
     }
 
-    var nextToken = (json.length >= limit) ? String(offset + limit) : null;
+    var nextToken = (rawList.length >= limit) ? String(offset + limit) : null;
+    var sections = [];
+    if (items.length > 0) {
+        var layout = (filter === "tag" || filter === "country") ? "grid" : "list";
+        var title = filter === "tag" ? "Thể loại" : (filter === "country" ? "Quốc gia" : "Đài phát thanh");
+        sections.push({
+            title: title,
+            layout: layout,
+            items: items
+        });
+    }
+
     var result = {
+        filters: filters,
+        sections: sections,
         items: items,
         next: nextToken
     };

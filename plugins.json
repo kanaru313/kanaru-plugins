@@ -37,7 +37,7 @@
       ],
       "path": "dist/audius/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát âm thanh Audius chất lượng cao (MP3 320 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát, dán link track, album và danh sách phát.",
+      "description": "Nguồn phát âm thanh Audius chất lượng cao (MP3 320 kbps) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link Audius.",
       "icon": "dist/audius/icon.png"
     },
     {
@@ -72,7 +72,7 @@
       ],
       "path": "dist/bilibili/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát âm thanh Bilibili (DASH .m4a AAC) cho Kanaru. Hỗ trợ tìm kiếm video âm nhạc và dán link Bilibili (BV/av).",
+      "description": "Nguồn phát âm thanh Bilibili (DASH .m4a AAC) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link Bilibili (BV/av).",
       "icon": "dist/bilibili/icon.png"
     },
     {
@@ -520,7 +520,7 @@
     {
       "slug": "radio-browser",
       "name": "Radio Browser",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
@@ -532,17 +532,21 @@
       ],
       "path": "dist/radio-browser/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser.",
+      "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser. Hỗ trợ tìm kiếm, khám phá đài thịnh hành, phân loại theo thể loại, quốc gia, trạm tương tự và giải mã URL trực tiếp.",
+      "languages": [
+        "*"
+      ],
       "icon": "dist/radio-browser/icon.png"
     },
     {
       "slug": "soundcloud",
       "name": "SoundCloud",
-      "version": 4,
+      "version": 6,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
         "soundcloud.com",
+        "*.soundcloud.com",
         "api-v2.soundcloud.com",
         "api.soundcloud.com",
         "*.sndcdn.com",
@@ -551,7 +555,7 @@
       ],
       "path": "dist/soundcloud/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát âm thanh SoundCloud (Progressive MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, dán link track, album và playlist.",
+      "description": "Nguồn phát âm thanh SoundCloud (HLS AAC 160 kbps & Progressive MP3) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link SoundCloud.",
       "icon": "dist/soundcloud/icon.png"
     },
     {
@@ -588,7 +592,7 @@
       ],
       "path": "dist/subsonic/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode.",
+      "description": "Nguồn phát âm thanh chuẩn Subsonic REST API (hỗ trợ Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ tìm kiếm, khám phá thư viện cá nhân, thể loại, radio, playlist, nghệ sĩ và stream trực tiếp / transcode.",
       "languages": [
         "*"
       ],
@@ -616,7 +620,7 @@
     {
       "slug": "youtube",
       "name": "YouTube",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
@@ -626,7 +630,7 @@
       ],
       "path": "dist/youtube/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, dán link video và playlist.",
+      "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link YouTube.",
       "icon": "dist/youtube/icon.png"
     },
     {
@@ -650,7 +654,7 @@
     {
       "slug": "zingmp3-source",
       "name": "ZingMP3",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "source",
       "hosts": [
@@ -660,7 +664,7 @@
       ],
       "path": "dist/zingmp3-source/plugin.zip",
       "author": "Kanaru Contributors",
-      "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát V-Pop và dán link ZingMP3.",
+      "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link ZingMP3.",
       "languages": [
         "vi"
       ],

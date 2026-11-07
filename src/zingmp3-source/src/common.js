@@ -213,24 +213,79 @@ function parseTrackCard(s) {
     if (!title) return null;
 
     var artist = trimText(s.artistsNames || "");
-    if (!artist && Array.isArray(s.artists)) {
+    var artistsList = [];
+    if (Array.isArray(s.artists)) {
         var names = [];
         for (var j = 0; j < s.artists.length; j++) {
-            if (s.artists[j] && s.artists[j].name) names.push(s.artists[j].name);
+            if (s.artists[j] && s.artists[j].name) {
+                names.push(s.artists[j].name);
+                artistsList.push({ id: s.artists[j].alias || s.artists[j].id || "", title: s.artists[j].name });
+            }
         }
-        artist = names.join(", ");
+        if (!artist) artist = names.join(", ");
     }
     if (!artist) artist = "ZingMP3";
+    if (artistsList.length === 0) {
+        artistsList.push({ id: "", title: artist });
+    }
 
     var durationMs = (typeof s.duration === "number" && s.duration > 0) ? (s.duration * 1000) : 0;
     var artworkUrl = s.thumbnailM || s.thumbnail || "";
     var webUrl = s.link ? ("https://zingmp3.vn" + s.link) : ("https://zingmp3.vn/bai-hat/" + id + ".html");
 
     return {
+        kind: "track",
         id: id,
         title: title,
+        subtitle: artist,
         artist: artist,
+        artists: artistsList,
         durationMs: durationMs,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parsePlaylistCard(p) {
+    if (!p) return null;
+    var id = p.encodeId || p.id || "";
+    if (!id) return null;
+
+    var title = trimText(p.title || "");
+    if (!title) return null;
+
+    var artist = trimText(p.artistsNames || (p.artists && p.artists[0] && p.artists[0].name) || "ZingMP3");
+    var artworkUrl = p.thumbnailM || p.thumbnail || "";
+    var webUrl = p.link ? ("https://zingmp3.vn" + p.link) : ("https://zingmp3.vn/album/" + id + ".html");
+
+    return {
+        kind: "playlist",
+        id: id,
+        title: title,
+        subtitle: artist + " · Danh sách phát",
+        artist: artist,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parseArtistCard(a) {
+    if (!a) return null;
+    var id = a.alias || a.id || "";
+    if (!id) return null;
+
+    var name = trimText(a.name || "");
+    if (!name) return null;
+
+    var artworkUrl = a.thumbnailM || a.thumbnail || "";
+    var webUrl = a.link ? ("https://zingmp3.vn" + a.link) : ("https://zingmp3.vn/nghe-si/" + id);
+
+    return {
+        kind: "artist",
+        id: id,
+        title: name,
+        subtitle: (a.totalFollow ? (a.totalFollow + " người quan tâm") : "Nghệ sĩ"),
+        artist: name,
         artworkUrl: artworkUrl,
         webUrl: webUrl
     };

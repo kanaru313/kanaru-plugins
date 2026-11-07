@@ -30,28 +30,45 @@ function resolveSoundCloudUrl(url) {
                 cards.push(tCard);
             }
         }
+    } else if (json.kind === "user") {
+        var uCard = parseUserCard(json);
+        if (uCard) cards.push(uCard);
     }
 
-    return { items: cards, next: null };
+    return {
+        filters: [],
+        sections: [
+            { title: "Kết quả liên kết", layout: "list", items: cards }
+        ],
+        items: cards,
+        next: null
+    };
 }
 
 function execute(input) {
     input = input || {};
     var query = trimText(input.query || "");
+    var filter = trimText(input.filter || "");
     var next = input.next ? trimText(input.next) : null;
 
     if (!query && !next) {
-        return Response.success({ items: [], next: null });
+        return Response.success({ filters: [], sections: [], items: [], next: null });
     }
 
+    var filters = [
+        { title: "Tracks", input: "tracks" },
+        { title: "Playlists & Albums", input: "playlists" },
+        { title: "Nghệ sĩ", input: "users" }
+    ];
+
     // Cache check
-    var cacheKey = "s:" + (next ? ("n:" + next) : ("q:" + query));
+    var cacheKey = "s:" + (next ? ("n:" + next) : ("q:" + query + ":f:" + filter));
     var cached = cacheGet(cacheKey);
     if (cached) {
         return Response.success(cached);
     }
 
-    // Case 1: Pasted SoundCloud link (track or playlist)
+    // Case 1: Pasted SoundCloud link
     if (isSoundCloudUrl(query) && !next) {
         var resolved = resolveSoundCloudUrl(query);
         if (resolved.error) {
@@ -61,20 +78,61 @@ function execute(input) {
         return Response.success(resolved);
     }
 
-    // Case 2: Standard track search with offset pagination
     var offset = next ? (parseInt(next, 10) || 0) : 0;
     var limit = 20;
 
-    var searchUrl = SC_API_BASE + "/search/tracks?q=" + encodeURIComponent(query)
-        + "&limit=" + limit
-        + "&offset=" + offset;
+    // Filter-specific searches
+    if (filter === "playlists") {
+        var plUrl = SC_API_BASE + "/search/playlists?q=" + encodeURIComponent(query) + "&limit=" + limit + "&offset=" + offset;
+        var plRsp = fetchWithAuth(plUrl);
+        var plJson = plRsp.ok ? safeJsonParse(plRsp.text()) : null;
+        var plItems = [];
+        if (plJson && Array.isArray(plJson.collection)) {
+            for (var p = 0; p < plJson.collection.length; p++) {
+                var pCard = parsePlaylistCard(plJson.collection[p]);
+                if (pCard) plItems.push(pCard);
+            }
+        }
+        var plNext = (plJson && plJson.collection && plJson.collection.length >= limit) ? String(offset + limit) : null;
+        var plPage = {
+            filters: filters,
+            sections: [{ title: "Playlists & Albums", layout: "shelf", items: plItems }],
+            items: plItems,
+            next: plNext
+        };
+        cacheSet(cacheKey, plPage, 60000);
+        return Response.success(plPage);
+    }
 
+    if (filter === "users") {
+        var uUrl = SC_API_BASE + "/search/users?q=" + encodeURIComponent(query) + "&limit=" + limit + "&offset=" + offset;
+        var uRsp = fetchWithAuth(uUrl);
+        var uJson = uRsp.ok ? safeJsonParse(uRsp.text()) : null;
+        var uItems = [];
+        if (uJson && Array.isArray(uJson.collection)) {
+            for (var u = 0; u < uJson.collection.length; u++) {
+                var uC = parseUserCard(uJson.collection[u]);
+                if (uC) uItems.push(uC);
+            }
+        }
+        var uNext = (uJson && uJson.collection && uJson.collection.length >= limit) ? String(offset + limit) : null;
+        var uPage = {
+            filters: filters,
+            sections: [{ title: "Nghệ sĩ", layout: "list", items: uItems }],
+            items: uItems,
+            next: uNext
+        };
+        cacheSet(cacheKey, uPage, 60000);
+        return Response.success(uPage);
+    }
+
+    // Default: Track search with multi-section layout
+    var searchUrl = SC_API_BASE + "/search/tracks?q=" + encodeURIComponent(query) + "&limit=" + limit + "&offset=" + offset;
     var rsp = fetchWithAuth(searchUrl);
 
     if (rsp.status >= 500) {
         return Response.error("Máy chủ SoundCloud gặp sự cố tạm thời (HTTP " + rsp.status + ")", { kind: ERROR_KIND.NETWORK });
     }
-
     if (!rsp.ok) {
         return Response.error("Không đọc được kết quả tìm kiếm từ SoundCloud (HTTP " + rsp.status + ")", { kind: ERROR_KIND.INVALID_RESPONSE });
     }
@@ -96,7 +154,25 @@ function execute(input) {
     }
 
     var nextToken = (json.collection.length >= limit) ? String(offset + limit) : null;
+
+    var sections = [];
+    if (items.length > 0) {
+        sections.push({
+            title: "Kết quả hàng đầu",
+            layout: "top",
+            items: [items[0]]
+        });
+        sections.push({
+            title: "Bài hát nổi bật",
+            layout: "list",
+            items: items.slice(1),
+            more: { filter: "tracks" }
+        });
+    }
+
     var result = {
+        filters: filters,
+        sections: sections,
         items: items,
         next: nextToken
     };

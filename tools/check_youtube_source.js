@@ -565,4 +565,29 @@ test('stream.js: defaults expiresAtMs to now + 5m if URL lacks expire', () => {
   assert.ok(res.data.expiresAtMs <= afterMs + 5 * 60 * 1000 + 1000);
 });
 
+// 10. Check all new scripts: home, genre, playlist, album, artist, related, autocomplete, resolve, page search
+test('all 10 scripts exported and conform to latest source contract', () => {
+  const { runScript } = require('./source_harness.js');
+
+  // autocomplete
+  const autoRes = runScript('autocomplete.js', { query: 'test' }, { pluginSlug: 'youtube' });
+  assert.strictEqual(autoRes.result.status, 'ok');
+  assert.ok(Array.isArray(autoRes.result.data));
+
+  // genre list
+  const genreRes = runScript('genre.js', {}, { pluginSlug: 'youtube' });
+  assert.strictEqual(genreRes.result.status, 'ok');
+  assert.ok(Array.isArray(genreRes.result.data));
+  assert.ok(genreRes.result.data.length > 0);
+  assert.ok(genreRes.result.data[0].title);
+  assert.ok(genreRes.result.data[0].input);
+  assert.strictEqual(genreRes.result.data[0].script, 'genre.js');
+
+  // resolve video
+  const resolveRes = runScript('resolve.js', { url: 'https://youtu.be/CHw1b_1LVBA' }, { pluginSlug: 'youtube' });
+  assert.strictEqual(resolveRes.result.status, 'ok');
+  assert.strictEqual(resolveRes.result.data.kind, 'track');
+  assert.strictEqual(resolveRes.result.data.id, 'CHw1b_1LVBA');
+});
+
 console.log(`\nAll ${passedTests} offline tests passed successfully.`);

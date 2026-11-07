@@ -302,7 +302,7 @@ test('stream.js: cache hit, fresh bypass, and eviction on failure', () => {
         status: 200,
         ok: true,
         text: () => JSON.stringify({
-          url: `https://playback.media-streaming.soundcloud.cloud/stream_${++streamCount}.m3u8?expires=1793957152`,
+          url: `https://playback.media-streaming.soundcloud.cloud/stream_${++streamCount}.m3u8?expires=${Math.floor(Date.now() / 1000) + 7200}`,
         }),
       };
     },
@@ -394,6 +394,31 @@ test('Live integration test: search and stream resolution', () => {
   assert.ok(streamResult.result.data.url.startsWith('http'), 'Stream URL must be valid HTTP(S) URL');
   assert.ok(streamResult.result.data.bitrate >= 96000);
   console.log(`  Live stream resolved: ${streamResult.result.data.url.slice(0, 70)}...`);
+});
+
+// 8. Test all new source specification scripts
+test('all 10 scripts exported and conform to latest source contract', () => {
+  // autocomplete
+  const autoRes = runScript('autocomplete.js', { query: 'alan' }, { pluginSlug: 'soundcloud' });
+  assert.strictEqual(autoRes.result.status, 'ok');
+  assert.ok(Array.isArray(autoRes.result.data));
+
+  // genre list
+  const genreRes = runScript('genre.js', {}, { pluginSlug: 'soundcloud' });
+  assert.strictEqual(genreRes.result.status, 'ok');
+  assert.ok(Array.isArray(genreRes.result.data));
+  assert.ok(genreRes.result.data.length > 0);
+  assert.strictEqual(genreRes.result.data[0].script, 'genre.js');
+
+  // related
+  const relRes = runScript('related.js', { id: '1204583251' }, { pluginSlug: 'soundcloud' });
+  assert.strictEqual(relRes.result.status, 'ok');
+  assert.ok(Array.isArray(relRes.result.data.items));
+
+  // resolve
+  const resolveRes = runScript('resolve.js', { url: 'https://soundcloud.com/spinninrecords/alok-alan-walker-headlights-feat-kiddo-listen-link' }, { pluginSlug: 'soundcloud' });
+  assert.strictEqual(resolveRes.result.status, 'ok');
+  assert.strictEqual(resolveRes.result.data.kind, 'track');
 });
 
 console.log(`\nAll ${passedTests} SoundCloud tests passed successfully.`);

@@ -126,8 +126,10 @@ function parseTrackCard(track) {
     var title = trimText(track.title) || "Không có tiêu đề";
 
     var artist = "";
+    var userId = "";
     if (track.user) {
         artist = trimText(track.user.name || track.user.handle || "");
+        if (track.user.id) userId = String(track.user.id);
     }
     if (!artist && track.artists && track.artists.length) {
         artist = trimText(track.artists[0].name || "");
@@ -141,10 +143,63 @@ function parseTrackCard(track) {
         : (AUDIUS_WEB_BASE + "/tracks/" + id);
 
     return {
+        kind: "track",
         id: id,
         title: title,
+        subtitle: artist,
         artist: artist,
+        artists: [{ id: userId, title: artist }],
         durationMs: durationMs,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parsePlaylistCard(playlist) {
+    if (!playlist) return null;
+    var id = playlist.id ? String(playlist.id) : "";
+    if (!id) return null;
+
+    var title = trimText(playlist.playlist_name || playlist.title) || "Playlist";
+    var artist = "";
+    if (playlist.user) {
+        artist = trimText(playlist.user.name || playlist.user.handle || "");
+    }
+    if (!artist) artist = "Audius";
+
+    var count = playlist.track_count || (playlist.tracks ? playlist.tracks.length : 0);
+    var artworkUrl = chooseArtworkUrl(playlist.artwork);
+    var webUrl = playlist.permalink
+        ? (AUDIUS_WEB_BASE + playlist.permalink)
+        : (AUDIUS_WEB_BASE + "/playlists/" + id);
+
+    return {
+        kind: "playlist",
+        id: id,
+        title: title,
+        subtitle: (artist ? artist + " · " : "") + (count ? count + " tracks" : "Playlist"),
+        artist: artist,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parseUserCard(user) {
+    if (!user) return null;
+    var id = user.id ? String(user.id) : (user.handle ? String(user.handle) : "");
+    if (!id) return null;
+
+    var name = trimText(user.name || user.handle || "");
+    var subs = user.follower_count ? (user.follower_count + " followers") : "Audius Creator";
+    var artworkUrl = chooseArtworkUrl(user.profile_picture);
+    var webUrl = user.handle ? (AUDIUS_WEB_BASE + "/" + user.handle) : (AUDIUS_WEB_BASE + "/users/" + id);
+
+    return {
+        kind: "artist",
+        id: id,
+        title: name || "Nghệ sĩ",
+        subtitle: subs,
+        artist: name || "Audius",
         artworkUrl: artworkUrl,
         webUrl: webUrl
     };

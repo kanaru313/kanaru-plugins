@@ -32,6 +32,14 @@ test('plugin.json structure and fields', () => {
   assert.ok(Array.isArray(manifest.metadata.hosts));
   assert.strictEqual(manifest.script.search, 'search.js');
   assert.strictEqual(manifest.script.stream, 'stream.js');
+  assert.strictEqual(manifest.script.home, 'home.js');
+  assert.strictEqual(manifest.script.genre, 'genre.js');
+  assert.strictEqual(manifest.script.album, 'album.js');
+  assert.strictEqual(manifest.script.playlist, 'playlist.js');
+  assert.strictEqual(manifest.script.artist, 'artist.js');
+  assert.strictEqual(manifest.script.related, 'related.js');
+  assert.strictEqual(manifest.script.autocomplete, 'autocomplete.js');
+  assert.strictEqual(manifest.script.resolve, 'resolve.js');
 });
 
 // 2. Unit tests for common helpers
@@ -220,6 +228,41 @@ test('Live integration test: search and stream resolution', () => {
   assert.ok(streamResult.result.data.url.startsWith('http'), 'Stream URL must be valid HTTP URL');
   assert.strictEqual(streamResult.result.data.headers['Icy-MetaData'], '1');
   console.log(`  Live stream resolved: ${streamResult.result.data.url.slice(0, 60)}...`);
+});
+
+// 7. Live home.js test
+test('Live home.js: returns sections from Radio Browser', () => {
+  const homeRes = runScript('home.js', {}, { pluginSlug: 'radio-browser' });
+  assert.strictEqual(homeRes.result.status, 'ok');
+  assert.ok(Array.isArray(homeRes.result.data.sections));
+  assert.ok(homeRes.result.data.sections.length > 0);
+  console.log(`  Home sections returned: ${homeRes.result.data.sections.length}`);
+});
+
+// 8. Live genre.js test
+test('Live genre.js: returns tags list from Radio Browser', () => {
+  const genreRes = runScript('genre.js', {}, { pluginSlug: 'radio-browser' });
+  assert.strictEqual(genreRes.result.status, 'ok');
+  assert.ok(Array.isArray(genreRes.result.data.genres));
+  assert.ok(genreRes.result.data.genres.length > 0);
+  console.log(`  Genres returned: ${genreRes.result.data.genres.length}`);
+});
+
+// 9. Live autocomplete.js test
+test('Live autocomplete.js: returns station / tag suggestions', () => {
+  const acRes = runScript('autocomplete.js', { query: 'jazz' }, { pluginSlug: 'radio-browser' });
+  assert.strictEqual(acRes.result.status, 'ok');
+  assert.ok(Array.isArray(acRes.result.data));
+  console.log(`  Suggestions: ${JSON.stringify(acRes.result.data.slice(0, 3))}`);
+});
+
+// 10. Live resolve.js test
+test('Live resolve.js: resolves station by UUID or stream URL', () => {
+  const res = runScript('resolve.js', { id: 'ea8059be-d119-4de3-b27b-0d9bd6aedb17' }, { pluginSlug: 'radio-browser' });
+  assert.strictEqual(res.result.status, 'ok');
+  assert.strictEqual(res.result.data.kind, 'track');
+  assert.ok(res.result.data.title);
+  console.log(`  Resolved: ${res.result.data.title}`);
 });
 
 console.log(`\nAll ${passedTests} Radio Browser tests passed successfully.`);

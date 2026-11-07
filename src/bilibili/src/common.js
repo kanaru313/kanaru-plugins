@@ -118,6 +118,43 @@ function stripHtml(html) {
     return String(html || "").replace(/<[^>]+>/g, "");
 }
 
+function getBilibiliCookie() {
+    var store = getStorage();
+    if (store) {
+        var cached = store.getItem("bili_cookie");
+        if (cached) return cached;
+    }
+
+    try {
+        var res = fetch(BILI_WEB_BASE + "/", {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            }
+        });
+        var setCookie = (res.header ? res.header("set-cookie") : (res.headers && res.headers["set-cookie"])) || "";
+        var m = setCookie.match(/buvid3=([^;]+)/);
+        var cookieVal = m ? ("buvid3=" + m[1]) : "buvid3=infoc";
+        if (store) {
+            try { store.setItem("bili_cookie", cookieVal); } catch (e) {}
+        }
+        return cookieVal;
+    } catch (e) {
+        return "buvid3=infoc";
+    }
+}
+
+function fetchBili(url, options) {
+    options = options || {};
+    var headers = options.headers || {};
+    headers["User-Agent"] = headers["User-Agent"] || "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+    headers["Referer"] = headers["Referer"] || (BILI_WEB_BASE + "/");
+    if (!headers["Cookie"]) {
+        headers["Cookie"] = getBilibiliCookie();
+    }
+    options.headers = headers;
+    return fetch(url, options);
+}
+
 function parseTrackCard(item) {
     if (!item) return null;
     var bvid = item.bvid || (item.id ? String(item.id) : "");
@@ -125,15 +162,39 @@ function parseTrackCard(item) {
 
     var title = stripHtml(item.title) || "Không có tiêu đề";
     var artist = trimText(item.author || (item.owner && item.owner.name) || "Bilibili");
+    var mid = String(item.mid || (item.owner && item.owner.mid) || "");
     var durationMs = parseDurationMs(item.duration);
     var artworkUrl = chooseArtworkUrl(item.pic);
     var webUrl = item.arcurl || (BILI_WEB_BASE + "/video/" + bvid);
 
     return {
+        kind: "track",
         id: bvid,
         title: title,
+        subtitle: artist,
         artist: artist,
+        artists: [{ id: mid, title: artist }],
         durationMs: durationMs,
+        artworkUrl: artworkUrl,
+        webUrl: webUrl
+    };
+}
+
+function parseUserCard(u) {
+    if (!u) return null;
+    var mid = u.mid ? String(u.mid) : "";
+    if (!mid) return null;
+
+    var name = trimText(u.uname || u.name || "");
+    var artworkUrl = chooseArtworkUrl(u.upic || u.face);
+    var webUrl = BILI_WEB_BASE + "/space/" + mid;
+
+    return {
+        kind: "artist",
+        id: mid,
+        title: name || "UP chủ",
+        subtitle: (u.fans ? (u.fans + " người hâm mộ") : "Nghệ sĩ"),
+        artist: name,
         artworkUrl: artworkUrl,
         webUrl: webUrl
     };

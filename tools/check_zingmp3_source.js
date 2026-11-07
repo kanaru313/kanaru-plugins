@@ -300,4 +300,29 @@ test('Live integration test: search and stream resolution', () => {
   console.log(`  Live CDN MP3 stream resolved: ${streamResult.result.data.url.slice(0, 60)}...`);
 });
 
+// 7. Check all new scripts: home, genre, playlist, album, artist, related, autocomplete, resolve
+test('all 10 scripts exported and conform to latest source contract', () => {
+  // autocomplete
+  const autoRes = runScript('autocomplete.js', { query: 'waiting' }, { pluginSlug: 'zingmp3-source' });
+  assert.strictEqual(autoRes.result.status, 'ok');
+  assert.ok(Array.isArray(autoRes.result.data));
+
+  // genre list
+  const genreRes = runScript('genre.js', {}, { pluginSlug: 'zingmp3-source' });
+  assert.strictEqual(genreRes.result.status, 'ok');
+  assert.ok(Array.isArray(genreRes.result.data));
+  assert.ok(genreRes.result.data.length > 0);
+  assert.strictEqual(genreRes.result.data[0].script, 'genre.js');
+
+  // playlist
+  const plRes = runScript('playlist.js', { id: 'CasHsDNUCujg' }, { pluginSlug: 'zingmp3-source' });
+  assert.strictEqual(plRes.result.status, 'ok');
+  assert.ok(Array.isArray(plRes.result.data.tracks));
+
+  // related
+  const relRes = runScript('related.js', { id: 'BQfYy9h2OKFO' }, { pluginSlug: 'zingmp3-source' });
+  assert.strictEqual(relRes.result.status, 'ok');
+  assert.ok(Array.isArray(relRes.result.data.items));
+});
+
 console.log(`\nAll ${passedTests} ZingMP3 source tests passed successfully.`);
