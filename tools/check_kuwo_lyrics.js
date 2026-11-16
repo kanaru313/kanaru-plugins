@@ -1,9 +1,9 @@
-// Offline unit tests for src/kuwo: `node tools/check_kuwo_lyrics.js`.
+// Offline unit tests for src/lyrics/kuwo: `node tools/check_kuwo_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const DIR = path.join(__dirname, '..', 'src', 'kuwo');
+const DIR = path.join(__dirname, '..', 'src', 'lyrics', 'kuwo');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(DIR, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(DIR, 'src', 'search.js'), 'utf8');

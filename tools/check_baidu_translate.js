@@ -1,10 +1,10 @@
-// Offline tests for src/baidu-translate/: `node tools/check_baidu_translate.js`.
+// Offline tests for src/translate/baidu-translate/: `node tools/check_baidu_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'baidu-translate');
+const DIR = path.join(__dirname, '..', 'src', 'translate', 'baidu-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 const mockAnswer = (items) => makeResponse(200, {

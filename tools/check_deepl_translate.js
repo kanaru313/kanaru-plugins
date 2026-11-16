@@ -1,11 +1,11 @@
-// Offline tests of src/deepl-translate/: `node tools/check_deepl_translate.js`.
+// Offline tests of src/translate/deepl-translate/: `node tools/check_deepl_translate.js`.
 // DeepL is stubbed; each test scripts the HTTP answers the plugin gets.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'deepl-translate');
+const DIR = path.join(__dirname, '..', 'src', 'translate', 'deepl-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 const answer = (items) => makeResponse(200, { translations: items });
@@ -137,7 +137,7 @@ t('manifest: contract limits, languages map to targets, config valid', () => {
   assert.strictEqual(manifest.script.translate, 'translate.js');
   assert.deepStrictEqual(manifest.metadata.hosts, ['api-free.deepl.com', 'api.deepl.com']);
   assert.ok(m.maxLines <= 50 && m.maxLines >= 10 && m.maxChars >= 1000 && m.timeoutSec <= 90);
-  const app = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'src', 'gemini-translate', 'plugin.json'), 'utf8')).translate.languages;
+  const app = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'src', 'ai-translate', 'gemini-translate', 'plugin.json'), 'utf8')).translate.languages;
   const languages = fs.readFileSync(path.join(DIR, 'src', 'languages.js'), 'utf8');
   for (const code of m.languages) {
     assert.ok(app.includes(code), code + ' is in the app table');

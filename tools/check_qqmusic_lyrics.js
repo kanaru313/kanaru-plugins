@@ -1,10 +1,10 @@
-// Smoke test of src/qqmusic/src/lyrics.js and search.js: `node tools/check_qqmusic_lyrics.js`.
+// Smoke test of src/lyrics/qqmusic/src/lyrics.js and search.js: `node tools/check_qqmusic_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const cp = require('child_process');
 
-const pluginDir = path.join(__dirname, '..', 'src', 'qqmusic');
+const pluginDir = path.join(__dirname, '..', 'src', 'lyrics', 'qqmusic');
 const manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(pluginDir, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(pluginDir, 'src', 'search.js'), 'utf8');

@@ -1,10 +1,10 @@
-// Offline tests for src/edge-translate/: `node tools/check_edge_translate.js`.
+// Offline tests for src/translate/edge-translate/: `node tools/check_edge_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'edge-translate');
+const DIR = path.join(__dirname, '..', 'src', 'translate', 'edge-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 const mockAnswer = (items) => makeResponse(200, items.map(([text, lang]) => ({

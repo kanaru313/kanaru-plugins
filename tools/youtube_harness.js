@@ -49,7 +49,7 @@ function calculateStorageBytes(storageMap) {
 
 function createHostEnvironment(options = {}) {
   const {
-    pluginDir = path.join(__dirname, '..', 'src', 'youtube'),
+    pluginDir = path.join(__dirname, '..', 'src', 'source', 'youtube'),
     uaMode = 'plugin', // 'plugin' or 'forced'
     storageQuota = DEFAULT_STORAGE_QUOTA,
     cacheStorageQuota = DEFAULT_CACHE_STORAGE_QUOTA,
@@ -336,7 +336,7 @@ function createHostEnvironment(options = {}) {
 }
 
 function runPluginScript(scriptName, input, options = {}) {
-  const pluginDir = options.pluginDir || path.join(__dirname, '..', 'src', 'youtube');
+  const pluginDir = options.pluginDir || path.join(__dirname, '..', 'src', 'source', 'youtube');
   const env = createHostEnvironment({ ...options, pluginDir });
 
   // Loaded tracking

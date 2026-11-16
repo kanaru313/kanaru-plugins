@@ -4,7 +4,7 @@ const path = require('path');
 const assert = require('assert');
 const cp = require('child_process');
 
-const pluginDir = path.join(__dirname, '..', 'src', 'jlyric');
+const pluginDir = path.join(__dirname, '..', 'src', 'lyrics', 'jlyric');
 const manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(pluginDir, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(pluginDir, 'src', 'search.js'), 'utf8');

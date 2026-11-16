@@ -1,10 +1,10 @@
-// Smoke test of src/petitlyrics/src/lyrics.js and search.js: `node tools/check_petitlyrics_lyrics.js`.
+// Smoke test of src/lyrics/petitlyrics/src/lyrics.js and search.js: `node tools/check_petitlyrics_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const cp = require('child_process');
 
-const pluginDir = path.join(__dirname, '..', 'src', 'petitlyrics');
+const pluginDir = path.join(__dirname, '..', 'src', 'lyrics', 'petitlyrics');
 const manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(pluginDir, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(pluginDir, 'src', 'search.js'), 'utf8');

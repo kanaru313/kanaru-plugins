@@ -1,10 +1,10 @@
-// Smoke test of src/netease/src/lyrics.js: `node tools/check_netease_lyrics.js`.
+// Smoke test of src/lyrics/netease/src/lyrics.js: `node tools/check_netease_lyrics.js`.
 // Stubs the plugin globals (load, Response, neteaseGet) and runs execute().
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const src = path.join(__dirname, '..', 'src', 'netease', 'src', 'lyrics.js');
+const src = path.join(__dirname, '..', 'src', 'lyrics', 'netease', 'src', 'lyrics.js');
 const code = fs.readFileSync(src, 'utf8');
 
 function run(json) {

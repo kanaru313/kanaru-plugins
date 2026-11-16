@@ -1,9 +1,9 @@
-// Offline unit tests for src/hopamchuan: `node tools/check_hopamchuan_lyrics.js`.
+// Offline unit tests for src/lyrics/hopamchuan: `node tools/check_hopamchuan_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const DIR = path.join(__dirname, '..', 'src', 'hopamchuan');
+const DIR = path.join(__dirname, '..', 'src', 'lyrics', 'hopamchuan');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(DIR, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(DIR, 'src', 'search.js'), 'utf8');

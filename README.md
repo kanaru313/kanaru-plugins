@@ -2,10 +2,10 @@
 
 Lyrics source and lyrics translate plugins for [Kanaru](https://github.com/hieu313/kanaru).
 
-Each plugin lives in `src/<slug>/` with the layout Kanaru expects:
+Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `source`, `translate`, `ai-translate`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
 
 ```
-src/<slug>/
+src/<type>/<slug>/
 ├── plugin.json      metadata / script / config
 ├── icon.png         optional, ≤ 256×256, ≤ 64 KB
 └── src/
@@ -16,7 +16,7 @@ src/<slug>/
 A translate plugin (`metadata.type: "translate"`) has one script instead:
 
 ```
-src/<slug>/
+src/translate/<slug>/
 ├── plugin.json      metadata / script.translate / translate{languages,maxLines,maxChars,timeoutSec} / config
 └── src/
     └── translate.js execute({ lines, to, song? }) → Response.success([{ text, detected? }]), one per line
@@ -635,7 +635,7 @@ GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style] 
 python3 tools/build.py
 ```
 
-Zips every `src/<slug>/` into `dist/<slug>/plugin.zip` and rewrites `plugins.json`
+Zips every `src/<type>/<slug>/` into `dist/<slug>/plugin.zip` and rewrites `plugins.json`
 (the catalog). Catalog paths are relative, so the same catalog works from GitHub and
 from a local server.
 

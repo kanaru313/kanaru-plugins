@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Zip each plugin in src/ into dist/<slug>/plugin.zip and write plugins.json."""
+"""Zip each plugin in src/<type>/<slug>/ into a flat build folder per slug, and write plugins.json."""
 import json
 import pathlib
 import zipfile
@@ -41,8 +41,23 @@ def build_one(plugin_dir: pathlib.Path) -> dict:
     return entry
 
 
+def plugin_dirs() -> list[pathlib.Path]:
+    """Plugins sit in src/<type>/<slug>/; the type folder must match metadata.type."""
+    found = []
+    for type_dir in sorted(SRC.iterdir()) if SRC.exists() else []:
+        if not type_dir.is_dir():
+            continue
+        for plugin_dir in sorted(type_dir.iterdir()):
+            if (plugin_dir / "plugin.json").exists():
+                meta = json.loads((plugin_dir / "plugin.json").read_text(encoding="utf-8"))["metadata"]
+                if meta["type"] != type_dir.name:
+                    raise SystemExit(f"{plugin_dir}: type {meta['type']!r} is not its folder {type_dir.name!r}")
+                found.append(plugin_dir)
+    return sorted(found, key=lambda p: p.name)  # catalog order stays by slug
+
+
 def main() -> None:
-    data = [build_one(d) for d in sorted(SRC.iterdir()) if (d / "plugin.json").exists()] if SRC.exists() else []
+    data = [build_one(d) for d in plugin_dirs()]
     catalog = {"metadata": CATALOG_META, "data": data}
     (ROOT / "plugins.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"{len(data)} plugin(s) built")

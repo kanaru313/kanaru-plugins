@@ -1,11 +1,11 @@
-// Offline tests of src/gemini-translate/: `node tools/check_gemini_translate.js`.
+// Offline tests of src/ai-translate/gemini-translate/: `node tools/check_gemini_translate.js`.
 // Gemini is stubbed; each test scripts the HTTP answers the plugin gets.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'gemini-translate');
+const DIR = path.join(__dirname, '..', 'src', 'ai-translate', 'gemini-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** A Gemini 200 answer whose text is [items] as JSON. */

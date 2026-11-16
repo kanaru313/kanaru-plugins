@@ -1,9 +1,9 @@
-// Offline unit tests for src/megalobiz: `node tools/check_megalobiz_lyrics.js`.
+// Offline unit tests for src/lyrics/megalobiz: `node tools/check_megalobiz_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const DIR = path.join(__dirname, '..', 'src', 'megalobiz');
+const DIR = path.join(__dirname, '..', 'src', 'lyrics', 'megalobiz');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(DIR, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(DIR, 'src', 'search.js'), 'utf8');

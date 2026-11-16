@@ -1,4 +1,4 @@
-// Live run of src/gemini-translate/ against the real API:
+// Live run of src/ai-translate/gemini-translate/ against the real API:
 //   GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]
 // fetch is made synchronous with curl, like the host's blocking fetch. The
 // sample is "Sakura Sakura" (Japanese folk song, public domain).
@@ -33,7 +33,7 @@ function fetch(url, options = {}) {
   return makeResponse(Number(out.slice(cut + 1)), out.slice(0, cut));
 }
 
-const plugin = loadPlugin(path.join(__dirname, '..', 'src', 'gemini-translate'), {
+const plugin = loadPlugin(path.join(__dirname, '..', 'src', 'ai-translate', 'gemini-translate'), {
   fetch,
   config: { apiKeys: key, model, style },
 });

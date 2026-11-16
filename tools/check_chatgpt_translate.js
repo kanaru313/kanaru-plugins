@@ -1,10 +1,10 @@
-// Offline tests of src/chatgpt-translate/: `node tools/check_chatgpt_translate.js`.
+// Offline tests of src/ai-translate/chatgpt-translate/: `node tools/check_chatgpt_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'chatgpt-translate');
+const DIR = path.join(__dirname, '..', 'src', 'ai-translate', 'chatgpt-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** An OpenAI 200 answer returning JSON */

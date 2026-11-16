@@ -1,10 +1,10 @@
-// Offline tests of src/grok-translate/: `node tools/check_grok_translate.js`.
+// Offline tests of src/ai-translate/grok-translate/: `node tools/check_grok_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'grok-translate');
+const DIR = path.join(__dirname, '..', 'src', 'ai-translate', 'grok-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** An xAI Grok 200 answer returning JSON */

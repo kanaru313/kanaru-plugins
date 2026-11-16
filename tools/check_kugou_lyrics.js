@@ -1,10 +1,10 @@
-// Smoke test of src/kugou/src/lyrics.js and search.js: `node tools/check_kugou_lyrics.js`.
+// Smoke test of src/lyrics/kugou/src/lyrics.js and search.js: `node tools/check_kugou_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const cp = require('child_process');
 
-const pluginDir = path.join(__dirname, '..', 'src', 'kugou');
+const pluginDir = path.join(__dirname, '..', 'src', 'lyrics', 'kugou');
 const manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(pluginDir, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(pluginDir, 'src', 'search.js'), 'utf8');

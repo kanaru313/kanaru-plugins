@@ -47,10 +47,20 @@ function calculateStorageBytes(storageMap) {
   return bytes;
 }
 
+/** Finds src/<type>/<slug>/ for a plugin slug; the type folder is not known to callers. */
+function pluginDirForSlug(slug) {
+  const srcRoot = path.join(__dirname, '..', 'src');
+  for (const type of fs.readdirSync(srcRoot)) {
+    const dir = path.join(srcRoot, type, slug);
+    if (fs.existsSync(path.join(dir, 'plugin.json'))) return dir;
+  }
+  throw new Error(`plugin not found in src/<type>/: ${slug}`);
+}
+
 function createHostEnvironment(options = {}) {
   const {
     pluginSlug = '',
-    pluginDir = pluginSlug ? path.join(__dirname, '..', 'src', pluginSlug) : '',
+    pluginDir = pluginSlug ? pluginDirForSlug(pluginSlug) : '',
     uaMode = 'plugin',
     storageQuota = DEFAULT_STORAGE_QUOTA,
     cacheStorageQuota = DEFAULT_CACHE_STORAGE_QUOTA,

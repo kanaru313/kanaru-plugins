@@ -1,10 +1,10 @@
-// Offline tests of src/claude-translate/: `node tools/check_claude_translate.js`.
+// Offline tests of src/ai-translate/claude-translate/: `node tools/check_claude_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'claude-translate');
+const DIR = path.join(__dirname, '..', 'src', 'ai-translate', 'claude-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** An Anthropic Claude 200 answer returning JSON */

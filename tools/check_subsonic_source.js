@@ -5,7 +5,7 @@ const vm = require('vm');
 const assert = require('assert');
 const { runScript } = require('./source_harness');
 
-const PLUGIN_DIR = path.resolve(__dirname, '../src/subsonic');
+const PLUGIN_DIR = path.resolve(__dirname, '../src/source/subsonic');
 const manifestPath = path.join(PLUGIN_DIR, 'plugin.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 

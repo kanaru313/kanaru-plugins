@@ -1,10 +1,10 @@
-// Offline tests of src/deepseek-translate/: `node tools/check_deepseek_translate.js`.
+// Offline tests of src/ai-translate/deepseek-translate/: `node tools/check_deepseek_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'deepseek-translate');
+const DIR = path.join(__dirname, '..', 'src', 'ai-translate', 'deepseek-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** A DeepSeek 200 answer returning JSON */

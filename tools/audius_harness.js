@@ -49,7 +49,7 @@ function calculateStorageBytes(storageMap) {
 
 function createHostEnvironment(options = {}) {
   const {
-    pluginDir = path.join(__dirname, '..', 'src', 'audius'),
+    pluginDir = path.join(__dirname, '..', 'src', 'source', 'audius'),
     uaMode = 'plugin', // 'plugin' or 'forced'
     storageQuota = DEFAULT_STORAGE_QUOTA,
     cacheStorageQuota = DEFAULT_CACHE_STORAGE_QUOTA,

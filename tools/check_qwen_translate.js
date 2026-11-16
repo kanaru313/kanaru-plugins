@@ -1,10 +1,10 @@
-// Offline tests of src/qwen-translate/: `node tools/check_qwen_translate.js`.
+// Offline tests of src/ai-translate/qwen-translate/: `node tools/check_qwen_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'qwen-translate');
+const DIR = path.join(__dirname, '..', 'src', 'ai-translate', 'qwen-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** A Qwen 200 answer returning JSON */

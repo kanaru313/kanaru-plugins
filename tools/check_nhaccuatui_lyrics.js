@@ -1,11 +1,11 @@
-// Smoke test of src/nhaccuatui/src/lyrics.js and search.js: `node tools/check_nhaccuatui_lyrics.js`.
+// Smoke test of src/lyrics/nhaccuatui/src/lyrics.js and search.js: `node tools/check_nhaccuatui_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const commonCode = fs.readFileSync(path.join(__dirname, '..', 'src', 'nhaccuatui', 'src', 'common.js'), 'utf8');
-const searchCode = fs.readFileSync(path.join(__dirname, '..', 'src', 'nhaccuatui', 'src', 'search.js'), 'utf8');
-const lyricsCode = fs.readFileSync(path.join(__dirname, '..', 'src', 'nhaccuatui', 'src', 'lyrics.js'), 'utf8');
+const commonCode = fs.readFileSync(path.join(__dirname, '..', 'src', 'lyrics', 'nhaccuatui', 'src', 'common.js'), 'utf8');
+const searchCode = fs.readFileSync(path.join(__dirname, '..', 'src', 'lyrics', 'nhaccuatui', 'src', 'search.js'), 'utf8');
+const lyricsCode = fs.readFileSync(path.join(__dirname, '..', 'src', 'lyrics', 'nhaccuatui', 'src', 'lyrics.js'), 'utf8');
 
 function rc4Encrypt(text, keyStr) {
   const bytes = Buffer.from(text, 'utf8');

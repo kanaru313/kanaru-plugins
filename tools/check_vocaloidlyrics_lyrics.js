@@ -1,9 +1,9 @@
-// Offline unit tests for src/vocaloidlyrics: `node tools/check_vocaloidlyrics_lyrics.js`.
+// Offline unit tests for src/lyrics/vocaloidlyrics: `node tools/check_vocaloidlyrics_lyrics.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const DIR = path.join(__dirname, '..', 'src', 'vocaloidlyrics');
+const DIR = path.join(__dirname, '..', 'src', 'lyrics', 'vocaloidlyrics');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(DIR, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(DIR, 'src', 'search.js'), 'utf8');

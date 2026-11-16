@@ -1,10 +1,10 @@
-// Offline tests for src/papago-translate/: `node tools/check_papago_translate.js`.
+// Offline tests for src/translate/papago-translate/: `node tools/check_papago_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'papago-translate');
+const DIR = path.join(__dirname, '..', 'src', 'translate', 'papago-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 const mockAnswer = (translatedText, srcLang = 'ko', tarLang = 'vi') => makeResponse(200, {

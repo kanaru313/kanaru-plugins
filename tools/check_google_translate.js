@@ -1,11 +1,11 @@
-// Offline tests of src/google-translate/: `node tools/check_google_translate.js`.
+// Offline tests of src/translate/google-translate/: `node tools/check_google_translate.js`.
 // Google Translate is stubbed; each test scripts the HTTP answers the plugin gets.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'google-translate');
+const DIR = path.join(__dirname, '..', 'src', 'translate', 'google-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** Helper to generate mock response for free Google Translate endpoint. */

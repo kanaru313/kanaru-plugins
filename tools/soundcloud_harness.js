@@ -49,7 +49,7 @@ function calculateStorageBytes(storageMap) {
 
 function createHostEnvironment(options = {}) {
   const {
-    pluginDir = path.join(__dirname, '..', 'src', 'soundcloud'),
+    pluginDir = path.join(__dirname, '..', 'src', 'source', 'soundcloud'),
     uaMode = 'plugin',
     storageQuota = DEFAULT_STORAGE_QUOTA,
     cacheStorageQuota = DEFAULT_CACHE_STORAGE_QUOTA,

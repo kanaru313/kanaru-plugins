@@ -1,10 +1,10 @@
-// Offline tests for src/immersive-translate/: `node tools/check_immersive_translate.js`.
+// Offline tests for src/translate/immersive-translate/: `node tools/check_immersive_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'immersive-translate');
+const DIR = path.join(__dirname, '..', 'src', 'translate', 'immersive-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 function run(input, { replies, config = {} }) {
