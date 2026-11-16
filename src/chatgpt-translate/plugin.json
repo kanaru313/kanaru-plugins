@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "ai-translate",
     "name": "ChatGPT Translate",
-    "version": 4,
+    "version": 5,
     "hosts": [
       "api.openai.com"
     ],
@@ -88,6 +88,11 @@
           "subtitle": "Balanced high quality"
         },
         {
+          "value": "gpt-6.1-terra",
+          "title": "GPT-6.1 Terra",
+          "subtitle": "Fast, between Luna and Sol"
+        },
+        {
           "value": "gpt-6-astra",
           "title": "GPT-6 Astra",
           "subtitle": "Strongest, slower"
@@ -109,31 +114,33 @@
         },
         {
           "value": "gpt-5",
-          "title": "GPT-5"
+          "title": "GPT-5",
+          "subtitle": "Shuts down 2026-12-11; use GPT-6.1 Sol"
         },
         {
           "value": "gpt-5-mini",
-          "title": "GPT-5 mini"
+          "title": "GPT-5 mini",
+          "subtitle": "Shuts down 2026-12-11; use GPT-6.1 Terra"
         },
         {
           "value": "gpt-4.1",
           "title": "GPT-4.1",
-          "subtitle": "Fast, supports Temperature"
+          "subtitle": "Shuts down 2027-01-14; supports Temperature"
         },
         {
           "value": "gpt-4.1-mini",
           "title": "GPT-4.1 mini",
-          "subtitle": "Very cheap, supports Temperature"
+          "subtitle": "Shuts down 2027-01-14; supports Temperature"
         },
         {
           "value": "gpt-4o",
           "title": "GPT-4o",
-          "subtitle": "Multimodal, supports Temperature"
+          "subtitle": "Shuts down 2027-01-14; supports Temperature"
         },
         {
           "value": "gpt-4o-mini",
           "title": "GPT-4o mini",
-          "subtitle": "Legacy cheapest, supports Temperature"
+          "subtitle": "Shuts down 2027-01-14; supports Temperature"
         }
       ]
     },

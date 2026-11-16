@@ -5,12 +5,13 @@ load('prompts.js');
 load('claude.js');
 
 var MODELS = [
+  'claude-opus-5-5', 'claude-fable-5-2', 'claude-sonnet-5-5', 'claude-haiku-5-5',
   'claude-opus-5', 'claude-fable-5-1', 'claude-fable-5',
   'claude-opus-4-8', 'claude-opus-4-7', 'claude-opus-4-6',
   'claude-sonnet-5', 'claude-sonnet-4-6', 'claude-haiku-4-5',
   'claude-3-7-sonnet-latest', 'claude-3-5-sonnet-latest', 'claude-3-5-haiku-latest',
 ];
-var DEFAULT_MODEL = 'claude-opus-5';
+var DEFAULT_MODEL = 'claude-opus-5-5';
 
 function execute(input) {
   var lines = input && input.lines;

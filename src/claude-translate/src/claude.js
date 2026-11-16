@@ -7,6 +7,10 @@ var CLAUDE_ENDPOINT = 'https://api.anthropic.com/v1/messages';
 var ANTHROPIC_VERSION = '2023-06-01';
 
 var LLM_MODEL_INFO = {
+  'claude-opus-5-5': { temperature: false },
+  'claude-fable-5-2': { temperature: false },
+  'claude-sonnet-5-5': { temperature: false },
+  'claude-haiku-5-5': { temperature: false },
   'claude-opus-5': { temperature: false },
   'claude-fable-5-1': { temperature: false },
   'claude-fable-5': { temperature: false },

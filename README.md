@@ -240,8 +240,10 @@ Translates lyrics line by line with the Google Gemini API (`generativelanguage.g
 - Needs Kanaru with translate plugin support (PR #100) and your own API key from https://aistudio.google.com/app/apikey. The key is kept in the system keyring, never in the database or logs. Several keys can be listed; the next is used when one is refused or out of quota.
 - **What is sent to Google:** the lines to translate; with *Send the song as context* on (default), also the title, artist and the full lyrics of the song. Check Google's terms and data policy for the API tier of your key.
 - Gemini detects the source language of each line; lines already in the target language are hidden by the app.
+- Model list: `gemini-3.5-flash-lite` (default), `gemini-3.6-flash`, `gemini-3.8-flash`, `gemini-4-hydrogen`, `gemini-4-argon`, `gemini-4-carbon`, Gemini 3 previews, `gemini-3.1-flash-lite`, Gemini 2.5 (older accounts; from 2026-12-01 Google routes 2.5 Flash to 3.5 Flash-Lite and 2.5 Pro to 3.8 Flash), `gemma-4-31b-it`, `gemma-4-26b-a4b-it`.
 - Options: model, style (natural, close, poetic, singable), thinking, temperature, safety filter, retry of skipped lines, your own instruction and a full system prompt.
-- Errors: all keys refused is *key*, a daily quota is *quota*, a per-minute limit is *rate limited*. A run uses at most 10 sends.
+- Thinking: Gemini 4 refuses *Minimal* and runs it as *Low*; Gemma 4 only thinks at *High* (any other level turns thinking off). Gemma gets the JSON shape in the prompt instead of a response schema.
+- Errors: all keys refused is *key*, a daily quota is *quota*, a per-minute limit is *rate limited*. Gemma 4 retries an HTTP 500/503 up to twice on the same key. A run uses at most 10 sends, retries included.
 
 ### ChatGPT Translate (`chatgpt-translate`)
 
@@ -249,7 +251,7 @@ Translates lyrics line by line with the OpenAI ChatGPT API (`api.openai.com`), k
 
 - Needs Kanaru with translate plugin support and your own OpenAI API key from https://platform.openai.com/api-keys. Multiple keys can be specified; the next key is used when one is refused or out of quota.
 - **What is sent to OpenAI:** the lines to translate; with *Send the song as context* on (default), also the title, artist and full lyrics of the song as context.
-- Model list: `gpt-6-luna` (default), `gpt-6.1-sol`, `gpt-6-astra`, `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5`, `gpt-4.1`, `gpt-4o`, etc.
+- Model list: `gpt-6-luna` (default), `gpt-6.1-sol`, `gpt-6.1-terra`, `gpt-6-astra`, `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`, `gpt-5` / `gpt-5-mini` (shut down 2026-12-11), `gpt-4.1` / `gpt-4o` and their minis (shut down 2027-01-14).
 - Options: model, reasoning effort (`auto`, `none`, `low`, `medium`, `high`), style (natural, literal, poetic, singable), temperature, max output tokens, retry of skipped lines, custom instruction, full system prompt.
 - Errors: 401/403 is *key*, 429 quota is *quota*, 429 rate limit is *rate limited*. A run uses at most 10 sends.
 
@@ -259,7 +261,7 @@ Translates lyrics line by line with the Anthropic Claude API (`api.anthropic.com
 
 - Needs Kanaru with translate plugin support and your own Anthropic API key from https://console.anthropic.com. Multiple keys can be specified; rotates upon failure.
 - **What is sent to Anthropic:** the lines to translate; with *Send the song as context* on (default), also the title, artist and lyrics context.
-- Model list: `claude-opus-5` (default), `claude-fable-5-1`, `claude-sonnet-5`, `claude-haiku-4-5`, `claude-3-7-sonnet-latest`, `claude-3-5-sonnet-latest`, etc.
+- Model list: `claude-opus-5-5` (default), `claude-fable-5-2`, `claude-sonnet-5-5`, `claude-haiku-5-5`, then older ones (`claude-fable-5-1`, `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5`, `claude-3-7-sonnet-latest`, etc.). A model already picked in the settings keeps working.
 - Options: model, style (natural, literal, poetic, singable), temperature (on models that accept temperature), max output tokens, retry of skipped lines, custom instruction, full system prompt.
 - Errors: 401/403 is *key*, 429 is *rate limited*, 529 is overloaded server.
 

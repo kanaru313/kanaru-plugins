@@ -28,17 +28,20 @@ var HARM_CATEGORIES = [
 
 /** The request body; [userJson] is the JSON text of the user message. */
 function geminiRequest(systemPrompt, userJson, settings) {
+  var gemma = isGemma(settings.model);
   var generationConfig = {
     temperature: settings.temperature,
     maxOutputTokens: settings.maxOutputTokens,
     responseMimeType: 'application/json',
-    responseSchema: LINES_SCHEMA,
   };
+  // Google documents no structured output for Gemma, so it gets the shape in
+  // the prompt instead of a schema it might refuse.
+  if (!gemma) generationConfig.responseSchema = LINES_SCHEMA;
   var thinking = thinkingConfig(settings.model, settings.thinking);
   if (thinking) generationConfig.thinkingConfig = thinking;
 
   var request = {
-    systemInstruction: { parts: [{ text: systemPrompt }] },
+    systemInstruction: { parts: [{ text: gemma ? systemPrompt + GEMMA_SHAPE : systemPrompt }] },
     contents: [{ role: 'user', parts: [{ text: userJson }] }],
     generationConfig: generationConfig,
   };
@@ -52,17 +55,36 @@ function geminiRequest(systemPrompt, userJson, settings) {
   return request;
 }
 
+var GEMMA_SHAPE = '\n\nAnswer with only a JSON array: one {"i": number, "t": text, "l": language} per input line.';
+
+function isGemma(model) {
+  return /^gemma-/.test(model);
+}
+
 /**
  * `minimal` and `low` answer faster and fit the time limit; `medium` and `high`
  * think deeper; `auto` leaves the model's default. Gemini 2.5 takes a
  * token budget (Pro cannot go to 0), Gemini 3+ models take a thinkingLevel.
+ * Gemma 4 only turns thinking on (`high`) or off (`minimal`); Gemini 4
+ * refuses `minimal`, so it gets `low`.
  */
 function thinkingConfig(model, level) {
   if (level === 'auto' || !level) return null;
   if (/^gemini-2\.5-pro/.test(model)) return { thinkingBudget: 128 };
   if (/^gemini-2\./.test(model)) return { thinkingBudget: 0 };
+  if (isGemma(model)) return { thinkingLevel: level === 'high' ? 'high' : 'minimal' };
   var valid = { minimal: true, low: true, medium: true, high: true };
-  return valid[level] ? { thinkingLevel: level } : { thinkingLevel: 'low' };
+  if (!valid[level]) level = 'low';
+  if (/^gemini-4-/.test(model) && level === 'minimal') level = 'low';
+  return { thinkingLevel: level };
+}
+
+// Gemma 4 on the Gemini API answers 500/503 to a good share of requests that
+// go through on a second try; Gemini models keep failing fast.
+var GEMMA_SERVER_RETRIES = 2;
+
+function isServerHiccup(res) {
+  return res.status === 500 || res.status === 503;
 }
 
 /**
@@ -78,13 +100,20 @@ function callGemini(request, settings, budget) {
   var best = null;
 
   for (var k = 0; k < settings.apiKeys.length && budget.left > 0; k++) {
-    budget.left--;
-    var res = fetch(url, {
+    var options = {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-goog-api-key': settings.apiKeys[k] },
       body: body,
       timeout: 80000,
-    });
+    };
+    budget.left--;
+    var res = fetch(url, options);
+    if (isGemma(settings.model)) {
+      for (var r = 0; r < GEMMA_SERVER_RETRIES && isServerHiccup(res) && budget.left > 0; r++) {
+        budget.left--;
+        res = fetch(url, options);
+      }
+    }
     if (res.ok) return readAnswer(res);
 
     var failure = readFailure(res);

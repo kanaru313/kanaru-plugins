@@ -9,9 +9,11 @@ load('prompts.js');
 load('gemini.js');
 
 var MODELS = [
-  'gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-4-argon',
+  'gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.8-flash',
+  'gemini-4-hydrogen', 'gemini-4-argon', 'gemini-4-carbon',
   'gemini-3-flash-preview', 'gemini-3.1-pro-preview', 'gemini-3.1-flash-lite',
   'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro',
+  'gemma-4-31b-it', 'gemma-4-26b-a4b-it',
 ];
 var DEFAULT_MODEL = 'gemini-3.5-flash-lite';
 // Shut-down models keep saved settings working through Google's replacements.

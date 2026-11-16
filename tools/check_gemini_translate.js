@@ -187,6 +187,31 @@ t('safety on, thinking auto, 2.5 budgets, unknown and retired models', () => {
   assert.match(body({ model: 'gemini-3.5-flash' }).url, /gemini-3\.6-flash:/);
 });
 
+t('Gemini 4 turns minimal into low; Gemma thinks only at high, without a schema', () => {
+  const call = (config) => run({ lines: ['hi there'], to: 'vi' }, { replies: echo, config }).calls[0];
+  assert.deepStrictEqual(call({ model: 'gemini-4-hydrogen', thinking: 'minimal' }).body.generationConfig.thinkingConfig, { thinkingLevel: 'low' });
+  assert.deepStrictEqual(call({ model: 'gemini-4-carbon', thinking: 'medium' }).body.generationConfig.thinkingConfig, { thinkingLevel: 'medium' });
+  const gemma = call({ model: 'gemma-4-31b-it', thinking: 'medium' });
+  assert.match(gemma.url, /models\/gemma-4-31b-it:generateContent$/);
+  assert.deepStrictEqual(gemma.body.generationConfig.thinkingConfig, { thinkingLevel: 'minimal' });
+  assert.strictEqual(gemma.body.generationConfig.responseSchema, undefined);
+  assert.strictEqual(gemma.body.generationConfig.responseMimeType, 'application/json');
+  assert.match(system(gemma), /Answer with only a JSON array/);
+  assert.deepStrictEqual(call({ model: 'gemma-4-26b-a4b-it', thinking: 'high' }).body.generationConfig.thinkingConfig, { thinkingLevel: 'high' });
+  assert.doesNotMatch(system(call({ model: 'gemini-4-argon' })), /Answer with only a JSON array/);
+});
+
+t('Gemma retries 500/503 on the same key, then reports server', () => {
+  const busy = makeResponse(503, { error: { message: 'overloaded' } });
+  const ok = run({ lines: ['hi there'], to: 'vi' }, { config: { model: 'gemma-4-31b-it' }, replies: [busy, makeResponse(500, {}), echo] });
+  assert.strictEqual(ok.calls.length, 3);
+  assert.strictEqual(ok.result.ok[0].text, '[vi] hi there');
+  const failed = run({ lines: ['hi there'], to: 'vi' }, { config: { model: 'gemma-4-31b-it', apiKeys: 'a,b' }, replies: [busy, busy, busy] });
+  assert.strictEqual(failed.calls.length, 3);
+  assert.ok(failed.calls.every((c) => c.headers['x-goog-api-key'] === 'a'));
+  assert.strictEqual(failed.result.kind, 'server');
+});
+
 t('system prompt: languages, style, Vietnamese pronouns, song, own instruction', () => {
   const { calls } = run({ lines: ['hi there'], to: 'vi', song: { title: 'Sakura', artist: 'Folk', lyrics: 'さくら さくら' } }, {
     replies: echo, config: { style: 'singable', customInstruction: 'Giữ tên riêng tiếng Nhật' },

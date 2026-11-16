@@ -5,7 +5,7 @@ load('prompts.js');
 load('openai.js');
 
 var MODELS = [
-  'gpt-6-luna', 'gpt-6.1-sol', 'gpt-6-astra',
+  'gpt-6-luna', 'gpt-6.1-sol', 'gpt-6.1-terra', 'gpt-6-astra',
   'gpt-5.5', 'gpt-5.4', 'gpt-5.4-mini', 'gpt-5', 'gpt-5-mini',
   'gpt-4.1', 'gpt-4.1-mini', 'gpt-4o', 'gpt-4o-mini',
 ];

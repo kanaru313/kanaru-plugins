@@ -8,6 +8,7 @@ var OPENAI_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 var LLM_MODEL_INFO = {
   'gpt-6-luna': { minEffort: 'none' },
   'gpt-6.1-sol': { minEffort: 'low' },
+  'gpt-6.1-terra': { minEffort: 'none' },
   'gpt-6-astra': { minEffort: 'low' },
   'gpt-5.5': { minEffort: 'none' },
   'gpt-5.4': { minEffort: 'none' },

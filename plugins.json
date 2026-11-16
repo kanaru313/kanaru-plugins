@@ -80,7 +80,7 @@
     {
       "slug": "chatgpt-translate",
       "name": "ChatGPT Translate",
-      "version": 4,
+      "version": 5,
       "apiVersion": 1,
       "type": "ai-translate",
       "hosts": [
@@ -97,7 +97,7 @@
     {
       "slug": "claude-translate",
       "name": "Claude Translate",
-      "version": 4,
+      "version": 5,
       "apiVersion": 1,
       "type": "ai-translate",
       "hosts": [
@@ -183,7 +183,7 @@
     {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
-      "version": 6,
+      "version": 7,
       "apiVersion": 1,
       "type": "ai-translate",
       "hosts": [
