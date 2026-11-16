@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "ai-translate",
     "name": "OpenAI-compatible Translate",
-    "version": 4,
+    "version": 5,
     "hosts": [
       "api.deepseek.com",
       "api.openai.com",

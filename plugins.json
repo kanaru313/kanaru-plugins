@@ -410,9 +410,9 @@
       "icon": "dist/nhaccuatui/icon.png"
     },
     {
-      "slug": "openai-compatible",
+      "slug": "openai-compatible-translate",
       "name": "OpenAI-compatible Translate",
-      "version": 4,
+      "version": 5,
       "apiVersion": 1,
       "type": "ai-translate",
       "hosts": [
@@ -437,13 +437,13 @@
         "api.anthropic.com",
         "api.deepinfra.com"
       ],
-      "path": "dist/openai-compatible/plugin.zip",
+      "path": "dist/openai-compatible-translate/plugin.zip",
       "author": "kanaru313",
       "description": "Translates lyrics line by line with any OpenAI-compatible API (DeepSeek, OpenRouter, Groq, Together, SiliconFlow, etc.), keeping the singer’s voice and the lines in sync. Configure your Base URL, API key and Model name in settings.",
       "languages": [
         "*"
       ],
-      "icon": "dist/openai-compatible/icon.png"
+      "icon": "dist/openai-compatible-translate/icon.png"
     },
     {
       "slug": "papago-translate",

@@ -1,10 +1,10 @@
-// Offline tests of src/openai-compatible/: `node tools/check_openai_compatible.js`.
+// Offline tests of src/openai-compatible-translate/: `node tools/check_openai_compatible_translate.js`.
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const { loadPlugin, makeResponse } = require('./translate_harness');
 
-const DIR = path.join(__dirname, '..', 'src', 'openai-compatible');
+const DIR = path.join(__dirname, '..', 'src', 'openai-compatible-translate');
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, 'plugin.json'), 'utf8'));
 
 /** An OpenAI-compatible 200 answer returning JSON */

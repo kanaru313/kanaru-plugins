@@ -285,7 +285,7 @@ Translates lyrics line by line with the xAI Grok API (`api.x.ai`), keeping the s
 - Options: model, reasoning effort, style (natural, literal, poetic, singable), temperature, max output tokens, retry of skipped lines, custom instruction, full system prompt.
 - Errors: 401/403 is *key*, 429 is *rate limited* or *quota*.
 
-### OpenAI-compatible Translate (`openai-compatible`)
+### OpenAI-compatible Translate (`openai-compatible-translate`)
 
 Translates lyrics line by line with any OpenAI-compatible API (DeepSeek, OpenRouter, Groq, Together AI, SiliconFlow, Mistral, etc.), keeping the singer's voice and the lines in sync.
 
@@ -612,7 +612,7 @@ node tools/check_claude_translate.js
 node tools/check_deepseek_translate.js
 node tools/check_qwen_translate.js
 node tools/check_grok_translate.js
-node tools/check_openai_compatible.js
+node tools/check_openai_compatible_translate.js
 node tools/check_lrclib_lyrics.js
 node tools/check_megalobiz_lyrics.js
 node tools/check_vocaloidlyrics_lyrics.js
