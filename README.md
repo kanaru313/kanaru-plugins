@@ -2,7 +2,7 @@
 
 Lyrics source and lyrics translate plugins for [Kanaru](https://github.com/hieu313/kanaru).
 
-Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `source`, `translate`, `ai-translate`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
+Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `streaming`, `translate`, `ai-translate`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
 
 ```
 src/<type>/<slug>/
@@ -361,7 +361,7 @@ Translates lyrics line by line using Alibaba Cloud DashScope (Qwen) API (`dashsc
 
 ### Audius (`audius`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Cung cấp khả năng tìm kiếm bài hát, dán link track/album/playlist và giải mã link stream MP3 320 kbps chất lượng cao từ nền tảng Audius thông qua REST API công khai (`api.audius.co`).
 
@@ -396,7 +396,7 @@ Cung cấp khả năng tìm kiếm bài hát, dán link track/album/playlist và
 
 ### SoundCloud (`soundcloud`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Cung cấp khả năng tìm kiếm bài hát, dán link track/playlist và giải mã link stream HLS AAC 160 kbps (hoặc MP3) chất lượng cao từ SoundCloud thông qua API v2 nội bộ (`api-v2.soundcloud.com`). Tự động trích xuất và xoay vòng `client_id` từ web client, tự hồi phục khi token hết hạn.
 
@@ -432,7 +432,7 @@ Cung cấp khả năng tìm kiếm bài hát, dán link track/playlist và giả
 
 ### YouTube (`youtube`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Cung cấp khả năng tìm kiếm video/playlist âm nhạc và giải mã trực tiếp URL luồng audio (Opus ~160 kbps hoặc AAC ~128 kbps) từ YouTube thông qua client Innertube `VISIONOS`.
 
@@ -475,7 +475,7 @@ Cung cấp khả năng tìm kiếm video/playlist âm nhạc và giải mã tr�
 
 ### Bilibili (`bilibili`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Cung cấp khả năng tìm kiếm video âm nhạc, giải mã link shortlink `b23.tv`, mã `BV...`/`av...` và bóc tách luồng âm thanh DASH (`.m4a` AAC 64–192 kbps) trực tiếp từ Bilibili. Bắt buộc kèm header `Referer: https://www.bilibili.com/` khi stream.
 
@@ -509,7 +509,7 @@ Cung cấp khả năng tìm kiếm video âm nhạc, giải mã link shortlink `
 
 ### Radio Browser (`radio-browser`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Kết nối tới danh bạ hơn 30.000 đài phát thanh Internet cộng đồng toàn cầu (`api.radio-browser.info`) với các luồng Icecast / Shoutcast phát liên tục 24/7. Hỗ trợ truyền header `Icy-MetaData: 1` cho phép player trích xuất tiêu đề bài hát thời gian thực.
 
@@ -530,7 +530,7 @@ Kết nối tới danh bạ hơn 30.000 đài phát thanh Internet cộng đồn
 
 ### ZingMP3 (`zingmp3-source`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Cung cấp khả năng tìm kiếm bài hát nhạc Việt (V-Pop) và giải mã đường link trực tiếp CDN MP3 128 kbps từ ZingMP3. Tự động sinh chữ ký bảo mật HMAC-SHA512 + SHA-256 kèm quản lý session cookie `zmp3_rqid`.
 
@@ -559,7 +559,7 @@ Cung cấp khả năng tìm kiếm bài hát nhạc Việt (V-Pop) và giải m�
 
 ### Subsonic / Navidrome (`subsonic`)
 
-> **Lưu ý:** Đây là plugin loại `source` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
 
 Nguồn phát âm thanh chuẩn Subsonic REST API (tương thích Navidrome, Airsonic, Subsonic, Gonic). Hỗ trợ xác thực token salt MD5, tìm kiếm thư viện cá nhân và stream trực tiếp / transcode đa định dạng với byte-range requests cho gapless playback mượt mà. Mặc định kết nối sẵn máy chủ demo `https://demo.navidrome.org`.
 

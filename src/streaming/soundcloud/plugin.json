@@ -2,9 +2,9 @@
   "metadata": {
     "name": "SoundCloud",
     "author": "Kanaru Contributors",
-    "version": 6,
+    "version": 7,
     "apiVersion": 1,
-    "type": "source",
+    "type": "streaming",
     "description": "Nguồn phát âm thanh SoundCloud (HLS AAC 160 kbps & Progressive MP3) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link SoundCloud.",
     "hosts": [
       "soundcloud.com",

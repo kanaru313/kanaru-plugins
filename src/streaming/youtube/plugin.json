@@ -1,19 +1,17 @@
 {
   "metadata": {
-    "name": "Bilibili",
+    "name": "YouTube",
     "author": "Kanaru Contributors",
-    "version": 2,
+    "version": 3,
     "apiVersion": 1,
-    "type": "source",
-    "description": "Nguồn phát âm thanh Bilibili (DASH .m4a AAC) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link Bilibili (BV/av).",
+    "type": "streaming",
+    "description": "Nguồn nhạc YouTube (chỉ âm thanh) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link YouTube.",
     "hosts": [
-      "api.bilibili.com",
-      "www.bilibili.com",
-      "*.akamaized.net",
-      "*.bilivideo.com",
-      "*.bilivideo.cn"
+      "www.youtube.com",
+      "i.ytimg.com",
+      "*.googlevideo.com"
     ],
-    "regexp": "^https?:\\/\\/(?:(?:www|m)\\.)?bilibili\\.com\\/|^https?:\\/\\/b23\\.tv\\/"
+    "regexp": "^https?:\\/\\/(?:(?:www|m|music)\\.)?youtube\\.com\\/|^https?:\\/\\/youtu\\.be\\/"
   },
   "script": {
     "search": "search.js",

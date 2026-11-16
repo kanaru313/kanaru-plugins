@@ -5,7 +5,7 @@ const vm = require('vm');
 const assert = require('assert');
 const { runScript } = require('./source_harness');
 
-const PLUGIN_DIR = path.resolve(__dirname, '../src/source/subsonic');
+const PLUGIN_DIR = path.resolve(__dirname, '../src/streaming/subsonic');
 const manifestPath = path.join(PLUGIN_DIR, 'plugin.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
@@ -27,7 +27,7 @@ function test(name, fn) {
 
 // 1. Manifest structure check
 test('plugin.json structure and fields', () => {
-  assert.strictEqual(manifest.metadata.type, 'source');
+  assert.strictEqual(manifest.metadata.type, 'streaming');
   assert.strictEqual(manifest.metadata.name, 'Subsonic / Navidrome');
   assert.strictEqual(manifest.script.search, 'search.js');
   assert.strictEqual(manifest.script.stream, 'stream.js');

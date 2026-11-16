@@ -5,7 +5,7 @@ const assert = require('assert');
 const vm = require('vm');
 const { runScript } = require('./source_harness');
 
-const pluginDir = path.join(__dirname, '..', 'src', 'source', 'bilibili');
+const pluginDir = path.join(__dirname, '..', 'src', 'streaming', 'bilibili');
 const manifest = JSON.parse(fs.readFileSync(path.join(pluginDir, 'plugin.json'), 'utf8'));
 const commonCode = fs.readFileSync(path.join(pluginDir, 'src', 'common.js'), 'utf8');
 const searchCode = fs.readFileSync(path.join(pluginDir, 'src', 'search.js'), 'utf8');
@@ -26,7 +26,7 @@ function test(name, fn) {
 // 1. Manifest structure check
 test('plugin.json structure and fields', () => {
   assert.strictEqual(manifest.metadata.apiVersion, 1);
-  assert.strictEqual(manifest.metadata.type, 'source');
+  assert.strictEqual(manifest.metadata.type, 'streaming');
   assert.strictEqual(manifest.metadata.name, 'Bilibili');
   assert.strictEqual(typeof manifest.metadata.version, 'number');
   assert.ok(Array.isArray(manifest.metadata.hosts));

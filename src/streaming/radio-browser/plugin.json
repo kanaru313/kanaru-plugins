@@ -2,9 +2,9 @@
   "metadata": {
     "name": "Radio Browser",
     "author": "Kanaru Contributors",
-    "version": 3,
+    "version": 4,
     "apiVersion": 1,
-    "type": "source",
+    "type": "streaming",
     "description": "Nguồn phát trực tiếp Radio FM/AM toàn cầu (Icecast/Shoutcast, stream vô tận) cho Kanaru qua cơ sở dữ liệu mở Radio Browser. Hỗ trợ tìm kiếm, khám phá đài thịnh hành, phân loại theo thể loại, quốc gia, trạm tương tự và giải mã URL trực tiếp.",
     "hosts": [
       "de1.api.radio-browser.info",

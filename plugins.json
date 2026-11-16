@@ -27,9 +27,9 @@
     {
       "slug": "audius",
       "name": "Audius",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "api.audius.co",
         "audius.co",
@@ -62,9 +62,9 @@
     {
       "slug": "bilibili",
       "name": "Bilibili",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "api.bilibili.com",
         "www.bilibili.com",
@@ -522,9 +522,9 @@
     {
       "slug": "radio-browser",
       "name": "Radio Browser",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "de1.api.radio-browser.info",
         "at1.api.radio-browser.info",
@@ -543,9 +543,9 @@
     {
       "slug": "soundcloud",
       "name": "SoundCloud",
-      "version": 6,
+      "version": 7,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "soundcloud.com",
         "*.soundcloud.com",
@@ -583,9 +583,9 @@
     {
       "slug": "subsonic",
       "name": "Subsonic / Navidrome",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "demo.navidrome.org",
         "*.navidrome.org",
@@ -622,9 +622,9 @@
     {
       "slug": "youtube",
       "name": "YouTube",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "www.youtube.com",
         "i.ytimg.com",
@@ -656,9 +656,9 @@
     {
       "slug": "zingmp3-source",
       "name": "ZingMP3",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
-      "type": "source",
+      "type": "streaming",
       "hosts": [
         "zingmp3.vn",
         "*.zingmp3.vn",

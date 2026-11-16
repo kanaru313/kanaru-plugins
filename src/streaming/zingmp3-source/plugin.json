@@ -2,9 +2,9 @@
   "metadata": {
     "name": "ZingMP3",
     "author": "Kanaru Contributors",
-    "version": 2,
+    "version": 3,
     "apiVersion": 1,
-    "type": "source",
+    "type": "streaming",
     "description": "Nguồn phát âm thanh ZingMP3 (trực tiếp CDN MP3 128 kbps) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link ZingMP3.",
     "hosts": [
       "zingmp3.vn",

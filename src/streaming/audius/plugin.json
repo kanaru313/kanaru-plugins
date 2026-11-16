@@ -2,9 +2,9 @@
   "metadata": {
     "name": "Audius",
     "author": "Kanaru Contributors",
-    "version": 3,
+    "version": 4,
     "apiVersion": 1,
-    "type": "source",
+    "type": "streaming",
     "description": "Nguồn phát âm thanh Audius chất lượng cao (MP3 320 kbps) cho Kanaru. Hỗ trợ tìm kiếm, khám phá, thể loại, radio, playlist, nghệ sĩ và dán link Audius.",
     "hosts": [
       "api.audius.co",
