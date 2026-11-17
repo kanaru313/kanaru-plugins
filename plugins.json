@@ -25,6 +25,34 @@
       "icon": "dist/animesonglyrics/icon.png"
     },
     {
+      "slug": "archive-source",
+      "name": "Internet Archive",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "streaming",
+      "hosts": [
+        "archive.org",
+        "*.archive.org",
+        "ia600000.us.archive.org",
+        "ia800000.us.archive.org",
+        "*.ca.archive.org",
+        "*.us.archive.org"
+      ],
+      "path": "dist/archive-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Internet Archive (archive.org) cho Kanaru. Tìm kiếm và phát trực tuyến hàng triệu bản thu âm lịch sử, live concert (Live Music Archive), nhạc cổ điển, podcast và audiobook công cộng miễn phí.",
+      "languages": [
+        "en",
+        "vi",
+        "fr",
+        "de",
+        "es",
+        "ja",
+        "zh"
+      ],
+      "icon": "dist/archive-source/icon.png"
+    },
+    {
       "slug": "audius",
       "name": "Audius",
       "version": 4,
@@ -58,6 +86,31 @@
         "*"
       ],
       "icon": "dist/baidu-translate/icon.png"
+    },
+    {
+      "slug": "bandcamp-source",
+      "name": "Bandcamp",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "streaming",
+      "hosts": [
+        "bandcamp.com",
+        "*.bandcamp.com",
+        "*.bcbits.com",
+        "t4.bcbits.com",
+        "f4.bcbits.com"
+      ],
+      "path": "dist/bandcamp-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Bandcamp (bandcamp.com - MP3 128 kbps) cho Kanaru. Khám phá kho nhạc Indie, Synthwave, Lofi, Game OST và phát trực tuyến đầy đủ từ các nghệ sĩ độc lập toàn cầu.",
+      "languages": [
+        "en",
+        "ja",
+        "de",
+        "fr",
+        "vi"
+      ],
+      "icon": "dist/bandcamp-source/icon.png"
     },
     {
       "slug": "bilibili",
@@ -270,6 +323,33 @@
       "icon": "dist/immersive-translate/icon.png"
     },
     {
+      "slug": "jamendo",
+      "name": "Jamendo Music",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "streaming",
+      "hosts": [
+        "api.jamendo.com",
+        "*.jamendo.com",
+        "prod-1.storage.jamendo.com",
+        "usercontent.jamendo.com",
+        "mp3d.jamendo.com",
+        "jamen.do"
+      ],
+      "path": "dist/jamendo/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Jamendo Music (api.jamendo.com - MP3 320 kbps) cho Kanaru. Khám phá kho nhạc độc lập Creative Commons lớn nhất thế giới với hơn 600.000 bài hát bản quyền tự do.",
+      "languages": [
+        "en",
+        "fr",
+        "de",
+        "es",
+        "it",
+        "vi"
+      ],
+      "icon": "dist/jamendo/icon.png"
+    },
+    {
       "slug": "jlyric",
       "name": "J-Lyric",
       "version": 3,
@@ -322,6 +402,35 @@
         "*"
       ],
       "icon": "dist/kuwo/icon.png"
+    },
+    {
+      "slug": "kuwo-source",
+      "name": "Kuwo Music",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "streaming",
+      "hosts": [
+        "kuwo.cn",
+        "search.kuwo.cn",
+        "antiserver.kuwo.cn",
+        "www.kuwo.cn",
+        "*.kuwo.cn",
+        "*.kwcdn.kuwo.cn",
+        "img1.kuwo.cn",
+        "img2.kuwo.cn",
+        "img3.kuwo.cn",
+        "img4.kuwo.cn",
+        "kw-bj.kuwo.cn"
+      ],
+      "path": "dist/kuwo-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh Kuwo Music (酷我音乐 - MP3 128/320 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát Hoa/Anime/US-UK, nghệ sĩ, album, danh mục thịnh hành và dán link Kuwo.",
+      "languages": [
+        "zh",
+        "ja",
+        "en"
+      ],
+      "icon": "dist/kuwo-source/icon.png"
     },
     {
       "slug": "lrclib",
@@ -408,6 +517,57 @@
         "vi"
       ],
       "icon": "dist/nhaccuatui/icon.png"
+    },
+    {
+      "slug": "nhaccuatui-source",
+      "name": "NhacCuaTui",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "streaming",
+      "hosts": [
+        "graph.nhaccuatui.com",
+        "www.nhaccuatui.com",
+        "nhaccuatui.com",
+        "*.nct.vn",
+        "stream.nct.vn",
+        "a01.nct.vn",
+        "image-cdn.nct.vn",
+        "avatar-ex-swe.nixcdn.com",
+        "avatar-nct.nixcdn.com"
+      ],
+      "path": "dist/nhaccuatui-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh NhacCuaTui (MP3 128/320 kbps) cho Kanaru. Hỗ trợ tìm kiếm, bảng xếp hạng Top 100, thể loại, radio gợi ý, playlist, nghệ sĩ và dán link NCT.",
+      "languages": [
+        "vi"
+      ],
+      "icon": "dist/nhaccuatui-source/icon.png"
+    },
+    {
+      "slug": "niconico-source",
+      "name": "NicoNico Douga",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "streaming",
+      "hosts": [
+        "snapshot.search.nicovideo.jp",
+        "sug.search.nicovideo.jp",
+        "www.nicovideo.jp",
+        "nvapi.nicovideo.jp",
+        "delivery.domand.nicovideo.jp",
+        "*.nicovideo.jp",
+        "*.dmc.nico",
+        "nicovideo.cdn.nimg.jp"
+      ],
+      "path": "dist/niconico-source/plugin.zip",
+      "author": "Kanaru Contributors",
+      "description": "Nguồn phát âm thanh NicoNico Douga (ニコニコ動画 - AAC 192 kbps HLS) cho Kanaru. Khám phá kho nhạc Vocaloid, Utaite (Cover), Touhou Project và Doujin music đồ sộ thông qua Dwango Domand Delivery.",
+      "languages": [
+        "ja",
+        "en",
+        "vi"
+      ],
+      "icon": "dist/niconico-source/icon.png"
     },
     {
       "slug": "openai-compatible-translate",

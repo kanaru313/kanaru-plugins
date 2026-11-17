@@ -1,0 +1,59 @@
+{
+  "metadata": {
+    "name": "NicoNico Douga",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "streaming",
+    "description": "Nguồn phát âm thanh NicoNico Douga (ニコニコ動画 - AAC 192 kbps HLS) cho Kanaru. Khám phá kho nhạc Vocaloid, Utaite (Cover), Touhou Project và Doujin music đồ sộ thông qua Dwango Domand Delivery.",
+    "hosts": [
+      "snapshot.search.nicovideo.jp",
+      "sug.search.nicovideo.jp",
+      "www.nicovideo.jp",
+      "nvapi.nicovideo.jp",
+      "delivery.domand.nicovideo.jp",
+      "*.nicovideo.jp",
+      "*.dmc.nico",
+      "nicovideo.cdn.nimg.jp"
+    ],
+    "regexp": "^https?:\\/\\/(?:(?:www|sp)\\.)?nicovideo\\.jp\\/watch\\/(?:sm|so|nm)?\\d+",
+    "languages": [
+      "ja",
+      "en",
+      "vi"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
+  },
+  "config": {
+    "audioBitrate": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Chọn bitrate stream AAC mong muốn",
+      "mode": "select",
+      "format": "single",
+      "default": "192kbps",
+      "options": [
+        {
+          "value": "192kbps",
+          "title": "AAC 192 kbps (Chuẩn cao nhất)",
+          "subtitle": "Chất lượng âm thanh trung thực, sắc nét"
+        },
+        {
+          "value": "64kbps",
+          "title": "AAC 64 kbps (Tiết kiệm)",
+          "subtitle": "Tiết kiệm dữ liệu di động"
+        }
+      ]
+    }
+  }
+}

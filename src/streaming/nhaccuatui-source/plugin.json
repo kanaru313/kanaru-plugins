@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "name": "NhacCuaTui",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "streaming",
+    "description": "Nguồn phát âm thanh NhacCuaTui (MP3 128/320 kbps) cho Kanaru. Hỗ trợ tìm kiếm, bảng xếp hạng Top 100, thể loại, radio gợi ý, playlist, nghệ sĩ và dán link NCT.",
+    "hosts": [
+      "graph.nhaccuatui.com",
+      "www.nhaccuatui.com",
+      "nhaccuatui.com",
+      "*.nct.vn",
+      "stream.nct.vn",
+      "a01.nct.vn",
+      "image-cdn.nct.vn",
+      "avatar-ex-swe.nixcdn.com",
+      "avatar-nct.nixcdn.com"
+    ],
+    "regexp": "^https?:\\/\\/(?:(?:www|m)\\.)?nhaccuatui\\.com\\/",
+    "languages": [
+      "vi"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
+  },
+  "config": {
+    "quality": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Ưu tiên 320 kbps (nếu có sẵn) hoặc 128 kbps",
+      "mode": "select",
+      "format": "single",
+      "default": "320 kbps",
+      "options": [
+        {
+          "value": "320 kbps",
+          "title": "320 kbps (Chất lượng cao)"
+        },
+        {
+          "value": "128 kbps",
+          "title": "128 kbps (Tiết kiệm dữ liệu)"
+        }
+      ]
+    }
+  }
+}

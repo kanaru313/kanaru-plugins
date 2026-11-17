@@ -557,6 +557,198 @@ Cung cấp khả năng tìm kiếm bài hát nhạc Việt (V-Pop) và giải m�
 | `invalidResponse` | Sai chữ ký API | ZingMP3 từ chối chữ ký điện tử (`err: -104`). |
 | `network` | Giới hạn tần suất | ZingMP3 trả về HTTP 429 hoặc 503. |
 
+### NhacCuaTui (`nhaccuatui-source`)
+
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Cung cấp khả năng tìm kiếm, duyệt bảng xếp hạng Top 100, thể loại, nghệ sĩ, playlist và trích xuất đường link stream MP3 128/320 kbps trực tiếp từ NhacCuaTui thông qua API chính thức `graph.nhaccuatui.com`.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string, filter?: string }`
+    - `query`: từ khóa bài hát, nghệ sĩ hoặc dán link bài hát NCT (`https://www.nhaccuatui.com/bai-hat/...`).
+    - `filter`: lọc theo `songs` (Bài hát), `playlists` (Danh sách phát), hoặc `artists` (Nghệ sĩ).
+  - Output: `Response.success({ filters, sections, items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType: "audio/mpeg", bitrate, expiresAtMs })`
+    - `url`: link CDN stream trực tiếp từ `stream.nct.vn` hoặc `a01.nct.vn`.
+    - `bitrate`: `320000` (mặc định) hoặc `128000` (theo cấu hình cài đặt plugin).
+    - `expiresAtMs`: trích xuất chính xác từ tham số `e=` trong URL ký (thời hạn 7 ngày).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Bài hát VIP | Bài hát độc quyền chỉ dành riêng cho tài khoản NhacCuaTui VIP (`onlyVIP: true`). |
+| `unavailable` | Không tồn tại | ID bài hát không tồn tại, đường link sai hoặc bài hát đã bị gỡ bỏ bản quyền. |
+| `unsupported` | Không có audio stream | Bài hát không có luồng phát trực tuyến MP3. |
+| `network` | Lỗi mạng / Rate limit | Máy chủ NCT trả về HTTP 429 / 503 hoặc quá thời gian chờ mạng. |
+| `invalidResponse` | Phản hồi bất thường | NCT API trả về dữ liệu JSON sai cấu trúc. |
+
+### Kuwo Music (`kuwo-source`)
+
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Nguồn phát âm thanh Kuwo Music (酷我音乐 - MP3 128/320 kbps) cho Kanaru. Hỗ trợ tìm kiếm kho nhạc Hoa (C-Pop), Anime/J-Pop, US-UK đồ sộ, khám phá bảng xếp hạng Kuwo Billboard, danh sách phát, album, trang cá nhân nghệ sĩ và trích xuất đường dẫn CDN trực tiếp thông qua Antiserver gateway.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string }`
+    - `query`: từ khóa bài hát/nghệ sĩ tiếng Trung hoặc quốc tế, hoặc dán link bài hát Kuwo (`https://www.kuwo.cn/play_detail/...`).
+    - `next`: trang kết quả tìm kiếm (page number `0`, `1`, `2`...).
+  - Output: `Response.success({ sections, items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType: "audio/mpeg", bitrate, expiresAtMs })`
+    - `url`: link trực tiếp từ CDN `kw-bj.kuwo.cn` hoặc `*.kwcdn.kuwo.cn`.
+    - `bitrate`: `320000` (mặc định) hoặc `128000`.
+    - `expiresAtMs`: trích xuất chính xác từ epoch hex token trong URL CDN Kuwo.
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Giới hạn VIP | Bài hát có bản quyền độc quyền yêu cầu VIP của Kuwo. |
+| `unavailable` | Không tồn tại | ID bài hát (RID) không tồn tại hoặc đã bị hạ xuống. |
+| `unsupported` | Không có audio stream | Không tìm thấy luồng stream MP3 phù hợp. |
+| `network` | Lỗi mạng / Rate limit | Máy chủ Antiserver trả về HTTP lỗi hoặc timeout. |
+| `invalidResponse` | Phản hồi bất thường | Gateway antiserver trả về phản hồi không hợp lệ. |
+
+### Internet Archive (`archive-source`)
+
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Nguồn phát âm thanh Internet Archive (`archive.org`) cho Kanaru. Cho phép tìm kiếm và thưởng thức hàng triệu bản thu âm lịch sử, live concert âm thanh phòng thu (Live Music Archive), nhạc cổ điển, đĩa than 78 vòng (The Great 78 Project), podcast và sách nói cộng đồng hoàn toàn mở và miễn phí.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string, filter?: string }`
+    - `query`: từ khóa tác phẩm, nhạc sĩ, ban nhạc hoặc liên kết `https://archive.org/details/...`.
+    - `filter`: lọc theo `all` (Tất cả), `etree` (Live Concerts), `78rpm` (Đĩa than lịch sử), hoặc `audio_bookspoetry` (Sách nói).
+    - `next`: trang kết quả (`"2"`, `"3"`...).
+  - Output: `Response.success({ filters, sections, items: [ { id, title, artist, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - `id`: identifier bản ghi (ví dụ `gd77-05-08...`) hoặc dạng kép `identifier:filename.mp3`.
+  - Output: `Response.success({ url, headers, mimeType, bitrate, expiresAtMs: null })`
+    - `url`: link download CDN mở trực tiếp `https://archive.org/download/{identifier}/{filename}` hỗ trợ tua nhanh byte-range và không bao giờ hết hạn (`expiresAtMs: null`).
+    - `mimeType`: `audio/mpeg` (MP3) hoặc `audio/flac` (FLAC Lossless).
+    - `bitrate`: `192000` (VBR MP3) hoặc `1411000` (FLAC).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `unavailable` | Bản ghi không tồn tại | Identifier sai hoặc item bị xóa trên Internet Archive. |
+| `unsupported` | Không có audio stream | Bản ghi chỉ chứa tài liệu văn bản hoặc định dạng video không tương thích. |
+| `network` | Quá tải / Giới hạn tần suất | Internet Archive trả về HTTP 429 hoặc lỗi kết nối CDN. |
+| `invalidResponse` | Phản hồi bất thường | Metadata API trả về JSON sai cấu trúc. |
+
+### Jamendo Music (`jamendo`)
+
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Nguồn phát âm thanh Jamendo Music (`api.jamendo.com` - MP3 320 kbps / Creative Commons) cho Kanaru. Khám phá kho nhạc mở độc lập lớn nhất thế giới với hơn 600.000 bài hát chất lượng cao từ các nghệ sĩ độc lập toàn cầu. Hỗ trợ đầy đủ tìm kiếm theo tên, tag âm nhạc, duyệt album, nghệ sĩ, playlist và nghe nhạc 100% hợp pháp không lo chặn WAF/IP.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string, filter?: string }`
+    - `query`: tên bài hát, nghệ sĩ hoặc dán link `https://www.jamendo.com/track/...`.
+    - `filter`: lọc theo các tag thể loại (`rock`, `pop`, `electronic`, `jazz`, `acoustic`).
+    - `next`: offset bài hát (`"20"`, `"40"`...).
+  - Output: `Response.success({ filters, sections, items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+  - Output: `Response.success({ url, headers, mimeType: "audio/mpeg", bitrate, expiresAtMs })`
+    - `url`: link phát trực tuyến trực tiếp từ kho lưu trữ đám mây `prod-1.storage.jamendo.com`.
+    - `bitrate`: `320000` (chuẩn `mp32` chất lượng cao mặc định) hoặc `128000` (`mp31` theo cấu hình).
+    - `expiresAtMs`: thời hạn token CDN Jamendo (~6 giờ).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `unavailable` | Bài hát không tồn tại | ID bài hát không tồn tại trên hệ thống Jamendo hoặc nghệ sĩ đã gỡ bài. |
+| `unsupported` | Không có audio stream | Bài hát không có luồng phát trực tuyến công khai. |
+| `network` | Vượt giới hạn tần suất | API Jamendo trả về mã lỗi 429 hoặc cảnh báo giới hạn tần suất. |
+| `invalidResponse` | Phản hồi bất thường | API trả về JSON sai cấu trúc. |
+
+### Bandcamp (`bandcamp-source`)
+
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Nguồn phát âm thanh Bandcamp (`bandcamp.com` - MP3 128 kbps) cho Kanaru. Bóc tách và phát trực tuyến hàng triệu album và track nhạc Indie, Synthwave, Lofi, Game OST và Doujin Music từ các nghệ sĩ độc lập trên toàn thế giới thông qua dữ liệu nhúng `data-tralbum` và CDN `t4.bcbits.com`.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string, filter?: string }`
+    - `query`: từ khóa bài hát, album, nghệ sĩ hoặc dán trực tiếp liên kết `https://*.bandcamp.com/...`.
+    - `filter`: lọc theo `all` (Tất cả), `track` (Bài hát), `album` (Album), hoặc `artist` (Nghệ sĩ / Nhãn đĩa).
+    - `next`: offset kết quả (`"20"`, `"40"`...).
+  - Output: `Response.success({ filters, sections, items: [ { id, title, artist, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - `id`: URL trang track hoặc album Bandcamp (kèm `#trackId` nếu trỏ tới bài hát trong album).
+  - Output: `Response.success({ url, headers, mimeType: "audio/mpeg", bitrate, expiresAtMs })`
+    - `url`: link trực tiếp từ CDN phát nhạc `https://t4.bcbits.com/stream/...` kèm token xác thực.
+    - `headers`: tự động kèm `Referer` trang web nghệ sĩ để bảo đảm quyền phát.
+    - `bitrate`: `128000` (MP3 128 kbps).
+    - `expiresAtMs`: trích xuất chính xác từ timestamp `ts=` / `token=` trong đường dẫn stream.
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `unavailable` | Trang không tồn tại | Link Bandcamp bị sai hoặc trang đã bị xóa. |
+| `unsupported` | Bài hát khóa trả phí | Album/Track chưa bật tính năng nghe thử miễn phí (yêu cầu mua sản phẩm để mở khóa). |
+| `network` | Lỗi mạng / Quá tải | Máy chủ Bandcamp trả về HTTP lỗi hoặc timeout. |
+| `invalidResponse` | Sai cấu trúc | Trang web thay đổi cấu trúc dữ liệu nhúng `data-tralbum`. |
+
+### NicoNico Douga (`niconico-source`)
+
+> **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).
+
+Nguồn phát âm thanh NicoNico Douga (ニコニコ動画 - AAC 192 kbps HLS) cho Kanaru. Khám phá kho dữ liệu âm nhạc Vocaloid, Utaite (Cover), Touhou Project và Doujin music đồ sộ thông qua Snapshot Search API v2 và giao thức truyền tải đa phương tiện Dwango Domand Delivery.
+
+#### Contract
+
+- **`search.js`**:
+  - Input: `{ query: string, next?: string, filter?: string }`
+    - `query`: từ khóa bài hát, Producer, nhân vật (初音ミク, Miku, ZUN, DECO*27...) hoặc mã video `sm...`.
+    - `filter`: lọc theo `all` (Tất cả), `vocaloid` (VOCALOID), `utaite` (Utaite / 歌ってみた), `touhou` (Touhou / 東方), hoặc `music` (Âm nhạc chung).
+    - `next`: offset kết quả (`"20"`, `"40"`...).
+  - Output: `Response.success({ filters, sections, items: [ { id, title, artist, durationMs, artworkUrl, webUrl } ], next })`
+
+- **`stream.js`**:
+  - Input: `{ id: string, fresh?: boolean }`
+    - `id`: mã video (ví dụ `sm22791352`) hoặc đường link watch `https://www.nicovideo.jp/watch/...`.
+  - Output: `Response.success({ url, headers, mimeType: "application/x-mpegURL", bitrate, expiresAtMs })`
+    - `url`: đường dẫn Master HLS `.m3u8` trực tiếp từ cluster phân phối `https://delivery.domand.nicovideo.jp/...` kèm chữ ký xác thực phiên `session`, `Policy`, `Signature` và `Key-Pair-Id`.
+    - `headers`: kèm `Origin: https://www.nicovideo.jp` và `Referer: https://www.nicovideo.jp/watch/...`.
+    - `bitrate`: `192000` (AAC 192 kbps mặc định) hoặc `64000` (AAC 64 kbps).
+    - `expiresAtMs`: thời hạn phiên phát HLS được trả về từ máy chủ Domand (thời hạn 24 giờ).
+
+#### Bảng ánh xạ Error Kind (`Response.error`)
+
+| Error Kind | Ý nghĩa | Ví dụ nguyên nhân |
+|---|---|---|
+| `auth` | Khóa vùng / VIP | Video chỉ dành riêng cho tài khoản NicoNico Premium hoặc bị giới hạn IP nội địa Nhật Bản. |
+| `unavailable` | Video không tồn tại | Video bị tác giả xóa hoặc đã chuyển sang chế độ riêng tư. |
+| `unsupported` | Không có audio stream | Video không hỗ trợ cấu hình âm thanh Domand. |
+| `network` | Lỗi mạng / Quá tải | Cụm máy chủ Dwango hoặc mạng CDN trả về HTTP lỗi. |
+| `invalidResponse` | Phản hồi bất thường | JSON API watch hoặc access-rights/hls sai cấu trúc. |
+
 ### Subsonic / Navidrome (`subsonic`)
 
 > **Lưu ý:** Đây là plugin loại `streaming` (nguồn phát âm thanh). Ứng dụng Kanaru hiện tại chưa hỗ trợ loại plugin này (đang trong giai đoạn spike / phát triển nền tảng).

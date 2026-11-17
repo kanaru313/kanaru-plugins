@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "name": "Bandcamp",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "streaming",
+    "description": "Nguồn phát âm thanh Bandcamp (bandcamp.com - MP3 128 kbps) cho Kanaru. Khám phá kho nhạc Indie, Synthwave, Lofi, Game OST và phát trực tuyến đầy đủ từ các nghệ sĩ độc lập toàn cầu.",
+    "hosts": [
+      "bandcamp.com",
+      "*.bandcamp.com",
+      "*.bcbits.com",
+      "t4.bcbits.com",
+      "f4.bcbits.com"
+    ],
+    "regexp": "^https?:\\/\\/[a-zA-Z0-9-]+\\.bandcamp\\.com\\/(?:track|album)?",
+    "languages": [
+      "en",
+      "ja",
+      "de",
+      "fr",
+      "vi"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
+  }
+}

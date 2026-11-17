@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "name": "Jamendo Music",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "streaming",
+    "description": "Nguồn phát âm thanh Jamendo Music (api.jamendo.com - MP3 320 kbps) cho Kanaru. Khám phá kho nhạc độc lập Creative Commons lớn nhất thế giới với hơn 600.000 bài hát bản quyền tự do.",
+    "hosts": [
+      "api.jamendo.com",
+      "*.jamendo.com",
+      "prod-1.storage.jamendo.com",
+      "usercontent.jamendo.com",
+      "mp3d.jamendo.com",
+      "jamen.do"
+    ],
+    "regexp": "^https?:\\/\\/(?:(?:www|api|mp3d)\\.)?(?:jamendo\\.com|jamen\\.do)\\/(?:track|album|artist|playlist)?",
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "it",
+      "vi"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
+  },
+  "config": {
+    "audioQuality": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Ưu tiên bitrate MP3 cao nhất 320 kbps hoặc 128 kbps",
+      "mode": "select",
+      "format": "single",
+      "default": "mp32",
+      "options": [
+        {
+          "value": "mp32",
+          "title": "320 kbps (mp32 - Chất lượng cao)",
+          "subtitle": "Độ chi tiết âm thanh tốt nhất của Jamendo"
+        },
+        {
+          "value": "mp31",
+          "title": "128 kbps (mp31 - Tiết kiệm)",
+          "subtitle": "Phù hợp cho mạng 3G/4G hạn chế lưu lượng"
+        }
+      ]
+    },
+    "clientId": {
+      "title": "Jamendo Client ID tùy chỉnh",
+      "subtitle": "Để trống để sử dụng Client ID tích hợp sẵn của ứng dụng",
+      "mode": "input",
+      "format": "text",
+      "placeholder": "Ví dụ: 3dce8b55",
+      "default": ""
+    }
+  }
+}

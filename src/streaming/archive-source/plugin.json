@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "name": "Internet Archive",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "streaming",
+    "description": "Nguồn phát âm thanh Internet Archive (archive.org) cho Kanaru. Tìm kiếm và phát trực tuyến hàng triệu bản thu âm lịch sử, live concert (Live Music Archive), nhạc cổ điển, podcast và audiobook công cộng miễn phí.",
+    "hosts": [
+      "archive.org",
+      "*.archive.org",
+      "ia600000.us.archive.org",
+      "ia800000.us.archive.org",
+      "*.ca.archive.org",
+      "*.us.archive.org"
+    ],
+    "regexp": "^https?:\\/\\/(?:[a-zA-Z0-9-]+\\.)?archive\\.org\\/(?:details|download|metadata)\\/",
+    "languages": [
+      "en",
+      "vi",
+      "fr",
+      "de",
+      "es",
+      "ja",
+      "zh"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
+  },
+  "config": {
+    "audioFormat": {
+      "title": "Định dạng âm thanh ưu tiên",
+      "subtitle": "Chọn MP3 nén linh hoạt (VBR) hoặc FLAC nguyên bản không nén",
+      "mode": "select",
+      "format": "single",
+      "default": "VBR MP3",
+      "options": [
+        {
+          "value": "VBR MP3",
+          "title": "VBR MP3 (Khuyên dùng)",
+          "subtitle": "Tối ưu tốc độ tải và tiết kiệm dung lượng di động"
+        },
+        {
+          "value": "FLAC",
+          "title": "FLAC Lossless",
+          "subtitle": "Chất lượng âm thanh phòng thu nguyên gốc (nếu có)"
+        },
+        {
+          "value": "128Kbps MP3",
+          "title": "128Kbps MP3",
+          "subtitle": "Băng thông thấp, ổn định cho mạng yếu"
+        }
+      ]
+    }
+  }
+}

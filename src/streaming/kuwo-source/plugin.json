@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "name": "Kuwo Music",
+    "author": "Kanaru Contributors",
+    "version": 1,
+    "apiVersion": 1,
+    "type": "streaming",
+    "description": "Nguồn phát âm thanh Kuwo Music (酷我音乐 - MP3 128/320 kbps) cho Kanaru. Hỗ trợ tìm kiếm bài hát Hoa/Anime/US-UK, nghệ sĩ, album, danh mục thịnh hành và dán link Kuwo.",
+    "hosts": [
+      "kuwo.cn",
+      "search.kuwo.cn",
+      "antiserver.kuwo.cn",
+      "www.kuwo.cn",
+      "*.kuwo.cn",
+      "*.kwcdn.kuwo.cn",
+      "img1.kuwo.cn",
+      "img2.kuwo.cn",
+      "img3.kuwo.cn",
+      "img4.kuwo.cn",
+      "kw-bj.kuwo.cn"
+    ],
+    "regexp": "^https?:\\/\\/(?:(?:www|m)\\.)?kuwo\\.cn\\/",
+    "languages": [
+      "zh",
+      "ja",
+      "en"
+    ]
+  },
+  "script": {
+    "search": "search.js",
+    "stream": "stream.js",
+    "home": "home.js",
+    "genre": "genre.js",
+    "album": "album.js",
+    "playlist": "playlist.js",
+    "artist": "artist.js",
+    "related": "related.js",
+    "autocomplete": "autocomplete.js",
+    "resolve": "resolve.js"
+  },
+  "config": {
+    "quality": {
+      "title": "Chất lượng âm thanh",
+      "subtitle": "Ưu tiên bitrate cao nhất MP3 320 kbps hoặc 128 kbps",
+      "mode": "select",
+      "format": "single",
+      "default": "320 kbps",
+      "options": [
+        {
+          "value": "320 kbps",
+          "title": "320 kbps (Chất lượng cao)"
+        },
+        {
+          "value": "128 kbps",
+          "title": "128 kbps (Tiết kiệm dữ liệu)"
+        }
+      ]
+    }
+  }
+}
