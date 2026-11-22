@@ -73,7 +73,7 @@
     {
       "slug": "baidu-translate",
       "name": "Baidu Translate",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -307,7 +307,7 @@
     {
       "slug": "immersive-translate",
       "name": "Immersive Translate",
-      "version": 2,
+      "version": 3,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -608,7 +608,7 @@
     {
       "slug": "papago-translate",
       "name": "Naver Papago Translate",
-      "version": 1,
+      "version": 2,
       "apiVersion": 1,
       "type": "translate",
       "hosts": [
@@ -723,7 +723,7 @@
     {
       "slug": "spotify",
       "name": "Spotify",
-      "version": 4,
+      "version": 5,
       "apiVersion": 1,
       "type": "lyrics",
       "hosts": [
@@ -743,7 +743,7 @@
     {
       "slug": "subsonic",
       "name": "Subsonic / Navidrome",
-      "version": 3,
+      "version": 4,
       "apiVersion": 1,
       "type": "streaming",
       "hosts": [

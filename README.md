@@ -62,7 +62,6 @@ Mục `config` trong `plugin.json` hỗ trợ tối đa 20 trường. Kanaru h�
 | `input` | `multiline` | `rows` (1–10, mặc định 3), `minLength`, `maxLength` | `string` | `string` hoặc `null` |
 | `input` | `number` | `min`, `max`, `step` (số thực) | finite number | `number` hoặc `null` |
 | `input` | `integer` | `min`, `max`, `step` (số nguyên) | integer | `number` hoặc `null` |
-| `input` | `secret` | `placeholder` (lưu an toàn trong OS Keyring) | *không có* | `string` hoặc `null` |
 | `input` | `url` | `placeholder` | string URL (`https://...`) | `string` hoặc `null` |
 | `select` | `single` *(mặc định)* | `options: [{ value, title, subtitle? }]` | `string` (thuộc options) | `string` hoặc `null` |
 | `select` | `multiple` | `options`, `minItems`, `maxItems` | `string[]` | `string[]` hoặc `null` |
@@ -154,7 +153,7 @@ Finds synced (LRC) lyrics at Spotify (`open.spotify.com`, `spclient.wg.spotify.c
 - Search by title and primary artist (or manual search text) via the Spotify Web API.
 - Converts `LINE_SYNCED` time codes into standard synced LRC lyrics, with fallback to plain text.
 - Generates dynamic TOTP tokens against Spotify's server-time challenge using bundled and auto-updating cipher dictionaries.
-- Requires your user session cookie (`sp_dc`) configured in the plugin settings (stored securely in the OS keyring as a secret).
+- Requires your user session cookie (`sp_dc`) configured in the plugin settings (stored as plain text in Kanaru's plugin settings on the device).
 - Hosts used: `open.spotify.com`, `api.spotify.com`, `spclient.wg.spotify.com`, and `raw.githubusercontent.com`.
 
 ### J-Lyric (`jlyric`)
@@ -237,7 +236,7 @@ Finds Vietnamese lyrics and guitar chords from Hợp Âm Chuẩn (`hopamchuan.co
 
 Translates lyrics line by line with the Google Gemini API (`generativelanguage.googleapis.com`), keeping the singer's voice and the line count.
 
-- Needs Kanaru with translate plugin support (PR #100) and your own API key from https://aistudio.google.com/app/apikey. The key is kept in the system keyring, never in the database or logs. Several keys can be listed; the next is used when one is refused or out of quota.
+- Needs Kanaru with translate plugin support (PR #100) and your own API key from https://aistudio.google.com/app/apikey. The key is stored as plain text in Kanaru's plugin settings on the device, never in logs. Several keys can be listed; the next is used when one is refused or out of quota.
 - **What is sent to Google:** the lines to translate; with *Send the song as context* on (default), also the title, artist and the full lyrics of the song. Check Google's terms and data policy for the API tier of your key.
 - Gemini detects the source language of each line; lines already in the target language are hidden by the app.
 - Model list: `gemini-3.5-flash-lite` (default), `gemini-3.6-flash`, `gemini-3.8-flash`, `gemini-4-hydrogen`, `gemini-4-argon`, `gemini-4-carbon`, Gemini 3 previews, `gemini-3.1-flash-lite`, Gemini 2.5 (older accounts; from 2026-12-01 Google routes 2.5 Flash to 3.5 Flash-Lite and 2.5 Pro to 3.8 Flash), `gemma-4-31b-it`, `gemma-4-26b-a4b-it`.
@@ -298,7 +297,7 @@ Translates lyrics line by line with any OpenAI-compatible API (DeepSeek, OpenRou
 
 Translates lyrics line by line with the DeepL API v2 (`api-free.deepl.com` for keys ending in `:fx`, `api.deepl.com` otherwise).
 
-- Needs Kanaru with translate plugin support (PR #100) and your own DeepL API key (the Free plan works). The key is kept in the system keyring.
+- Needs Kanaru with translate plugin support (PR #100) and your own DeepL API key (the Free plan works). The key is stored as plain text in Kanaru's plugin settings on the device.
 - **What is sent to DeepL:** the lines to translate; with *Send the song as context* on (default), also a short context text with the title and artist (not translated, not billed). The lyrics themselves are not sent as context.
 - Options: formality (`prefer_more` / `prefer_less`, used only where DeepL supports it), English variant (US/GB), Portuguese variant (BR/PT).
 - Languages: the 29 languages of Kanaru's table that DeepL can produce. Hindi, Persian, Malay, Welsh, Albanian, Armenian, Basque, Burmese, Georgian, Icelandic, Macedonian and Maori are not offered.

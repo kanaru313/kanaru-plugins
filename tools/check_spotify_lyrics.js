@@ -53,7 +53,7 @@ test('plugin.json structure and fields', () => {
   assert.strictEqual(manifest.script.search, 'search.js');
   assert.strictEqual(manifest.script.lyrics, 'lyrics.js');
   assert.ok(manifest.config && manifest.config.spDc);
-  assert.strictEqual(manifest.config.spDc.format, 'secret');
+  assert.strictEqual(manifest.config.spDc.format, 'text');
 });
 
 // Helper to create sandbox environment

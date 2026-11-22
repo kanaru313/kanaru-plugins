@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "lyrics",
     "name": "Spotify",
-    "version": 4,
+    "version": 5,
     "hosts": [
       "open.spotify.com",
       "api.spotify.com",
@@ -22,7 +22,7 @@
     "spDc": {
       "title": "Spotify sp_dc cookie (from browser DevTools > Cookies)",
       "mode": "input",
-      "format": "secret",
+      "format": "text",
       "required": true,
       "placeholder": "AQ..."
     }

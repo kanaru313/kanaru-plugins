@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "translate",
     "name": "Baidu Translate",
-    "version": 1,
+    "version": 2,
     "hosts": [
       "fanyi-api.baidu.com"
     ],
@@ -73,9 +73,9 @@
     },
     "appSecret": {
       "title": "Baidu App Secret Key",
-      "subtitle": "Your Baidu Translation Open API Secret Key, stored in system Keyring",
+      "subtitle": "Your Baidu Translation Open API Secret Key",
       "mode": "input",
-      "format": "secret",
+      "format": "text",
       "placeholder": "...",
       "required": true
     },

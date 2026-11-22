@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "translate",
     "name": "Naver Papago Translate",
-    "version": 1,
+    "version": 2,
     "hosts": [
       "papago.apigw.ntruss.com",
       "naveropenapi.apigw.ntruss.com",
@@ -64,9 +64,9 @@
     },
     "clientSecret": {
       "title": "Client Secret",
-      "subtitle": "Your Naver Application Client Secret Key, stored in system Keyring",
+      "subtitle": "Your Naver Application Client Secret Key",
       "mode": "input",
-      "format": "secret",
+      "format": "text",
       "placeholder": "...",
       "required": true
     },
