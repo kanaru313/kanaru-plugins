@@ -77,10 +77,7 @@ t('search by text query', () => {
       artist: 'Ed Sheeran',
       album: 'Divide',
       durationMs: 235100,
-      lyrics: {
-        data: '[00:10.00] Club line',
-        type: 'lrc',
-      },
+      lyrics: '[00:10.00] Club line',
     },
   ]);
 });
@@ -108,7 +105,17 @@ t('search by tags fallback chain', () => {
   assert.strictEqual(calls.length, 2);
   assert.strictEqual(res.ok.length, 1);
   assert.strictEqual(res.ok[0].title, 'Bad Habits');
-  assert.strictEqual(res.ok[0].lyrics.type, 'txt');
+  assert.strictEqual(res.ok[0].lyrics, 'Bad habits lead to late nights');
+});
+
+t('search leaves lyrics out for instrumental items', () => {
+  const fetch = () => mockResponse(200, [
+    { id: 404, trackName: 'Intro', artistName: 'Band', instrumental: true, plainLyrics: '' },
+  ]);
+  const mod = loadModule(searchCode, { fetch });
+  const res = mod.execute({ text: 'Intro' });
+  assert.strictEqual(res.ok.length, 1);
+  assert.strictEqual(res.ok[0].lyrics, undefined);
 });
 
 t('lyrics.js fetches synced lyrics', () => {

@@ -65,12 +65,14 @@ function mapCandidates(list) {
       entry.durationMs = Math.round(item.duration * 1000);
     }
 
-    if (item.instrumental === true) {
-      entry.lyrics = { instrumental: true };
-    } else if (typeof item.syncedLyrics === 'string' && item.syncedLyrics.trim() !== '') {
-      entry.lyrics = { data: item.syncedLyrics.trim(), type: 'lrc' };
-    } else if (typeof item.plainLyrics === 'string' && item.plainLyrics.trim() !== '') {
-      entry.lyrics = { data: item.plainLyrics.trim(), type: 'txt' };
+    // The host wants `lyrics` as a plain string (it tells synced from plain
+    // itself). Instrumental items carry none, so lyrics.js answers for them.
+    if (item.instrumental !== true) {
+      if (typeof item.syncedLyrics === 'string' && item.syncedLyrics.trim() !== '') {
+        entry.lyrics = item.syncedLyrics.trim();
+      } else if (typeof item.plainLyrics === 'string' && item.plainLyrics.trim() !== '') {
+        entry.lyrics = item.plainLyrics.trim();
+      }
     }
 
     seen[id] = true;

@@ -3,7 +3,7 @@
     "apiVersion": 1,
     "type": "lyrics",
     "name": "LRCLIB",
-    "version": 1,
+    "version": 2,
     "hosts": [
       "lrclib.net"
     ],
