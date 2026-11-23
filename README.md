@@ -35,9 +35,9 @@ An `ai-translate` plugin **must** define the following three fields under `confi
 - `customInstruction`: `mode: "input"`, text format (`format: "text"` or default; not `multiline`, `secret`, or `url`).
 
 **Custom models (`"custom": true`):**
-- The `"custom": true` attribute is valid **only** on the `model` field of an `ai-translate` plugin (specifying it on any other field or on `translate`/`lyrics` plugins is rejected).
-- When `custom: true` is set, `options` may be empty (`options: []` or omitted), and the `model` field **must** have `"required": true`.
-- Users can add their own model IDs in the app's plugin settings. Kanaru stores the custom model list and supplies the user's selected model as a single string to the plugin script via `localConfig.getItem('model')`.
+- The `"custom": true` attribute is valid on any **single-choice `select`** field of any plugin type (lyrics, translate, ai-translate, streaming…). It is rejected on `input` fields and on `select` fields with `format: "multiple"`.
+- When `custom: true` is set, `options` may be empty (`options: []` or omitted). Mark the field `"required": true` when the plugin cannot run without a value (as the `model` field of an AI plugin): the app then asks the user to pick or add one.
+- Users can add (and remove) their own values in the app's plugin settings. Kanaru stores the user's list and supplies the selected value as a single string to the plugin script via `localConfig.getItem('<field>')` (e.g. `localConfig.getItem('model')`).
 
 **Option title & subtitle convention:**
 - Options for select fields use `{ "value": "...", "title": "...", "subtitle": "..." }` (up to 50 options; `value` 1–200 characters, unique).
