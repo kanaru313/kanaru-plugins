@@ -1,0 +1,18 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "neon",
+    "name": "Neon",
+    "description": "Vạch dày, hồng sang xanh, phát sáng. Không có ảnh, chỉ khai báo.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": { "kind": "bars", "density": "loose", "color": "grad", "rest": "outline" },
+    "colors": { "primary": "#ff4fd8", "secondary": "#4fd8ff" },
+    "glow": 8
+  }
+}
+

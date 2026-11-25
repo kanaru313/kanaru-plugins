@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "car",
+    "name": "Xe dạo phố",
+    "description": "Chiếc xe hơi cổ điển bon bon trên thanh mảnh, bánh xe quay tròn theo bài hát.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.82,
+    "track": {
+      "kind": "flat",
+      "thickness": "thin",
+      "thumb": "none"
+    },
+    "colors": {
+      "primary": "#e63946",
+      "secondary": "#457b9d"
+    },
+    "thumb": {
+      "image": "assets/car.png",
+      "frames": 4,
+      "fps": 12,
+      "size": [
+        36,
+        22
+      ],
+      "anchor": [
+        0.5,
+        0.9
+      ],
+      "tint": "onSurface",
+      "paused": 0
+    }
+  }
+}

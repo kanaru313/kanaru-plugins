@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "rainbow",
+    "name": "Cầu vồng",
+    "description": "Dải sóng phản chiếu đa sắc rực rỡ, phát sáng viền neon như cầu vồng ban đêm.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "mirror",
+      "density": "loose",
+      "color": "grad",
+      "rest": "outline"
+    },
+    "colors": {
+      "primary": "#ff007f",
+      "secondary": "#00f0ff"
+    },
+    "glow": 14
+  }
+}

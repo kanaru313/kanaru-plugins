@@ -1,8 +1,8 @@
 # kanaru-plugins
 
-Lyrics source and lyrics translate plugins for [Kanaru](https://github.com/hieu313/kanaru).
+Lyrics source, streaming, lyrics translate, and seekbar skin plugins for [Kanaru](https://github.com/hieu313/kanaru).
 
-Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `streaming`, `translate`, `ai-translate`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
+Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `streaming`, `translate`, `ai-translate`, `seekbar`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
 
 ```
 src/<type>/<slug>/
@@ -51,6 +51,29 @@ An `ai-translate` plugin **must** define the following three fields under `confi
 
 Chi tiết tài liệu hướng dẫn phát triển và quy chuẩn viết plugin xem tại:
 👉 **[Tài liệu hướng dẫn phát triển Plugin (templates/README.md)](./templates/README.md)**
+
+### Seekbar plugins
+
+A seekbar plugin (`metadata.type: "seekbar"`) defines a custom look and animation for the seekbar on the Now Playing and lyrics screens. It contains **only declaration and image assets, no executable code**.
+
+```
+src/seekbar/<slug>/
+├── plugin.json      metadata / seekbar
+└── assets/          PNG/WebP sprite sheets, Lottie .json (optional)
+```
+
+**Structure:**
+- `seekbar.track`: Required base track style (`bars`, `dots`, `line`, `mirror`, `squig`, `flat`) and its parameters (`density`, `amplitude`, `wavelength`, `thickness`, `color`, etc.).
+- `seekbar.colors`: Optional `primary` and `secondary` colors (theme color role such as `primary`, `onSurface`, or `#rrggbb`).
+- `seekbar.baseline`: Vertical baseline within the 56px band (0.2–0.9, default 0.5).
+- `seekbar.glow`: Glow blur radius (0–16, default 0).
+- `seekbar.thumb`: Optional custom thumb, either sprite sheet (`image`, `frames`, `fps`, `size`, `anchor`, `tint`, `paused`) or Lottie animation (`lottie`, `size`, `anchor`, `recolor`, `paused`).
+- `seekbar.emitter`: Optional particle emitter (`image`, `size`, `tint`, `rate`, `life`, `velocity`, `spin`, `fade`).
+
+**Limits:**
+- Entire plugin package ≤ 1 MB.
+- Images each dimension ≤ 2048 px. Thumb/emitter size: width 4–64 px, height 4–56 px (clipped to the 56 px seekbar band).
+- Lottie: shape and null layers only; no embedded images, expressions, or text layers; ≤ 20 layers, ≤ 300 frames.
 
 ### Config Schema Reference
 
@@ -817,6 +840,7 @@ node tools/check_bilibili_source.js
 node tools/check_radio_browser_source.js
 node tools/check_zingmp3_source.js
 node tools/check_subsonic_source.js
+python3 tools/check_seekbar.py
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 

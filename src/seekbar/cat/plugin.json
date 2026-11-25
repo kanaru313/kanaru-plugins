@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "cat",
+    "name": "Mèo đi dạo",
+    "description": "Mèo con bước thong dong trên thanh mảnh, cuộn mình nằm ngủ khi tạm dừng.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.82,
+    "track": {
+      "kind": "flat",
+      "thickness": "thin",
+      "thumb": "none"
+    },
+    "thumb": {
+      "image": "assets/cat.png",
+      "frames": 8,
+      "fps": 10,
+      "size": [
+        32,
+        28
+      ],
+      "anchor": [
+        0.5,
+        0.95
+      ],
+      "tint": "onSurface",
+      "paused": 0
+    }
+  }
+}

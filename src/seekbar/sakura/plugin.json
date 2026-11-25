@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "sakura",
+    "name": "Hoa anh đào",
+    "description": "Đường lượn màu hồng phấn dịu dàng, từng cánh hoa đào khẽ rơi theo gió.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "squig",
+      "amplitude": "low",
+      "wavelength": "long",
+      "motion": "drift",
+      "thumb": "none"
+    },
+    "colors": {
+      "primary": "#ffb3c6",
+      "secondary": "#ff758f"
+    },
+    "glow": 4,
+    "emitter": {
+      "image": "assets/petal.png",
+      "tint": "primary",
+      "size": [14, 14],
+      "rate": 2.8,
+      "life": [1.5, 2.8],
+      "velocity": {
+        "x": [-25, -5],
+        "y": [-15, 15]
+      },
+      "spin": [-45, 45],
+      "fade": true
+    }
+  }
+}

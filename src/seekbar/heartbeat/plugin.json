@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "heartbeat",
+    "name": "Nhịp tim",
+    "description": "Đường lượn nhịp nhàng theo điệu nhạc, trái tim nhỏ bay bổng.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "squig",
+      "amplitude": "high",
+      "wavelength": "short",
+      "motion": "music",
+      "thumb": "dot"
+    },
+    "colors": {
+      "primary": "#ff3366",
+      "secondary": "#ff758c"
+    },
+    "glow": 8,
+    "emitter": {
+      "image": "assets/heart.png",
+      "tint": "primary",
+      "size": [
+        14,
+        14
+      ],
+      "rate": 2.2,
+      "life": [
+        1.2,
+        2.2
+      ],
+      "velocity": {
+        "x": [
+          -20,
+          5
+        ],
+        "y": [
+          -32,
+          -15
+        ]
+      },
+      "spin": [
+        -30,
+        30
+      ],
+      "fade": true
+    }
+  }
+}

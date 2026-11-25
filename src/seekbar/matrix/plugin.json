@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "matrix",
+    "name": "Ma trận xanh",
+    "description": "Vạch sóng phong cách cyberpunk xanh neon rực rỡ, các khối mã số bay lên.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "bars",
+      "density": "dense",
+      "color": "grad",
+      "rest": "outline"
+    },
+    "colors": {
+      "primary": "#00ff66",
+      "secondary": "#004b23"
+    },
+    "glow": 10,
+    "emitter": {
+      "image": "assets/code.png",
+      "tint": "primary",
+      "size": [12, 12],
+      "rate": 4.0,
+      "life": [0.8, 1.6],
+      "velocity": {
+        "x": [-5, 5],
+        "y": [-35, -15]
+      },
+      "spin": [0, 0],
+      "fade": true
+    }
+  }
+}

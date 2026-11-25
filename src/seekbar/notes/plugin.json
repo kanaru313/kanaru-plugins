@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "notes",
+    "name": "Nốt nhạc",
+    "description": "Đường lượn theo nhạc, nốt nhạc bay ra từ đầu thanh.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": { "kind": "squig", "amplitude": "mid", "wavelength": "long", "motion": "music", "thumb": "dot" },
+    "emitter": {
+      "image": "assets/note.png",
+      "tint": "primary",
+      "size": [12, 12],
+      "rate": 2.5,
+      "life": [1.2, 1.8],
+      "velocity": { "x": [-28, -8], "y": [-26, -12] },
+      "spin": [-60, 60],
+      "fade": true
+    }
+  }
+}

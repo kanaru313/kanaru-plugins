@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "runner",
+    "name": "Người chạy",
+    "description": "Một người que chạy trên thanh mảnh, đứng lại khi tạm dừng.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.8,
+    "track": {
+      "kind": "flat",
+      "thickness": "thin",
+      "thumb": "none"
+    },
+    "thumb": {
+      "image": "assets/runner.png",
+      "frames": 8,
+      "fps": 14,
+      "size": [
+        32,
+        32
+      ],
+      "anchor": [
+        0.5,
+        0.95
+      ],
+      "tint": "onSurface",
+      "paused": 0
+    }
+  }
+}

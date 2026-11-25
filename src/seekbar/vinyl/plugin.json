@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "vinyl",
+    "name": "Đĩa than",
+    "description": "Đĩa than (Lottie) quay ở đầu thanh, nhãn theo màu theme.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": { "kind": "flat", "thickness": "mid", "thumb": "none" },
+    "thumb": {
+      "lottie": "assets/vinyl.json",
+      "size": [30, 30],
+      "anchor": [0.5, 0.5],
+      "recolor": { "label": "primary" },
+      "paused": "freeze"
+    }
+  }
+}

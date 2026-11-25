@@ -24,7 +24,7 @@ plugin.zip
 
 ## 2. Các loại Plugin
 
-Kanaru hỗ trợ 2 loại plugin (`metadata.type`):
+Kanaru hỗ trợ các loại plugin (`metadata.type`):
 
 1. **`lyrics`** (Nguồn tìm kiếm lời bài hát):
    - `search.js`: Nhận thông tin bài hát (title, artist, album, duration...) hoặc từ khóa tìm kiếm thủ công, trả về danh sách các bài hát khớp (`items`).
@@ -32,6 +32,11 @@ Kanaru hỗ trợ 2 loại plugin (`metadata.type`):
 
 2. **`translate`** (Dịch lời bài hát):
    - `translate.js`: Nhận mảng các dòng lời bài hát (`lines`), ngôn ngữ đích (`to`), và ngữ cảnh bài hát (`song`), trả về danh sách các câu đã dịch tương ứng từng dòng (`[{ text, detected? }]`).
+
+3. **`seekbar`** (Kiểu thanh tua tuỳ biến):
+   - Hoàn toàn khai báo (declarative JSON), **không có file code JavaScript thực thi**.
+   - Định dạng: `plugin.json` kèm `assets/` (ảnh PNG/WebP sprite hoặc Lottie `.json`).
+   - Khai báo nền thanh (`track`: `bars`, `dots`, `line`, `mirror`, `squig`, `flat`), màu sắc (`colors`), vị trí (`baseline`), toả sáng (`glow`), con trỏ ảnh/Lottie (`thumb`), hạt bay (`emitter`). Toàn bộ vẽ kẹp trong dải thanh tua cao 56 px.
 
 ---
 
@@ -82,3 +87,4 @@ Mục `config` trong `plugin.json` hỗ trợ tối đa 20 trường. Mỗi trư
 
 1. [`templates/lyrics/`](./lyrics): Mẫu plugin tìm kiếm nguồn lời bài hát.
 2. [`templates/translate/`](./translate): Mẫu plugin dịch lời bài hát.
+3. [`templates/seekbar/`](./seekbar): Mẫu plugin kiểu thanh tua tuỳ biến.

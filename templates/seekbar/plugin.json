@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "name": "My Seekbar Style",
+    "description": "Mô tả ngắn gọn về kiểu thanh tua.",
+    "version": 1,
+    "author": "Your Name",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "flat",
+      "thickness": "mid",
+      "thumb": "dot",
+      "color": "solid"
+    }
+  }
+}

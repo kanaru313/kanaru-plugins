@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "bubble",
+    "name": "Bọt khí",
+    "description": "Hàng chấm ngọc bích, bọt khí trong trẻo nổi lên từ thanh phát nhạc.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "dots",
+      "density": "mid",
+      "color": "grad",
+      "rest": "dim"
+    },
+    "colors": {
+      "primary": "#48cae4",
+      "secondary": "#0077b6"
+    },
+    "glow": 5,
+    "emitter": {
+      "image": "assets/bubble.png",
+      "tint": "primary",
+      "size": [
+        14,
+        14
+      ],
+      "rate": 2.5,
+      "life": [
+        1.5,
+        2.5
+      ],
+      "velocity": {
+        "x": [
+          -15,
+          15
+        ],
+        "y": [
+          -35,
+          -18
+        ]
+      },
+      "spin": [
+        -15,
+        15
+      ],
+      "fade": true
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "autumn",
+    "name": "Mùa thu lá bay",
+    "description": "Thanh phát sắc màu mùa thu ấm áp cùng những chiếc lá phong khẽ chao liệng.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "flat",
+      "thickness": "mid",
+      "thumb": "none",
+      "color": "grad"
+    },
+    "colors": {
+      "primary": "#e76f51",
+      "secondary": "#f4a261"
+    },
+    "glow": 4,
+    "emitter": {
+      "image": "assets/leaf.png",
+      "tint": "primary",
+      "size": [
+        16,
+        16
+      ],
+      "rate": 2.2,
+      "life": [
+        1.5,
+        2.5
+      ],
+      "velocity": {
+        "x": [
+          -28,
+          -6
+        ],
+        "y": [
+          -15,
+          12
+        ]
+      },
+      "spin": [
+        -80,
+        80
+      ],
+      "fade": true
+    }
+  }
+}

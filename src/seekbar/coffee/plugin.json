@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "coffee",
+    "name": "Tách cà phê",
+    "description": "Tách cà phê ấm áp trượt trên thanh phát, làn khói thơm dịu nhẹ toả lên.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.82,
+    "track": {
+      "kind": "flat",
+      "thickness": "thin",
+      "thumb": "none"
+    },
+    "colors": {
+      "primary": "#bc6c25",
+      "secondary": "#dda15e"
+    },
+    "thumb": {
+      "image": "assets/cup.png",
+      "size": [
+        26,
+        24
+      ],
+      "anchor": [
+        0.5,
+        0.9
+      ],
+      "tint": "onSurface"
+    },
+    "emitter": {
+      "image": "assets/steam.png",
+      "tint": "secondary",
+      "size": [
+        12,
+        12
+      ],
+      "rate": 2.2,
+      "life": [
+        1.2,
+        2.2
+      ],
+      "velocity": {
+        "x": [
+          -4,
+          8
+        ],
+        "y": [
+          -25,
+          -12
+        ]
+      },
+      "spin": [
+        -10,
+        10
+      ],
+      "fade": true
+    }
+  }
+}

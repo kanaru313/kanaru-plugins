@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "starfall",
+    "name": "Mưa sao băng",
+    "description": "Đường sóng vàng kim cùng những ngôi sao lấp lánh bay ra khi phát nhạc.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "line",
+      "density": "dense",
+      "color": "grad",
+      "rest": "outline"
+    },
+    "colors": {
+      "primary": "#ffb703",
+      "secondary": "#fb8500"
+    },
+    "glow": 6,
+    "emitter": {
+      "image": "assets/star.png",
+      "tint": "primary",
+      "size": [
+        14,
+        14
+      ],
+      "rate": 3.0,
+      "life": [
+        1.0,
+        2.0
+      ],
+      "velocity": {
+        "x": [
+          -35,
+          -10
+        ],
+        "y": [
+          -30,
+          -10
+        ]
+      },
+      "spin": [
+        -90,
+        90
+      ],
+      "fade": true
+    }
+  }
+}

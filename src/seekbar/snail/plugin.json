@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "snail",
+    "name": "Ốc sên",
+    "description": "Ốc sên bò để lại vệt nhầy, màu cố định không theo theme.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.72,
+    "track": {
+      "kind": "flat",
+      "thickness": "thick",
+      "thumb": "none"
+    },
+    "colors": {
+      "primary": "#9ccf8c",
+      "secondary": "#9ccf8c"
+    },
+    "thumb": {
+      "image": "assets/snail.png",
+      "frames": 2,
+      "fps": 3,
+      "size": [
+        32,
+        24
+      ],
+      "anchor": [
+        0.15,
+        0.85
+      ],
+      "paused": 0
+    }
+  }
+}

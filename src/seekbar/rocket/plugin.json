@@ -1,0 +1,69 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "rocket",
+    "name": "Tàu vũ trụ",
+    "description": "Tàu thám hiểm bay lướt trên đường sóng, động cơ phụt lửa khi lướt đi.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.78,
+    "track": {
+      "kind": "line",
+      "density": "mid",
+      "color": "grad",
+      "rest": "dim"
+    },
+    "colors": {
+      "primary": "#3a86ff",
+      "secondary": "#ff006e"
+    },
+    "glow": 6,
+    "thumb": {
+      "image": "assets/rocket.png",
+      "frames": 4,
+      "fps": 12,
+      "size": [
+        32,
+        24
+      ],
+      "anchor": [
+        0.5,
+        0.85
+      ],
+      "tint": "onSurface",
+      "paused": 0
+    },
+    "emitter": {
+      "image": "assets/smoke.png",
+      "tint": "secondary",
+      "size": [
+        10,
+        10
+      ],
+      "rate": 3.0,
+      "life": [
+        0.8,
+        1.5
+      ],
+      "velocity": {
+        "x": [
+          -38,
+          -15
+        ],
+        "y": [
+          -10,
+          10
+        ]
+      },
+      "spin": [
+        -20,
+        20
+      ],
+      "fade": true
+    }
+  }
+}

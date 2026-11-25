@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "firefly",
+    "name": "Đom đóm",
+    "description": "Hàng chấm ngọc phát sáng cùng đàn đom đóm dạ quang lập loè bay lượn.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "dots",
+      "density": "loose",
+      "color": "grad",
+      "rest": "dim"
+    },
+    "colors": {
+      "primary": "#ccff00",
+      "secondary": "#38b000"
+    },
+    "glow": 12,
+    "emitter": {
+      "image": "assets/firefly.png",
+      "tint": "primary",
+      "size": [16, 16],
+      "rate": 3.5,
+      "life": [1.2, 2.5],
+      "velocity": {
+        "x": [-20, 20],
+        "y": [-25, -5]
+      },
+      "spin": [-10, 10],
+      "fade": true
+    }
+  }
+}

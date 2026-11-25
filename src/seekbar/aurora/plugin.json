@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "aurora",
+    "name": "Cực quang",
+    "description": "Dạng sóng phản chiếu hai cực, chuyển màu xanh ngọc sang tím, phát sáng huyền ảo.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "mirror",
+      "density": "mid",
+      "color": "grad",
+      "rest": "dim"
+    },
+    "colors": {
+      "primary": "#00ffc8",
+      "secondary": "#7b2cbf"
+    },
+    "glow": 10
+  }
+}

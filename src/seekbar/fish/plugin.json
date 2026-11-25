@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "fish",
+    "name": "Cá bơi",
+    "description": "Chú cá nhỏ vẫy đuôi bơi lượn trên dòng nước êm đềm theo điệu nhạc.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.65,
+    "track": {
+      "kind": "squig",
+      "amplitude": "mid",
+      "wavelength": "long",
+      "motion": "drift",
+      "thumb": "none"
+    },
+    "colors": {
+      "primary": "#00b4d8",
+      "secondary": "#90e0ef"
+    },
+    "glow": 4,
+    "thumb": {
+      "image": "assets/fish.png",
+      "frames": 6,
+      "fps": 8,
+      "size": [
+        32,
+        20
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "tint": "primary",
+      "paused": 0
+    }
+  }
+}

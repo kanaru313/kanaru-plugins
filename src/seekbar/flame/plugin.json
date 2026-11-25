@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "flame",
+    "name": "Ngọn lửa",
+    "description": "Vạch sóng đổi màu theo độ cao từ vàng sang đỏ rực, tia lửa bập bùng bay lên.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "track": {
+      "kind": "bars",
+      "density": "mid",
+      "color": "height",
+      "rest": "dim"
+    },
+    "colors": {
+      "primary": "#ff4800",
+      "secondary": "#ffb703"
+    },
+    "glow": 12,
+    "emitter": {
+      "image": "assets/ember.png",
+      "tint": "secondary",
+      "size": [
+        12,
+        12
+      ],
+      "rate": 3.5,
+      "life": [
+        1.0,
+        2.0
+      ],
+      "velocity": {
+        "x": [
+          -15,
+          15
+        ],
+        "y": [
+          -35,
+          -15
+        ]
+      },
+      "spin": [
+        -60,
+        60
+      ],
+      "fade": true
+    }
+  }
+}

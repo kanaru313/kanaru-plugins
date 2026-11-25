@@ -71,6 +71,28 @@
       "icon": "dist/audius/icon.png"
     },
     {
+      "slug": "aurora",
+      "name": "Cực quang",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/aurora/plugin.zip",
+      "author": "kanaru313",
+      "description": "Dạng sóng phản chiếu hai cực, chuyển màu xanh ngọc sang tím, phát sáng huyền ảo."
+    },
+    {
+      "slug": "autumn",
+      "name": "Mùa thu lá bay",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/autumn/plugin.zip",
+      "author": "kanaru313",
+      "description": "Thanh phát sắc màu mùa thu ấm áp cùng những chiếc lá phong khẽ chao liệng."
+    },
+    {
       "slug": "baidu-translate",
       "name": "Baidu Translate",
       "version": 2,
@@ -131,6 +153,50 @@
       "icon": "dist/bilibili/icon.png"
     },
     {
+      "slug": "bubble",
+      "name": "Bọt khí",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/bubble/plugin.zip",
+      "author": "kanaru313",
+      "description": "Hàng chấm ngọc bích, bọt khí trong trẻo nổi lên từ thanh phát nhạc."
+    },
+    {
+      "slug": "car",
+      "name": "Xe dạo phố",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/car/plugin.zip",
+      "author": "kanaru313",
+      "description": "Chiếc xe hơi cổ điển bon bon trên thanh mảnh, bánh xe quay tròn theo bài hát."
+    },
+    {
+      "slug": "cassette",
+      "name": "Băng cát-xét",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/cassette/plugin.zip",
+      "author": "kanaru313",
+      "description": "Cuộn băng cát-xét hoài niệm quay bánh răng khi phát nhạc, đứng lại khi dừng."
+    },
+    {
+      "slug": "cat",
+      "name": "Mèo đi dạo",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/cat/plugin.zip",
+      "author": "kanaru313",
+      "description": "Mèo con bước thong dong trên thanh mảnh, cuộn mình nằm ngủ khi tạm dừng."
+    },
+    {
       "slug": "chatgpt-translate",
       "name": "ChatGPT Translate",
       "version": 5,
@@ -163,6 +229,17 @@
         "*"
       ],
       "icon": "dist/claude-translate/icon.png"
+    },
+    {
+      "slug": "coffee",
+      "name": "Tách cà phê",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/coffee/plugin.zip",
+      "author": "kanaru313",
+      "description": "Tách cà phê ấm áp trượt trên thanh phát, làn khói thơm dịu nhẹ toả lên."
     },
     {
       "slug": "colorcodedlyrics",
@@ -234,6 +311,39 @@
       "icon": "dist/edge-translate/icon.png"
     },
     {
+      "slug": "firefly",
+      "name": "Đom đóm",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/firefly/plugin.zip",
+      "author": "kanaru313",
+      "description": "Hàng chấm ngọc phát sáng cùng đàn đom đóm dạ quang lập loè bay lượn."
+    },
+    {
+      "slug": "fish",
+      "name": "Cá bơi",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/fish/plugin.zip",
+      "author": "kanaru313",
+      "description": "Chú cá nhỏ vẫy đuôi bơi lượn trên dòng nước êm đềm theo điệu nhạc."
+    },
+    {
+      "slug": "flame",
+      "name": "Ngọn lửa",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/flame/plugin.zip",
+      "author": "kanaru313",
+      "description": "Vạch sóng đổi màu theo độ cao từ vàng sang đỏ rực, tia lửa bập bùng bay lên."
+    },
+    {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
       "version": 7,
@@ -249,6 +359,17 @@
         "*"
       ],
       "icon": "dist/gemini-translate/icon.png"
+    },
+    {
+      "slug": "ghost",
+      "name": "Bóng ma nhỏ",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/ghost/plugin.zip",
+      "author": "kanaru313",
+      "description": "Bóng ma đáng yêu nhấp nhô bay lơ lửng trên đường sóng lượn huyền bí."
     },
     {
       "slug": "google-translate",
@@ -285,6 +406,17 @@
         "*"
       ],
       "icon": "dist/grok-translate/icon.png"
+    },
+    {
+      "slug": "heartbeat",
+      "name": "Nhịp tim",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/heartbeat/plugin.zip",
+      "author": "kanaru313",
+      "description": "Đường lượn nhịp nhàng theo điệu nhạc, trái tim nhỏ bay bổng."
     },
     {
       "slug": "hopamchuan",
@@ -450,6 +582,17 @@
       "icon": "dist/lrclib/icon.png"
     },
     {
+      "slug": "matrix",
+      "name": "Ma trận xanh",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/matrix/plugin.zip",
+      "author": "kanaru313",
+      "description": "Vạch sóng phong cách cyberpunk xanh neon rực rỡ, các khối mã số bay lên."
+    },
+    {
       "slug": "megalobiz",
       "name": "Megalobiz",
       "version": 1,
@@ -482,6 +625,17 @@
         "*"
       ],
       "icon": "dist/musixmatch/icon.png"
+    },
+    {
+      "slug": "neon",
+      "name": "Neon",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/neon/plugin.zip",
+      "author": "kanaru313",
+      "description": "Vạch dày, hồng sang xanh, phát sáng. Không có ảnh, chỉ khai báo."
     },
     {
       "slug": "netease",
@@ -568,6 +722,17 @@
         "vi"
       ],
       "icon": "dist/niconico-source/icon.png"
+    },
+    {
+      "slug": "notes",
+      "name": "Nốt nhạc",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/notes/plugin.zip",
+      "author": "kanaru313",
+      "description": "Đường lượn theo nhạc, nốt nhạc bay ra từ đầu thanh."
     },
     {
       "slug": "openai-compatible-translate",
@@ -701,6 +866,61 @@
       "icon": "dist/radio-browser/icon.png"
     },
     {
+      "slug": "rainbow",
+      "name": "Cầu vồng",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/rainbow/plugin.zip",
+      "author": "kanaru313",
+      "description": "Dải sóng phản chiếu đa sắc rực rỡ, phát sáng viền neon như cầu vồng ban đêm."
+    },
+    {
+      "slug": "rocket",
+      "name": "Tàu vũ trụ",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/rocket/plugin.zip",
+      "author": "kanaru313",
+      "description": "Tàu thám hiểm bay lướt trên đường sóng, động cơ phụt lửa khi lướt đi."
+    },
+    {
+      "slug": "runner",
+      "name": "Người chạy",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/runner/plugin.zip",
+      "author": "kanaru313",
+      "description": "Một người que chạy trên thanh mảnh, đứng lại khi tạm dừng."
+    },
+    {
+      "slug": "sakura",
+      "name": "Hoa anh đào",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/sakura/plugin.zip",
+      "author": "kanaru313",
+      "description": "Đường lượn màu hồng phấn dịu dàng, từng cánh hoa đào khẽ rơi theo gió."
+    },
+    {
+      "slug": "snail",
+      "name": "Ốc sên",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/snail/plugin.zip",
+      "author": "kanaru313",
+      "description": "Ốc sên bò để lại vệt nhầy, màu cố định không theo theme."
+    },
+    {
       "slug": "soundcloud",
       "name": "SoundCloud",
       "version": 7,
@@ -741,6 +961,17 @@
       "icon": "dist/spotify/icon.png"
     },
     {
+      "slug": "starfall",
+      "name": "Mưa sao băng",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/starfall/plugin.zip",
+      "author": "kanaru313",
+      "description": "Đường sóng vàng kim cùng những ngôi sao lấp lánh bay ra khi phát nhạc."
+    },
+    {
       "slug": "subsonic",
       "name": "Subsonic / Navidrome",
       "version": 4,
@@ -759,6 +990,17 @@
         "*"
       ],
       "icon": "dist/subsonic/icon.png"
+    },
+    {
+      "slug": "vinyl",
+      "name": "Đĩa than",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "seekbar",
+      "hosts": [],
+      "path": "dist/vinyl/plugin.zip",
+      "author": "kanaru313",
+      "description": "Đĩa than (Lottie) quay ở đầu thanh, nhãn theo màu theme."
     },
     {
       "slug": "vocaloidlyrics",

@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "cassette",
+    "name": "Băng cát-xét",
+    "description": "Cuộn băng cát-xét hoài niệm quay bánh răng khi phát nhạc, đứng lại khi dừng.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.78,
+    "track": {
+      "kind": "flat",
+      "thickness": "mid",
+      "thumb": "none"
+    },
+    "thumb": {
+      "image": "assets/cassette.png",
+      "frames": 6,
+      "fps": 8,
+      "size": [
+        32,
+        22
+      ],
+      "anchor": [
+        0.5,
+        0.9
+      ],
+      "tint": "onSurface",
+      "paused": 0
+    }
+  }
+}

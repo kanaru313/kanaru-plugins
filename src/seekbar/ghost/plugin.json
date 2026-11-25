@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "seekbar",
+    "slug": "ghost",
+    "name": "Bóng ma nhỏ",
+    "description": "Bóng ma đáng yêu nhấp nhô bay lơ lửng trên đường sóng lượn huyền bí.",
+    "version": 1,
+    "author": "kanaru313",
+    "license": "CC0-1.0"
+  },
+  "seekbar": {
+    "baseline": 0.78,
+    "track": {
+      "kind": "squig",
+      "amplitude": "mid",
+      "wavelength": "mid",
+      "motion": "drift",
+      "thumb": "none"
+    },
+    "colors": {
+      "primary": "#b8c0ff",
+      "secondary": "#7209b7"
+    },
+    "glow": 8,
+    "thumb": {
+      "image": "assets/ghost.png",
+      "frames": 6,
+      "fps": 8,
+      "size": [
+        28,
+        26
+      ],
+      "anchor": [
+        0.5,
+        0.9
+      ],
+      "tint": "onSurface",
+      "paused": 0
+    }
+  }
+}
