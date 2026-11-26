@@ -344,6 +344,20 @@
       "description": "Vạch sóng đổi màu theo độ cao từ vàng sang đỏ rực, tia lửa bập bùng bay lên."
     },
     {
+      "slug": "gemini-chat",
+      "name": "Gemini Chat",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "ai-chat",
+      "hosts": [
+        "generativelanguage.googleapis.com"
+      ],
+      "path": "dist/gemini-chat/plugin.zip",
+      "author": "kanaru313",
+      "description": "Chat with the Google Gemini API, with tools. Needs your own API key from aistudio.google.com/app/apikey; the conversation, and any song data the assistant reads, are sent to Google.",
+      "icon": "dist/gemini-chat/icon.png"
+    },
+    {
       "slug": "gemini-translate",
       "name": "Gemini Translate",
       "version": 7,
@@ -733,6 +747,24 @@
       "path": "dist/notes/plugin.zip",
       "author": "kanaru313",
       "description": "Đường lượn theo nhạc, nốt nhạc bay ra từ đầu thanh."
+    },
+    {
+      "slug": "openai-compatible-chat",
+      "name": "OpenAI-compatible",
+      "version": 1,
+      "apiVersion": 1,
+      "type": "ai-chat",
+      "hosts": [
+        "api.openai.com",
+        "api.deepseek.com",
+        "openrouter.ai",
+        "api.groq.com",
+        "generativelanguage.googleapis.com"
+      ],
+      "path": "dist/openai-compatible-chat/plugin.zip",
+      "author": "kanaru313",
+      "description": "Chat with OpenAI, DeepSeek, OpenRouter, Groq, Gemini (OpenAI endpoint) or any other OpenAI-compatible server. Pick the provider first, then add your API key. Tool calls are supported; provider-side search and code tools are never used.",
+      "icon": "dist/openai-compatible-chat/icon.png"
     },
     {
       "slug": "openai-compatible-translate",

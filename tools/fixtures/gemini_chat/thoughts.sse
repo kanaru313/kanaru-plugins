@@ -1,0 +1,4 @@
+data: {"candidates":[{"content":{"role":"model","parts":[{"text":"private reasoning about the song","thought":true,"thoughtSignature":"THOUGHT-SIG"}]}}]}
+
+data: {"candidates":[{"content":{"role":"model","parts":[{"text":"The answer."}]},"finishReason":"STOP"}]}
+

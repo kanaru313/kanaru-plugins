@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "ai-chat",
+    "name": "Gemini Chat",
+    "version": 1,
+    "hosts": [
+      "generativelanguage.googleapis.com"
+    ],
+    "author": "kanaru313",
+    "description": "Chat with the Google Gemini API, with tools. Needs your own API key from aistudio.google.com/app/apikey; the conversation, and any song data the assistant reads, are sent to Google."
+  },
+  "script": {
+    "chat": "chat.js"
+  },
+  "chat": {
+    "models": [
+      {
+        "id": "gemini-3.5-flash-lite",
+        "title": "Gemini 3.5 Flash-Lite",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-3.6-flash",
+        "title": "Gemini 3.6 Flash",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-3.8-flash",
+        "title": "Gemini 3.8 Flash",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-4-hydrogen",
+        "title": "Gemini 4 Hydrogen",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-4-argon",
+        "title": "Gemini 4 Argon",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-4-carbon",
+        "title": "Gemini 4 Carbon",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-3.1-pro-preview",
+        "title": "Gemini 3.1 Pro Preview",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      },
+      {
+        "id": "gemini-2.5-flash-lite",
+        "title": "Gemini 2.5 Flash-Lite",
+        "tools": true,
+        "vision": false,
+        "context": 1048576
+      }
+    ],
+    "custom": {
+      "tools": true
+    },
+    "keyField": "apiKeys",
+    "idleTimeoutSec": 90
+  },
+  "config": {
+    "apiKeys": {
+      "title": "API key",
+      "subtitle": "Một hoặc nhiều key, tối đa 20. Key bị từ chối hoặc hết hạn mức thì dùng key kế tiếp.",
+      "mode": "list",
+      "format": "text",
+      "placeholder": "AIza…",
+      "maxItems": 20,
+      "required": true
+    },
+    "model": {
+      "title": "Model mặc định",
+      "mode": "select",
+      "custom": true,
+      "default": "gemini-3.5-flash-lite",
+      "options": [
+        {
+          "value": "gemini-3.5-flash-lite",
+          "title": "Gemini 3.5 Flash-Lite",
+          "subtitle": "Nhanh, rẻ"
+        },
+        {
+          "value": "gemini-3.6-flash",
+          "title": "Gemini 3.6 Flash",
+          "subtitle": "Cân bằng"
+        },
+        {
+          "value": "gemini-3.8-flash",
+          "title": "Gemini 3.8 Flash",
+          "subtitle": "Flash mạnh nhất"
+        },
+        {
+          "value": "gemini-4-hydrogen",
+          "title": "Gemini 4 Hydrogen",
+          "subtitle": "Gemini 4 nhanh, rẻ nhất, có gói miễn phí"
+        },
+        {
+          "value": "gemini-4-argon",
+          "title": "Gemini 4 Argon",
+          "subtitle": "Gemini 4 cân bằng"
+        },
+        {
+          "value": "gemini-4-carbon",
+          "title": "Gemini 4 Carbon",
+          "subtitle": "Gemini 4 mạnh nhất"
+        },
+        {
+          "value": "gemini-3.1-pro-preview",
+          "title": "Gemini 3.1 Pro Preview",
+          "subtitle": "Bản xem trước"
+        },
+        {
+          "value": "gemini-2.5-flash-lite",
+          "title": "Gemini 2.5 Flash-Lite",
+          "subtitle": "Dòng cũ, còn dùng được"
+        }
+      ]
+    },
+    "temperature": {
+      "title": "Nhiệt độ",
+      "subtitle": "Để trống cho Gemini 3 trở lên (Google khuyên giữ mặc định).",
+      "mode": "input",
+      "format": "number",
+      "min": 0,
+      "max": 2,
+      "step": 0.1
+    },
+    "maxOutputTokens": {
+      "title": "Độ dài trả lời tối đa (token)",
+      "mode": "input",
+      "format": "integer",
+      "min": 1,
+      "max": 65536,
+      "step": 256
+    },
+    "thinking": {
+      "title": "Mức suy nghĩ",
+      "subtitle": "Phần suy nghĩ không hiện trong chat.",
+      "mode": "select",
+      "default": "auto",
+      "options": [
+        {
+          "value": "auto",
+          "title": "Theo model"
+        },
+        {
+          "value": "low",
+          "title": "Thấp"
+        },
+        {
+          "value": "high",
+          "title": "Cao"
+        }
+      ]
+    }
+  }
+}

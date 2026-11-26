@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "apiVersion": 1,
+    "type": "ai-chat",
+    "name": "OpenAI-compatible",
+    "version": 1,
+    "hosts": [
+      "api.openai.com",
+      "api.deepseek.com",
+      "openrouter.ai",
+      "api.groq.com",
+      "generativelanguage.googleapis.com"
+    ],
+    "author": "kanaru313",
+    "description": "Chat with OpenAI, DeepSeek, OpenRouter, Groq, Gemini (OpenAI endpoint) or any other OpenAI-compatible server. Pick the provider first, then add your API key. Tool calls are supported; provider-side search and code tools are never used."
+  },
+  "script": {
+    "chat": "chat.js"
+  },
+  "chat": {
+    "custom": {
+      "tools": true,
+      "vision": false,
+      "context": 32768
+    },
+    "keyField": "apiKeys",
+    "idleTimeoutSec": 90
+  },
+  "config": {
+    "preset": {
+      "title": "Nhà cung cấp",
+      "subtitle": "Chọn trước khi nhập API key: key, địa chỉ và model đi theo nhà cung cấp này.",
+      "mode": "select",
+      "format": "single",
+      "required": true,
+      "options": [
+        { "value": "openai", "title": "OpenAI", "subtitle": "api.openai.com" },
+        { "value": "deepseek", "title": "DeepSeek", "subtitle": "api.deepseek.com" },
+        { "value": "openrouter", "title": "OpenRouter", "subtitle": "openrouter.ai" },
+        { "value": "groq", "title": "Groq", "subtitle": "api.groq.com" },
+        { "value": "gemini-openai", "title": "Gemini (OpenAI)", "subtitle": "generativelanguage.googleapis.com" },
+        { "value": "custom", "title": "Tùy chỉnh", "subtitle": "Máy chủ khác: nhập Địa chỉ API bên dưới" }
+      ]
+    },
+    "apiKeys": {
+      "title": "API key",
+      "subtitle": "Một hoặc nhiều key, tối đa 20. Key bị từ chối hoặc hết hạn mức thì dùng key kế tiếp; Tùy chỉnh chỉ dùng key đầu tiên.",
+      "mode": "list",
+      "format": "text",
+      "placeholder": "sk-…",
+      "maxItems": 20,
+      "required": true
+    },
+    "baseUrl": {
+      "title": "Địa chỉ API",
+      "subtitle": "Chỉ dùng khi Nhà cung cấp là Tùy chỉnh. Phải là https.",
+      "mode": "input",
+      "format": "url",
+      "placeholder": "https://api.example.com/v1"
+    },
+    "model": {
+      "title": "Model mặc định",
+      "subtitle": "Tên model đúng như nhà cung cấp yêu cầu, vd. deepseek-chat, gpt-4.1-mini.",
+      "mode": "select",
+      "format": "single",
+      "custom": true,
+      "options": []
+    },
+    "temperature": {
+      "title": "Nhiệt độ",
+      "subtitle": "Để trống để theo mặc định của nhà cung cấp.",
+      "mode": "input",
+      "format": "number",
+      "min": 0,
+      "max": 2,
+      "step": 0.1
+    },
+    "maxOutputTokens": {
+      "title": "Độ dài trả lời tối đa (token)",
+      "subtitle": "Để trống để theo mặc định của nhà cung cấp.",
+      "mode": "input",
+      "format": "integer",
+      "min": 256,
+      "max": 65536,
+      "step": 256
+    },
+    "thinking": {
+      "title": "Suy nghĩ (DeepSeek)",
+      "subtitle": "Chỉ áp dụng cho DeepSeek.",
+      "mode": "select",
+      "format": "single",
+      "default": "default",
+      "options": [
+        { "value": "default", "title": "Theo nhà cung cấp (bật)" },
+        { "value": "off", "title": "Tắt" }
+      ]
+    }
+  }
+}

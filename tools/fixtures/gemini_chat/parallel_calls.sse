@@ -1,0 +1,2 @@
+data: {"candidates":[{"content":{"role":"model","parts":[{"text":"Let me look. "},{"functionCall":{"name":"search_library","args":{"query":"queen"},"id":"call_a1"},"thoughtSignature":"REAL-SIG-ONE"},{"functionCall":{"name":"get_lyrics","args":{"track":"t1"},"id":"call_a2"}}]},"finishReason":"STOP"}],"usageMetadata":{"promptTokenCount":40,"candidatesTokenCount":20}}
+

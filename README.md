@@ -2,7 +2,7 @@
 
 Lyrics source, streaming, lyrics translate, and seekbar skin plugins for [Kanaru](https://github.com/hieu313/kanaru).
 
-Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `streaming`, `translate`, `ai-translate`, `seekbar`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
+Each plugin lives in `src/<type>/<slug>/`, where `<type>` is its `metadata.type` (`lyrics`, `streaming`, `translate`, `ai-translate`, `ai-chat`, `seekbar`); `build.py` fails when they differ. The built output stays flat: `dist/<slug>/`.
 
 ```
 src/<type>/<slug>/
@@ -74,6 +74,124 @@ src/seekbar/<slug>/
 - Entire plugin package ≤ 1 MB.
 - Images each dimension ≤ 2048 px. Thumb/emitter size: width 4–64 px, height 4–56 px (clipped to the 56 px seekbar band).
 - Lottie: shape and null layers only; no embedded images, expressions, or text layers; ≤ 20 layers, ≤ 300 frames.
+
+### AI chat plugins
+
+An AI chat plugin (`metadata.type: "ai-chat"`) lets the app's assistant talk to a model. One run is **one model round**: the app owns the tool loop, runs the tools, and calls the plugin again with their results. `script.chat` points to `chat.js`; `execute(input)` streams text with `emit({ t: 'text', d })` and returns `Response.success({ finish, text, toolCalls?, usage?, provider? })`. The contract (input, emits, result, limits, error codes `ai:<code>`) is in the app repo (`kanaru-community`): `docs/plugin-host-api.md` § Chat scripts.
+
+```
+src/ai-chat/<slug>/
+├── plugin.json      metadata / script.chat / chat{models|custom,keyField,idleTimeoutSec} / config
+└── src/chat.js      execute(input) → Response.success({ finish, text, toolCalls?, usage?, provider? })
+```
+
+Rules both plugins follow:
+
+- Keys: the user's `apiKeys` list (≤ 20). A key goes only in a header (`authorization` / `x-goog-api-key`), never in a URL, a body, a log or an error. Errors are `Response.error('ai:<code>', { kind })` with the code only, never provider text.
+- No provider-side tools (web search, code execution, URL context) are ever sent. A model whose name implies one is refused before any request with `ai:model_not_found`.
+- User data inside a message is fenced as `<data-BOUNDARY source="…">…</data-BOUNDARY>`; a closing tag carrying the real boundary inside the data is neutralised. An invalid `source` is `ai:bad_request`.
+- Images are dropped (no vision). Request body ≤ 1 MiB minus 1 KiB of UTF-8, else `ai:too_large` (no key rotation).
+- Host refusals of `fetch` (`BlockedHostError`, `NotConsentedError`) are `ai:config`; `InvalidRequestError` is `ai:too_large`; any other thrown error is `ai:server`. Nothing is rethrown raw.
+- Rotation: a refused key, an exhausted quota or a rate limit moves to the next key; any other failure stops. When every key failed, the most useful failure is reported: `rate_limit` (the longest `retryAfterSec`) > `quota` > `key`. At most 10 sends per run.
+- Text is emitted coalesced (≤ 1 emit per 50 ms unless ≥ 256 characters, ≤ 1024 characters per emit, never inside a surrogate pair); lone surrogates from the provider become U+FFFD. At most 8 tool calls per round.
+- A stream that ends with no finish reason (and, for OpenAI-compatible, no `[DONE]`) was cut: `ai:server`, the app keeps the text it already got. A missing `[DONE]` after a finish reason is fine.
+- Provider data (`provider`, the "blob") is kept by the app with the assistant message and returned in later requests. It is ≤ 256 KiB, holds only what the provider sent (nothing invented) and is ignored when its shape is unknown.
+
+#### OpenAI-compatible (`openai-compatible-chat`)
+
+Config: `preset`, `apiKeys`, `baseUrl` (only for *Tùy chỉnh*), `model` (single select, custom values allowed, no default list), `temperature` (0–2), `maxOutputTokens` (256–65536), `thinking` (`default` / `off`, DeepSeek only). `chat.custom` is `{ tools: true, vision: false, context: 32768 }`.
+
+| Preset | Base URL | Host |
+|---|---|---|
+| OpenAI | `https://api.openai.com/v1` | `api.openai.com` |
+| DeepSeek | `https://api.deepseek.com` | `api.deepseek.com` |
+| OpenRouter | `https://openrouter.ai/api/v1` | `openrouter.ai` |
+| Groq | `https://api.groq.com/openai/v1` | `api.groq.com` |
+| Gemini (OpenAI) | `https://generativelanguage.googleapis.com/v1beta/openai` | `generativelanguage.googleapis.com` |
+| Tùy chỉnh | the `baseUrl` exactly as typed (a trailing `/chat/completions` is cut) | the user's own address (`format: url`) |
+
+A preset ignores `baseUrl`. The request goes to `<base>/chat/completions`, streamed, with `stream_options.include_usage`.
+
+Custom URL rules (checked before any request, else `ai:config`): `https` only, parseable, no user info, no IP literal (v4 or v6), no `localhost` or local name (single label, `.local`, `.lan`, `.home.arpa`, `.internal`, `.localdomain`, `.localhost`; other names are judged by the app after the lookup), no query or fragment, port 1–65535. A public name with a port is allowed. Custom servers use the first key only.
+
+Refused models (case-insensitive, `ai:model_not_found`): `(^|[/:])sonar`, `:online$`, `compound`, `-search-preview`, `-search-api`, `deep-research`.
+
+Status table (OpenAI-style error bodies; docs: [OpenAI](https://developers.openai.com/api/docs/guides/error-codes), [DeepSeek](https://api-docs.deepseek.com/quick_start/error_codes), [OpenRouter](https://openrouter.ai/docs/api-reference/errors), [Groq](https://console.groq.com/docs/errors), [Gemini OpenAI compatibility](https://aistudio.google.com/docs/openai)):
+
+| HTTP | Code | Next key? |
+|---|---|---|
+| 401 | `key` | yes (presets) |
+| 403 | `key` | no |
+| 402 | `quota` | yes |
+| 429 with a quota code (`insufficient_quota`, `credit_balance_exhausted`, `billing_hard_limit_reached`, `organization_usage_limit_exceeded`) | `quota` | yes |
+| 429 otherwise | `rate_limit` (`Retry-After` seconds when numeric) | yes |
+| 404 | `model_not_found` | no |
+| 413 | `too_large` | no |
+| 400 / 422, message about the API key | `key` | no |
+| 400 / 422, `context_length_exceeded` or a context message | `context_length` | no |
+| 400 / 422 otherwise, other 4xx | `bad_request` | no |
+| 5xx, 408 | `server` | no |
+| 3xx | `config` | no |
+| error object inside the stream | `server` | no |
+
+Finish table: `stop` (also a `[DONE]` with text and no `finish_reason`) → `stop`; tool calls present → `tool_calls`; `length` or text over 500 000 characters → `length` (calls dropped); `content_filter`, or a `refusal` with no calls → `blocked`; `error` / `insufficient_system_resource` → `ai:server`; no text and no calls → `ai:empty`; a stream cut inside a tool call → `ai:server`. A tool call whose arguments do not parse is returned with the raw text (never `{}`).
+
+Tool results with `isError: true` reach the model as `Error: <text>`.
+
+Provider data (`{ v: 1, p: <preset>, … }`, echoed only to the preset that made it):
+
+- DeepSeek `rc`: `reasoning_content`, sent back with every earlier assistant message (DeepSeek answers 400 to a tool conversation without it) unless `thinking` is `off`; see the [thinking mode guide](https://api-docs.deepseek.com/guides/thinking_mode). Over the blob budget it is truncated (the start is kept), never dropped.
+- Gemini (OpenAI) `ec`: `extra_content` of each tool call (thought signatures), by call index.
+- OpenRouter `rd`: `reasoning_details` of the message (not for `anthropic/` models).
+- When the blob is too large `rd` and `ec` are dropped, then `rc` is truncated.
+
+Parameters by preset: OpenAI reasoning models (`o*`, `gpt-5*`) get `max_completion_tokens` and no `temperature`; DeepSeek with thinking on gets no `temperature`; DeepSeek with `thinking: off` sends `thinking: { type: "disabled" }`.
+
+#### Gemini (`gemini-chat`)
+
+Config: `apiKeys`, `model` (single select, custom values allowed, default `gemini-3.5-flash-lite`), `temperature` (0–2), `maxOutputTokens` (1–65536), `thinking` (`auto` / `low` / `high`). One request per round to `https://generativelanguage.googleapis.com/v1beta/models/<model>:streamGenerateContent?alt=sse` (host `generativelanguage.googleapis.com`), key in `x-goog-api-key`. Docs: [streamGenerateContent](https://aistudio.google.com/api-reference/generate-content/stream-generate-content.md), [function calling](https://aistudio.google.com/docs/function-calling.md), [thinking](https://aistudio.google.com/docs/thinking).
+
+Models in the manifest (list: [models](https://aistudio.google.com/docs/models.md); each has a page `https://aistudio.google.com/docs/models/<id>.md`): `gemini-3.5-flash-lite` (default), `gemini-3.6-flash`, `gemini-3.8-flash`, `gemini-4-hydrogen`, `gemini-4-argon`, `gemini-4-carbon`, `gemini-3.1-pro-preview`, `gemini-2.5-flash-lite`. All have `tools: true`, `vision: false`, `context: 1048576`; other ids can be added by the user.
+
+Refused models (`ai:model_not_found`): names matching `search|grounding|deep-research|computer-use|code-exec|url-context`.
+
+Thinking: `auto` leaves the model's default; `low` / `high` map to `thinkingLevel` for Gemini 3+ (Gemma: `minimal` / `high`), and to a token budget for Gemini 2.5 (`low` = 0, or 128 for Pro; `high` = the default). Thought parts never reach the text, the emits or the blob.
+
+Status table (docs as above; an `error` event inside the stream is classified the same way, and rotates only before any text or call was streamed):
+
+| HTTP | Code | Next key? |
+|---|---|---|
+| 429, body or details mention `PerDay` / "per day" | `quota` | yes |
+| 429 otherwise | `rate_limit` (`Retry-After` header, else `RetryInfo.retryDelay`) | yes |
+| 401, 403 | `key` | yes |
+| 400, `API_KEY_INVALID` / "API key not valid" / "API key expired" | `key` | yes |
+| 400, token count or context message | `context_length` | no |
+| 400 otherwise, other 4xx | `bad_request` | no |
+| 404 | `model_not_found` | no |
+| 413 | `too_large` | no |
+| 5xx | `server` | no |
+
+Finish table: `blockReason` on the prompt, or `SAFETY`, `PROHIBITED_CONTENT`, `BLOCKLIST`, `SPII`, `RECITATION` → `blocked` (text kept); `MALFORMED_FUNCTION_CALL`, `TOO_MANY_TOOL_CALLS`, `MALFORMED_RESPONSE`, `MISSING_THOUGHT_SIGNATURE` → `ai:bad_request`; `MAX_TOKENS` → `length`; `functionCall` parts → `tool_calls`; otherwise `stop` (`UNEXPECTED_TOOL_CALL` with text is a `stop`); no text and no calls → `ai:empty`; no finish reason at all → `ai:server`.
+
+Provider data (`{ v: 2, text?: "<sig>", calls: [[callOrdinal, "<sig>"], …] }`): the real [thought signatures](https://aistudio.google.com/docs/thought-signatures.md) of the message, stored by kind and order (not by part position): `text` goes on the merged text part, `callOrdinal` is the index among the message's tool calls. On the next request the text parts are merged into one and each signature is put back on its part, whatever order the app keeps the parts in. When Gemini 3+ (or a custom id) gave no signature for the first call of a turn, `skip_thought_signature_validator` is sent on that call only; Gemini 2.x and Gemma never get it. Unknown or older blob shapes are ignored.
+
+#### Checks and live runs
+
+Offline (no network, no keys; the harness in `tools/chat_harness.js` follows the QuickJS runtime and the host's fetch rules, and fails a run that leaks a key or breaks the contract):
+
+```bash
+node tools/chat_harness.js --self-test
+node tools/check_openai_compatible_chat.js
+node tools/check_gemini_chat.js
+```
+
+Live (spends quota; a three-turn conversation with a fake `search_library` tool against the real provider). Keys come from environment variables only (a value may hold several keys separated by a comma or newline), never from arguments or files; the output holds only statuses, codes, finish reasons, tool names and sizes:
+
+```bash
+GEMINI_API_KEY=... node tools/run_chat_live.js --plugin src/ai-chat/gemini-chat --model gemini-3.5-flash-lite --key-env GEMINI_API_KEY --auth-header x-goog-api-key
+DEEPSEEK_API_KEY=... node tools/run_chat_live.js --plugin src/ai-chat/openai-compatible-chat --preset deepseek --model deepseek-chat --key-env DEEPSEEK_API_KEY
+node tools/run_chat_live.js --help
+```
 
 ### Config Schema Reference
 
@@ -827,6 +945,9 @@ node tools/check_deepseek_translate.js
 node tools/check_qwen_translate.js
 node tools/check_grok_translate.js
 node tools/check_openai_compatible_translate.js
+node tools/chat_harness.js --self-test
+node tools/check_openai_compatible_chat.js
+node tools/check_gemini_chat.js
 node tools/check_lrclib_lyrics.js
 node tools/check_megalobiz_lyrics.js
 node tools/check_vocaloidlyrics_lyrics.js

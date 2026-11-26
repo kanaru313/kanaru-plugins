@@ -1,0 +1,14 @@
+data: {"id":"d1","choices":[{"index":0,"delta":{"role":"assistant","content":null,"reasoning_content":""},"finish_reason":null}]}
+
+data: {"id":"d1","choices":[{"index":0,"delta":{"reasoning_content":"The user wants calm music. "},"finish_reason":null}]}
+
+data: {"id":"d1","choices":[{"index":0,"delta":{"reasoning_content":"I should search the library."},"finish_reason":null}]}
+
+data: {"id":"d1","choices":[{"index":0,"delta":{"content":"Searching now.","tool_calls":[{"index":0,"id":"call_00_dsk1","type":"function","function":{"name":"search_library","arguments":"{\"query\":\"calm\"}"}}]},"finish_reason":null}]}
+
+data: {"id":"d1","choices":[{"index":0,"delta":{"content":""},"finish_reason":"tool_calls"}]}
+
+data: {"id":"d1","choices":[],"usage":{"prompt_tokens":40,"completion_tokens":22,"total_tokens":62}}
+
+data: [DONE]
+
