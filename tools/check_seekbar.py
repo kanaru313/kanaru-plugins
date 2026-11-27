@@ -76,7 +76,16 @@ def range_pair(path: str, v, lo: float, hi: float):
 # ---- images: header only, like the app --------------------------------------------------------
 
 def image_info(path: str, data: bytes) -> tuple[int, int]:
-    """Returns (width, height); refuses anything that is not a plain PNG / WebP."""
+    """Returns (width, height); refuses anything that is not a plain PNG / WebP.
+
+    A truncated header is a refusal, never a Python exception."""
+    try:
+        return _image_info(path, data)
+    except (struct.error, IndexError):
+        bad(path, "image header is truncated")
+
+
+def _image_info(path: str, data: bytes) -> tuple[int, int]:
     ext = path.rsplit(".", 1)[-1]
     if data[:8] == b"\x89PNG\r\n\x1a\n":
         kind = "png"
@@ -94,6 +103,8 @@ def image_info(path: str, data: bytes) -> tuple[int, int]:
     elif data[:4] == b"RIFF" and data[8:12] == b"WEBP":
         kind = "webp"
         fourcc = data[12:16]
+        if len(data) < 30:
+            bad(path, "WebP: header is truncated")
         if fourcc == b"VP8 ":
             if data[23:26] != b"\x9d\x01\x2a":
                 bad(path, "WebP: bad VP8 frame header")
@@ -255,19 +266,23 @@ def validate(slug: str, p: dict, files: dict) -> None:
     for k, lim in (("name", 80), ("author", 80)):
         if not isinstance(m.get(k), str) or not 1 <= len(m[k]) <= lim:
             bad(f"metadata.{k}", f"text 1..{lim} (author is required by this repo)")
-    if not isinstance(m.get("version"), (int, str)) or isinstance(m.get("version"), bool):
-        bad("metadata.version", "missing")
+    v = m.get("version")  # the app: an integer 1..2147483647 (a string is refused)
+    if not is_int(v) or not 1 <= v <= 2147483647:
+        bad("metadata.version", "integer 1..2147483647")
     if "description" in m and (not isinstance(m["description"], str) or len(m["description"]) > 500):
         bad("metadata.description", "text up to 500")
-    if not isinstance(m.get("license"), str) or not 1 <= len(m["license"]) <= 64:
+    # the app trims the text before counting, so whitespace only is empty
+    if not isinstance(m.get("license"), str) or not 1 <= len(m["license"].strip()) <= 64:
         bad("metadata.license", "required text 1..64")
     if m.get("hosts", []) != []:
         bad("metadata.hosts", "must be absent or []")
     if "script" in p:
         bad("script", "seekbar plugins carry no code")
-    if p.get("config"):
+    # the app: config absent, null, {} or [] is fine; anything else is refused
+    if p.get("config") not in (None, {}, []):
         bad("config", "seekbar plugins have no options")
-    if any(re.match(r"^src/.*\.js$", n) for n in files):
+    # Intentionally stricter than the app (it only counts src/*.js): no .js anywhere, for author hygiene.
+    if any(n.endswith(".js") for n in files):
         bad("src", "seekbar plugins carry no code (src/*.js)")
     if not isinstance(s, dict):
         bad("seekbar", "missing")
@@ -294,6 +309,7 @@ def validate(slug: str, p: dict, files: dict) -> None:
         check_thumb(s["thumb"], files, used)
     if "emitter" in s:
         check_emitter(s["emitter"], files, used)
+    # Intentionally stricter than the app, which silently drops unreferenced assets.
     for n in files:
         if n.startswith("assets/") and n not in used:
             bad(n, "not referenced by plugin.json (only referenced assets are stored)")
@@ -363,6 +379,17 @@ def selftest() -> None:
         ("script", edit(lambda p: p.update(script={"x": "y"})), {}, "script"),
         ("config", edit(lambda p: p.update(config=[{"key": "k"}])), {}, "config"),
         ("src js", base(), {"src/a.js": b"1"}, "src"),
+        ("nested js", base(), {"src/a/b.js": b"1"}, "src"),
+        ("config empty string", edit(lambda p: p.update(config="")), {}, "config"),
+        ("config zero", edit(lambda p: p.update(config=0)), {}, "config"),
+        ("blank license", edit(lambda p: p["metadata"].update(license="   ")), {}, "metadata.license"),
+        ("string version", edit(lambda p: p["metadata"].update(version="1")), {}, "metadata.version"),
+        ("version 0", edit(lambda p: p["metadata"].update(version=0)), {}, "metadata.version"),
+        ("anchor null", with_thumb(anchor=None), img, "seekbar.thumb.anchor"),
+        ("truncated png", with_thumb(), {"assets/t.png": _png()[:20]}, "IHDR"),
+        ("truncated webp vp8", with_thumb(image="assets/t.webp"), {"assets/t.webp": b"RIFF\0\0\0\0WEBPVP8 \0\0\0\0\0\0\0"}, "truncated"),
+        ("truncated webp vp8l", with_thumb(image="assets/t.webp"), {"assets/t.webp": b"RIFF\0\0\0\0WEBPVP8L\0\0\0\0"}, "truncated"),
+        ("truncated webp vp8x", with_thumb(image="assets/t.webp"), {"assets/t.webp": b"RIFF\0\0\0\0WEBPVP8X\0\0\0\0\0"}, "truncated"),
         ("unknown top key", edit(lambda p: p["seekbar"].update(feedback=1)), {}, "seekbar.feedback"),
         ("no track", edit(lambda p: p["seekbar"].pop("track")), {}, "seekbar.track"),
         ("bad kind", edit(lambda p: p["seekbar"].update(track={"kind": "x"})), {}, "seekbar.track.kind"),
