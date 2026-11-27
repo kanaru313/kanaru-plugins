@@ -5,7 +5,7 @@
     "slug": "flame",
     "name": "Ngọn lửa",
     "description": "Vạch sóng đổi màu theo độ cao từ vàng sang đỏ rực, tia lửa bập bùng bay lên.",
-    "version": 1,
+    "version": 2,
     "author": "kanaru313",
     "license": "CC0-1.0"
   },

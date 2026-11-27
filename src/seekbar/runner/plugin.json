@@ -5,7 +5,7 @@
     "slug": "runner",
     "name": "Người chạy",
     "description": "Một người que chạy trên thanh mảnh, đứng lại khi tạm dừng.",
-    "version": 1,
+    "version": 2,
     "author": "kanaru313",
     "license": "CC0-1.0"
   },

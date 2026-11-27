@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draws the PNG assets of seek bar plugins.
+"""Draws the PNG assets of seek bar plugins at 3x the size set in plugin.json.
 Run from repo root or tools: python3 tools/gen_seekbar_assets.py"""
 import math
 import os
@@ -10,11 +10,12 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 SEEKBAR_DIR = ROOT / "src" / "seekbar"
 
 S = 4  # supersampling
+SCALE = 3  # files are drawn at 3x the plugin.json size (dp), so they stay sharp on dense screens
 
 
 def save(img: Image.Image, path: pathlib.Path, size: tuple[int, int]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.resize(size, Image.LANCZOS).save(path)
+    img.resize((size[0] * SCALE, size[1] * SCALE), Image.LANCZOS).save(path)
 
 
 def runner() -> None:

@@ -54,26 +54,56 @@ Chi tiết tài liệu hướng dẫn phát triển và quy chuẩn viết plugi
 
 ### Seekbar plugins
 
-A seekbar plugin (`metadata.type: "seekbar"`) defines a custom look and animation for the seekbar on the Now Playing and lyrics screens. It contains **only declaration and image assets, no executable code**.
+A seekbar plugin (`metadata.type: "seekbar"`) gives the seek bar a custom look and animation. The app shows it under **Settings › Appearance › Seek bar › From plugins**. It contains **only a declaration and image assets: no code runs** (a zip with any `src/*.js` is refused).
 
 ```
 src/seekbar/<slug>/
 ├── plugin.json      metadata / seekbar
-└── assets/          PNG/WebP sprite sheets, Lottie .json (optional)
+└── assets/          PNG / WebP images (sprite strips, particles), Lottie .json (coming, see below)
 ```
 
-**Structure:**
-- `seekbar.track`: Required base track style (`bars`, `dots`, `line`, `mirror`, `squig`, `flat`) and its parameters (`density`, `amplitude`, `wavelength`, `thickness`, `color`, etc.).
-- `seekbar.colors`: Optional `primary` and `secondary` colors (theme color role such as `primary`, `onSurface`, or `#rrggbb`).
-- `seekbar.baseline`: Vertical baseline within the 56px band (0.2–0.9, default 0.5).
-- `seekbar.glow`: Glow blur radius (0–16, default 0).
-- `seekbar.thumb`: Optional custom thumb, either sprite sheet (`image`, `frames`, `fps`, `size`, `anchor`, `tint`, `paused`) or Lottie animation (`lottie`, `size`, `anchor`, `recolor`, `paused`).
-- `seekbar.emitter`: Optional particle emitter (`image`, `size`, `tint`, `rate`, `life`, `velocity`, `spin`, `fade`).
+Install is strict: the first problem is reported with its key path (for example `seekbar.track.amplitude`). `tools/check_seekbar.py` mirrors the same rules.
 
-**Limits:**
-- Entire plugin package ≤ 1 MB.
-- Images each dimension ≤ 2048 px. Thumb/emitter size: width 4–64 px, height 4–56 px (clipped to the 56 px seekbar band).
-- Lottie: shape and null layers only; no embedded images, expressions, or text layers; ≤ 20 layers, ≤ 300 frames.
+**Metadata:** `apiVersion` must be `1` (required); `type` `"seekbar"`; `name` 1-80, `description` up to 500, `author` 1-80 (the app treats it as optional; this repo requires it); `license` required, text 1-64; `hosts` absent or `[]`; no `script`, no `config`.
+
+**`seekbar` keys:** `track` (required), `colors`, `baseline`, `glow`, `thumb`, `emitter`. Any other key is an error.
+
+| Field | Values | Default |
+|---|---|---|
+| `track.kind` | `bars` `dots` `line` `mirror` `squig` `flat` | required |
+| wave kinds (`bars` `dots` `line` `mirror`) | `density` `loose` / `mid` / `dense`; `color` `solid` / `grad` / `height`; `rest` `dim` / `outline` / `hide` | mid, solid, dim |
+| `squig` | `amplitude` `low` / `mid` / `high`; `wavelength` `short` / `mid` / `long`; `motion` `drift` / `music` / `still`; `thumb` `bar` / `dot` / `none` | mid, mid, drift, bar |
+| `flat` | `thickness` `thin` / `mid` / `thick`; `thumb` `bar` / `dot` / `none`; `color` `solid` / `grad` | mid, bar, solid |
+| other kind's key | error (e.g. `amplitude` on `bars`) | - |
+| `colors.primary` / `.secondary` | role (`primary` `secondary` `tertiary` `onSurface` `onSurfaceVariant`) or `#rrggbb` (`#` + exactly 6 hex digits) | theme |
+| `baseline` | number 0.2-0.9 | 0.5 |
+| `glow` | number 0-16 (blur of colour A) | 0 |
+| `thumb.image` | `assets/<name>.png` or `.webp`, name `[A-Za-z0-9_.-]` 1-64 chars | - |
+| `thumb.frames` / `fps` | integer 1-64 / 1-30; image width must be divisible by `frames` | 1 / 12 |
+| `thumb.size` | `[w, h]` dp, w 4-64, h 4-56; required | - |
+| `thumb.anchor` | `[x, y]` 0-1, box offset at (head, baseline) | `[0.5, 0.5]` |
+| `thumb.tint` | colour | none (keep pixels) |
+| `thumb.paused` | frame index 0..frames-1 (paused and reduce-motion frame) | 0 |
+| `emitter.image` / `tint` / `size` | as the thumb, single frame | - |
+| `emitter.rate` | 0 < rate <= 20 per second; required | - |
+| `emitter.life` | `[min, max]` seconds, 0 < min <= max <= 3; required | - |
+| `emitter.velocity` | `{x: [min, max], y: [min, max]}` px/s, min <= max, abs(v) <= 200, negative y = up; required | - |
+| `emitter.spin` | `[min, max]` degrees/s, abs(v) <= 720 | `[0, 0]` |
+| `emitter.fade` | true / false (alpha 1 - age/life) | false |
+
+**Limits:** zip <= 1 MiB and unpacked <= 1 MiB; each image <= 512 KiB, each side <= 2048 px, PNG or WebP only, not animated (APNG / animated WebP are refused); only the `assets/*` files that `plugin.json` names are stored (an unreferenced file is an error); a Lottie file <= 256 KiB.
+
+**Assets are drawn at 3x.** `size` is in dp; draw the image at 3 times that (a `[16, 16]` particle is a 48x48 image) so it stays sharp on dense screens. A sprite is a horizontal strip: width = frame width x `frames`, and each frame is stretched into `size`. `tools/gen_seekbar_assets.py` redraws the samples this way.
+
+**Baseline and clipping.** `baseline` moves the whole track and its overlay (thumb, particles) up or down inside the 56 dp band, by (baseline - 0.5) x 56. The wave kinds are only 32 dp tall, so with a baseline above about 0.72 they clip at the band's edge: the track is translated and clipped, never clamped. Pick a baseline <= 0.72 for them, or use `squig` / `flat`.
+
+**Colour roles.** Roles follow the app theme (they change with the cover), `#hex` is fixed. When the user turns on *Apply to plugin styles* every plugin colour takes the user's colours and the base values follow the user's settings; image thumbs and untinted images stay as drawn.
+
+**Catalog `features`.** `tools/build.py` writes `"features": ["seekbar.lottie"]` into the `plugins.json` entry of every seekbar plugin with `thumb.lottie`, so an app without Lottie support shows it as "needs a newer Kanaru" instead of failing the install. Seekbar entries keep `hosts: []`.
+
+**Lottie thumbs (coming).** `thumb.lottie` (with `size`, `anchor`, `recolor`, `paused`) is only accepted by a later Kanaru release; the rules for it (limits, allowed shapes) are completed with that release. Today `check_seekbar.py` keeps the first checks: shape and null layers only, no images, expressions or text, <= 20 layers, <= 300 frames.
+
+Check and build: `python3 -I tools/check_seekbar.py` (add `--selftest` to run the built-in hostile cases), then `python3 tools/build.py`.
 
 ### AI chat plugins
 
@@ -961,7 +991,7 @@ node tools/check_bilibili_source.js
 node tools/check_radio_browser_source.js
 node tools/check_zingmp3_source.js
 node tools/check_subsonic_source.js
-python3 tools/check_seekbar.py
+python3 -I tools/check_seekbar.py
 GEMINI_API_KEY=... node tools/run_gemini_translate_live.js [to] [model] [style]   # live, optional
 ```
 
